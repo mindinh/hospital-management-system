@@ -5,17 +5,39 @@ spring:
   application:
     name: accounts
   datasource:
-    url: jdbc:mysql://localhost:3307/accountsdb
+    url: jdbc:mysql://localhost:3308/accountsdb
     username: root
-    password: sa123
+    password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
-  jpa:
-    hibernate:
-      ddl-auto: none
-    database-platform: org.hibernate.dialect.MySQLDialect
-
   sql:
     init:
       mode: always
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      access: unrestricted
+  info:
+    env:
+      enabled: true
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      default-zone: http://localhost:8761/eureka
+
+
+
+info:
+  app:
+    name: "accounts"
+    description: "Hospital Management System Accounts Services"
 

@@ -2,7 +2,6 @@ package com.udpt.accounts.controller;
 
 
 import com.udpt.accounts.dto.AccountDto;
-import com.udpt.accounts.dto.ErrorResponseDto;
 import com.udpt.accounts.dto.ResponseDto;
 import com.udpt.accounts.service.IAccountsService;
 import jakarta.validation.Valid;
