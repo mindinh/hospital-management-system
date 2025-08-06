@@ -1,10 +1,12 @@
 package com.udpt.accounts.service.impl;
 
-import com.github.f4b6a3.uuid.UuidCreator;
+import com.fasterxml.uuid.Generators;
 import com.udpt.accounts.dto.AccountDto;
 import com.udpt.accounts.entity.AccountEntity;
 import com.udpt.accounts.entity.Role;
 import com.udpt.accounts.entity.Status;
+import com.udpt.accounts.event.events.AccountCreatedEvent;
+import com.udpt.accounts.event.publisher.AccountEventPublisher;
 import com.udpt.accounts.exception.AccountAlreadyExistException;
 import com.udpt.accounts.exception.ResourceNotFoundException;
 import com.udpt.accounts.mapper.AccountMapper;
@@ -24,6 +26,7 @@ public class AccountsServiceImpl implements IAccountsService {
 
     private PasswordEncoder passwordEncoder;
     private AccountRepository accountRepository;
+    private AccountEventPublisher eventPublisher;
 
     @Override
     public void createPatientAccount(AccountDto accountDto) {
@@ -32,9 +35,8 @@ public class AccountsServiceImpl implements IAccountsService {
             throw new AccountAlreadyExistException("Account already exist with this email address");
         }
         AccountEntity accountEntity = AccountMapper.mapToAccountEntity(accountDto, new AccountEntity());
-        accountEntity.setUserId(UuidCreator.getTimeBased());
+        accountEntity.setUserId(Generators.timeBasedGenerator().generate());
         accountEntity.setUsername(accountDto.getEmail().split("@")[0]);
-        accountEntity.setPassword(passwordEncoder.encode(accountEntity.getPassword()));
         accountEntity.setRole(Role.PATIENT);
         accountEntity.setStatus(Status.ACTIVE);
 
@@ -42,6 +44,11 @@ public class AccountsServiceImpl implements IAccountsService {
         accountEntity.setCreatedBy("account-service");
 
         accountRepository.save(accountEntity);
+
+        AccountCreatedEvent event = new AccountCreatedEvent(
+                accountEntity.getUserId(), accountEntity.getEmailAddress(), accountEntity.getMobileNo(), String.valueOf(Role.PATIENT)
+        );
+        eventPublisher.publishAccountCreated(event);
 
     }
 
@@ -52,9 +59,8 @@ public class AccountsServiceImpl implements IAccountsService {
             throw new AccountAlreadyExistException("Account already exist with this email address");
         }
         AccountEntity accountEntity = AccountMapper.mapToAccountEntity(accountDto, new AccountEntity());
-        accountEntity.setUserId(UuidCreator.getTimeBased());
+        accountEntity.setUserId(Generators.timeBasedGenerator().generate());
         accountEntity.setUsername(accountDto.getEmail().split("@")[0]);
-        accountEntity.setPassword(passwordEncoder.encode(accountEntity.getPassword()));
         accountEntity.setRole(Role.valueOf(role));
         accountEntity.setStatus(Status.ACTIVE);
 
@@ -62,6 +68,11 @@ public class AccountsServiceImpl implements IAccountsService {
         accountEntity.setCreatedBy("account-service");
 
         accountRepository.save(accountEntity);
+
+        AccountCreatedEvent event = new AccountCreatedEvent(
+                accountEntity.getUserId(), accountEntity.getEmailAddress(), accountEntity.getMobileNo(), String.valueOf(Role.valueOf(role))
+        );
+        eventPublisher.publishAccountCreated(event);
     }
 
     @Override
@@ -90,7 +101,9 @@ public class AccountsServiceImpl implements IAccountsService {
                 () -> new ResourceNotFoundException("Account", "Mobile number", mobileNo)
         );
 
-        accountRepository.delete(accountEntity);
+        accountEntity.setStatus(Status.INACTIVE);
+        accountRepository.save(accountEntity);
+
         return true;
     }
 }

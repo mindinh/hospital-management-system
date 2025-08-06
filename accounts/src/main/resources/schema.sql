@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS accounts (
     email VARCHAR(100) NOT NULL,
     username VARCHAR(100) NOT NULL,
     mobile_number VARCHAR(11) NOT NULL,
-    password VARCHAR(100) NOT NULL,
+    password VARCHAR(100),
     role ENUM('PATIENT', 'RECEPTIONIST', 'PHARMACIST', 'DOCTOR', 'ADMIN') NOT NULL,
     status ENUM('ACTIVE', 'INACTIVE') NOT NULL,
     created_at DATETIME NOT NULL,

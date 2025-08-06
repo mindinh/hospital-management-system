@@ -15,7 +15,7 @@ import java.util.UUID;
 public class AccountEntity extends BaseEntity {
 
     @Id
-    @Column(columnDefinition = "BINARY(16")
+    @Column(name = "user_id", columnDefinition = "BINARY(16)")
     private UUID userId;
 
     @Column(name = "email")

@@ -17,6 +17,7 @@ public class AccountMapper {
     public static AccountEntity mapToAccountEntity(AccountDto accountDto, AccountEntity accountEntity) {
         accountEntity.setEmailAddress(accountDto.getEmail());
         accountEntity.setMobileNo(accountDto.getMobileNo());
+        accountEntity.setUsername(accountDto.getUsername());
 
 
         return accountEntity;
