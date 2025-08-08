@@ -1,11 +1,11 @@
 package com.udpt.patients.repository;
 
 import com.udpt.patients.entity.PatientEntity;
-import com.udpt.patients.entity.PatientId;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface PatientsRepository extends JpaRepository<PatientEntity, PatientId> {
+public interface PatientsRepository extends JpaRepository<PatientEntity, String> {
+    Optional<PatientEntity> findByPatientId(String patientId);
     Optional<PatientEntity> findByPatientMobileNo(String mobileNo);
 }

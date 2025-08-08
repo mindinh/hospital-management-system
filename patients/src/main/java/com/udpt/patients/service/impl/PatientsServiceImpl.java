@@ -1,25 +1,31 @@
 package com.udpt.patients.service.impl;
 
 import com.udpt.patients.dto.PatientDto;
+import com.udpt.patients.dto.RecordDto;
 import com.udpt.patients.entity.PatientEntity;
+import com.udpt.patients.entity.RecordEntity;
 import com.udpt.patients.exception.PatientAlreadyExistException;
 import com.udpt.patients.exception.ResourceNotFoundException;
 import com.udpt.patients.mapper.PatientMapper;
+import com.udpt.patients.mapper.RecordMapper;
 import com.udpt.patients.repository.PatientsRepository;
+import com.udpt.patients.repository.RecordsRepository;
 import com.udpt.patients.service.IPatientsService;
-import org.springframework.security.core.parameters.P;
+import com.udpt.patients.utils.PatientIdGenerator;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class PatientsServiceImpl implements IPatientsService {
 
     private PatientsRepository patientsRepository;
-    public PatientsServiceImpl(PatientsRepository patientsRepository) {
+    private RecordsRepository recordsRepository;
+    public PatientsServiceImpl(PatientsRepository patientsRepository, RecordsRepository recordsRepository) {
         this.patientsRepository = patientsRepository;
+        this.recordsRepository = recordsRepository;
     }
 
     @Override
@@ -30,6 +36,9 @@ public class PatientsServiceImpl implements IPatientsService {
             throw new PatientAlreadyExistException(patientDto.getMobileNo());
         }
         PatientEntity patientEntity = PatientMapper.mapToPatientEntity(patientDto, new PatientEntity());
+
+        patientEntity.setAccountId(patientDto.getAccountNo());
+        patientEntity.setPatientId(PatientIdGenerator.generatePatientCode());
 
         patientEntity.setCreatedAt(LocalDateTime.now());
         patientEntity.setCreatedBy("patient-service");
@@ -43,5 +52,32 @@ public class PatientsServiceImpl implements IPatientsService {
                 () -> new ResourceNotFoundException("Patient", "Mobile Number", mobileNo)
         );
         return PatientMapper.mapToPatientDto(patientEntity, new PatientDto());
+    }
+
+    @Override
+    public List<RecordDto> getPatientRecords(String patientId) {
+        List<RecordEntity> patientRecords = recordsRepository.findByPatientId(patientId);
+        if (patientRecords.isEmpty()) {
+            throw new ResourceNotFoundException("Patient Records", "Patient ID", patientId);
+        }
+
+        return patientRecords.stream().map(
+                recordEntity -> RecordMapper.mapToRecordDto(recordEntity, new RecordDto())
+        ).toList();
+    }
+
+    @Override
+    public boolean addPatientRecord(String patientId, RecordDto recordDto) {
+        PatientEntity patientEntity = patientsRepository.findByPatientId(patientId).orElseThrow(
+                () -> new ResourceNotFoundException("Patient", "Patient ID", patientId)
+        );
+
+        RecordEntity recordEntity = RecordMapper.mapToRecordEntity(recordDto, new RecordEntity());
+        recordEntity.setPatient(patientEntity);
+        recordEntity.setVisitDate(recordDto.getVisitDate());
+
+        recordsRepository.save(recordEntity);
+
+        return true;
     }
 }
