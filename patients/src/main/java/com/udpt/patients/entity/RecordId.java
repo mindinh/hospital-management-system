@@ -1,21 +1,25 @@
 package com.udpt.patients.entity;
 
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.UUID;
+import java.time.LocalDateTime;
 
 @Embeddable
 @Data
 @AllArgsConstructor @NoArgsConstructor
-public class PatientId implements Serializable {
-    @Column(name = "account_id")
-    private UUID accountId;
+public class RecordId implements Serializable {
 
-    @Column(name = "patient_id")
-    private String patientId;
+    private String patient_id;
+
+    @Column(name = "visit_date")
+    private LocalDateTime visitDate;
+
 }

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Service
@@ -35,7 +36,9 @@ public class AccountsServiceImpl implements IAccountsService {
             throw new AccountAlreadyExistException("Account already exist with this email address");
         }
         AccountEntity accountEntity = AccountMapper.mapToAccountEntity(accountDto, new AccountEntity());
-        accountEntity.setUserId(Generators.timeBasedGenerator().generate());
+        UUID id = Generators.timeBasedGenerator().generate();
+        System.out.println(id);
+        accountEntity.setUserId(id);
         accountEntity.setUsername(accountDto.getEmail().split("@")[0]);
         accountEntity.setRole(Role.PATIENT);
         accountEntity.setStatus(Status.ACTIVE);
@@ -45,10 +48,10 @@ public class AccountsServiceImpl implements IAccountsService {
 
         accountRepository.save(accountEntity);
 
-        AccountCreatedEvent event = new AccountCreatedEvent(
-                accountEntity.getUserId(), accountEntity.getEmailAddress(), accountEntity.getMobileNo(), String.valueOf(Role.PATIENT)
-        );
-        eventPublisher.publishAccountCreated(event);
+//        AccountCreatedEvent event = new AccountCreatedEvent(
+//                accountEntity.getUserId(), accountEntity.getEmailAddress(), accountEntity.getMobileNo(), String.valueOf(Role.PATIENT)
+//        );
+//        eventPublisher.publishAccountCreated(event);
 
     }
 
@@ -69,10 +72,10 @@ public class AccountsServiceImpl implements IAccountsService {
 
         accountRepository.save(accountEntity);
 
-        AccountCreatedEvent event = new AccountCreatedEvent(
-                accountEntity.getUserId(), accountEntity.getEmailAddress(), accountEntity.getMobileNo(), String.valueOf(Role.valueOf(role))
-        );
-        eventPublisher.publishAccountCreated(event);
+//        AccountCreatedEvent event = new AccountCreatedEvent(
+//                accountEntity.getUserId(), accountEntity.getEmailAddress(), accountEntity.getMobileNo(), String.valueOf(Role.valueOf(role))
+//        );
+//        eventPublisher.publishAccountCreated(event);
     }
 
     @Override

@@ -9,7 +9,8 @@ public class PatientMapper {
     private PatientMapper() {}
 
     public static PatientDto mapToPatientDto(PatientEntity patientEntity, PatientDto patientDto) {
-        patientDto.setFullname(patientEntity.getPatientFullname());
+        patientDto.setMobileNo(patientEntity.getPatientMobileNo());
+        patientDto.setFullName(patientEntity.getPatientFullname());
         patientDto.setGender(String.valueOf(patientEntity.getGender()));
         patientDto.setDateOfBirth(patientEntity.getPatientDOB());
 
@@ -17,7 +18,8 @@ public class PatientMapper {
     }
 
     public static PatientEntity mapToPatientEntity(PatientDto patientDto, PatientEntity patientEntity) {
-        patientEntity.setPatientFullname(patientDto.getFullname());
+        patientEntity.setPatientMobileNo(patientDto.getMobileNo());
+        patientEntity.setPatientFullname(patientDto.getFullName());
         patientEntity.setPatientDOB(patientDto.getDateOfBirth());
         patientEntity.setGender(Gender.valueOf(patientDto.getGender()));
 

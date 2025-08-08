@@ -2,6 +2,7 @@ package com.udpt.patients.controller;
 
 
 import com.udpt.patients.dto.PatientDto;
+import com.udpt.patients.dto.RecordDto;
 import com.udpt.patients.dto.ResponseDto;
 import com.udpt.patients.service.IPatientsService;
 import jakarta.validation.Valid;
@@ -29,6 +30,12 @@ public class PatientController {
     public ResponseEntity<?> getPatientDetails(@RequestParam String mobileNo) {
 
         return ResponseEntity.ok(patientsService.getPatientDetails(mobileNo));
+    }
+
+    @PostMapping("/add-record")
+    public ResponseEntity<?> addPatientRecord(@RequestParam String patientId, @RequestBody RecordDto recordDto) {
+
+        return ResponseEntity.ok("");
     }
 
 }
