@@ -9,5 +9,6 @@ public interface IPatientsService {
     void createPatient(PatientDto patientDto);
     PatientDto getPatientDetails(String mobileNo);
     List<RecordDto> getPatientRecords(String patientId);
+    void updatePatient(PatientDto patientDto);
     boolean addPatientRecord(String patientId, RecordDto recordDto);
 }

@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface IRecordsService {
     List<RecordDto> getAllRecords();
+    List<RecordDto> getAllPatientRecords(String patientId);
 }

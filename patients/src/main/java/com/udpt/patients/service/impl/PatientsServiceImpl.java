@@ -55,6 +55,17 @@ public class PatientsServiceImpl implements IPatientsService {
     }
 
     @Override
+    public void updatePatient(PatientDto patientDto) {
+        PatientEntity patientEntity = patientsRepository.findByPatientMobileNo(patientDto.getMobileNo()).orElseThrow(
+                () -> new ResourceNotFoundException("Patient", "Mobile Number", patientDto.getMobileNo())
+        );
+
+        PatientMapper.mapToPatientEntity(patientDto, patientEntity);
+        patientsRepository.save(patientEntity);
+
+    }
+
+    @Override
     public List<RecordDto> getPatientRecords(String patientId) {
         List<RecordEntity> patientRecords = recordsRepository.findByPatientId(patientId);
         if (patientRecords.isEmpty()) {
