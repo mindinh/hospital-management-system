@@ -17,14 +17,15 @@ CREATE TABLE IF NOT EXISTS patients (
 
 
 CREATE TABLE IF NOT EXISTS patient_records (
-    record_id INT PRIMARY KEY,
+    record_id INT PRIMARY KEY AUTO_INCREMENT,
     patient_id VARCHAR(20) NOT NULL,
     visit_date DATETIME NOT NULL,
-    symptoms VARCHAR(100) NOT NULL,
-    diagnosis VARCHAR(100) NOT NULL,
+    visit_reasons TEXT,
+    symptoms TEXT,
+    diagnosis TEXT,
+    treament_notes TEXT,
     doctor_id VARCHAR(20) NOT NULL,
     deparment VARCHAR(30) NOT NULL,
-    treament_notes VARCHAR(100),
 
 
     CONSTRAINT FK_RECORDS_PATIENTS FOREIGN KEY (patient_id)

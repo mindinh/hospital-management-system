@@ -19,9 +19,15 @@ public class RecordsServiceImpl implements IRecordsService {
     public List<RecordDto> getAllRecords() {
 
         return recordsRepository.findAll().stream().map(
-                record -> {
-                    return RecordMapper.mapToRecordDto(record, new RecordDto());
-                }
+                record -> RecordMapper.mapToRecordDto(record, new RecordDto())
+        ).toList();
+    }
+
+    @Override
+    public List<RecordDto> getAllPatientRecords(String patientId) {
+
+        return recordsRepository.findByPatientId(patientId).stream().map(
+                recordEntity -> RecordMapper.mapToRecordDto(recordEntity, new RecordDto())
         ).toList();
     }
 }

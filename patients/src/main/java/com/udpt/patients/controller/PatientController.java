@@ -32,10 +32,24 @@ public class PatientController {
         return ResponseEntity.ok(patientsService.getPatientDetails(mobileNo));
     }
 
+    public ResponseEntity<?> updatePatient(@Valid @RequestBody PatientDto patientDto) {
+        patientsService.updatePatient(patientDto);
+
+        return ResponseEntity.ok("Patient updated successfully")    ;
+    }
+
     @PostMapping("/add-record")
     public ResponseEntity<?> addPatientRecord(@RequestParam String patientId, @RequestBody RecordDto recordDto) {
+        boolean isSuccess = false;
+        isSuccess = patientsService.addPatientRecord(patientId, recordDto);
+        if (!isSuccess) {
+            return ResponseEntity.internalServerError().body(new ResponseDto("500", "Record not added successfully"));
+        }
+        else {
+            return ResponseEntity.ok(new ResponseDto("200", "Record added successfully"));
+        }
 
-        return ResponseEntity.ok("");
     }
+
 
 }
