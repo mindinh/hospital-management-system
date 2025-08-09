@@ -1,0 +1,42 @@
+server:
+  port: 8103
+
+spring:
+  application:
+    name: employees
+  datasource:
+    url: jdbc:mysql://localhost:3308/employeesdb
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  sql:
+    init:
+      mode: always
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      access: unrestricted
+  info:
+    env:
+      enabled: true
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      default-zone: http://localhost:8761/eureka
+
+
+
+info:
+  app:
+    name: "employees"
+    description: "Hospital Management System Employees Services"
