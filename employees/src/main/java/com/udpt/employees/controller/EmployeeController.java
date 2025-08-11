@@ -31,7 +31,7 @@ public class EmployeeController {
         return ResponseEntity.ok("Doctor created successfully");
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/employee/{id}")
     public ResponseEntity<?> getEmployeeDetails(@PathVariable String id) {
 
         return ResponseEntity.ok(employeesService.getEmployeeDetails(id));

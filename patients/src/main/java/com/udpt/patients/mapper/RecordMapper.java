@@ -7,20 +7,18 @@ public class RecordMapper {
     private RecordMapper() {}
 
     public static RecordDto mapToRecordDto(RecordEntity recordEntity, RecordDto recordDto) {
-        recordDto.setVisitDate(recordEntity.getVisitDate());
-        recordDto.setVisitDepartment(recordEntity.getDepartmnet());
-        recordDto.setPatientSymptoms(recordEntity.getSymptoms());
-        recordDto.setDoctorDiagnosis(recordEntity.getDiagnosis());
-        recordDto.setDoctorNotes(recordEntity.getNote());
+        recordDto.setNgayKham(recordEntity.getVisitDate());
+        recordDto.setTrieuChung(recordEntity.getSymptoms());
+        recordDto.setChanDoan(recordEntity.getDiagnosis());
+        recordDto.setGhiChu(recordEntity.getNote());
 
         return recordDto;
     }
 
     public static RecordEntity mapToRecordEntity(RecordDto recordDto, RecordEntity recordEntity) {
-        recordEntity.setDepartmnet(recordDto.getVisitDepartment());
-        recordEntity.setSymptoms(recordDto.getPatientSymptoms());
-        recordEntity.setDiagnosis(recordDto.getDoctorDiagnosis());
-        recordEntity.setNote(recordDto.getDoctorNotes());
+        recordEntity.setSymptoms(recordDto.getTrieuChung());
+        recordEntity.setDiagnosis(recordDto.getChanDoan());
+        recordEntity.setNote(recordDto.getGhiChu());
 
         return recordEntity;
     }

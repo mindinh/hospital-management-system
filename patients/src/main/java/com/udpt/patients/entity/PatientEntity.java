@@ -4,40 +4,37 @@ package com.udpt.patients.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
-@Table(name = "patients")
+@Table(name = "benhnhan")
 @Getter @Setter
 @ToString
 @AllArgsConstructor @NoArgsConstructor
 public class PatientEntity extends BaseEntity {
 
     @Id
+    @Column(name = "ma_benh_nhan")
     private String patientId;
 
-    @Column(unique = true, nullable = false, name = "account_id", columnDefinition = "BINARY(16)")
-    private UUID accountId;
-
-    @Column(name = "patient_mobile_number")
+    @Column(name = "so_dt_bn")
     private String patientMobileNo;
 
-    @Column(name = "patient_fullname")
+    @Column(name = "ho_ten_bn")
     private String patientFullname;
 
-    @Column(name = "patient_dob")
-    private Date patientDOB;
+    @Column(name = "ngay_sinh_bn")
+    private LocalDate patientDOB;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "patient_gender")
+    @Column(name = "gioi_tinh_bn")
     private Gender gender;
 
-    @Column(name = "patient_address")
+    @Column(name = "dia_chi_bn")
     private String patientAddress;
 
-    @Column(name = "medical_insurance_number")
+    @Column(name = "so_bhyt_bn")
     private String medialInsuranceNumber;
 
     @OneToMany(mappedBy = "patient")

@@ -39,17 +39,7 @@ public class EmployeesServiceImpl implements IEmployeesService {
         }
 
         EmployeeEntity newEmployee = new EmployeeEntity();
-        switch (request.chucVu()) {
-            case "ADMIN":
-                newEmployee.setMaNV(EmployeeIdGenerator.generateEmployeeCode("AD"));
-                break;
-            case "TIEPTAN":
-                newEmployee.setMaNV(EmployeeIdGenerator.generateEmployeeCode("TT"));
-                break;
-            case "DUOCSI":
-                newEmployee.setMaNV(EmployeeIdGenerator.generateEmployeeCode("DS"));
-                break;
-        }
+        newEmployee.setMaNV(request.maNV());
         newEmployee.setSoDTNV(request.soDT());
         newEmployee.setHoTenNV(request.hoTen());
         newEmployee.setGioiTinhNV(Gender.valueOf(request.gioiTinh()));
@@ -78,7 +68,7 @@ public class EmployeesServiceImpl implements IEmployeesService {
 
         EmployeeEntity newEmployee = new EmployeeEntity();
         try {
-            newEmployee.setMaNV(EmployeeIdGenerator.generateEmployeeCode("BS"));
+            newEmployee.setMaNV(request.maNV());
             newEmployee.setMaChungChi(request.maChungChi());
             newEmployee.setHoTenNV(request.hoTen());
             newEmployee.setGioiTinhNV(Gender.valueOf(request.gioiTinh()));
@@ -109,15 +99,17 @@ public class EmployeesServiceImpl implements IEmployeesService {
                 () -> new ResourceNotFoundException("Bac Si", "Ma Bac Si", doctorId)
         );
 
-        EmployeeDto employeeDto = new EmployeeDto();
-        try {
-            EmployeeMapper.mapToEmployeeDto(employeeEntity, employeeDto);
-            List<Experience> experienceList = objectMapper.readValue(employeeEntity.getKinhNghiem(), new TypeReference<>() {
-            });
-            employeeDto.setKinhNghiem(experienceList);
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+        EmployeeDto employeeDto = EmployeeMapper.mapToEmployeeDto(employeeEntity, new EmployeeDto());
+        if (employeeEntity.getKinhNghiem() != null) {
+
+            try {
+                List<Experience> experienceList = objectMapper.readValue(employeeEntity.getKinhNghiem(), new TypeReference<>() {
+                });
+                employeeDto.setKinhNghiem(experienceList);
+            }
+            catch (Exception e) {
+                throw new RuntimeException(e.getMessage());
+            }
         }
         return employeeDto;
     }
@@ -128,14 +120,17 @@ public class EmployeesServiceImpl implements IEmployeesService {
                 () -> new ResourceNotFoundException("Nhan Vien", "Ma Nhan Vien", employeeId)
         );
 
-        EmployeeDto employeeDto = new EmployeeDto();
-        try {
-            EmployeeMapper.mapToEmployeeDto(employeeEntity, employeeDto);
-            List<Experience> experienceList = objectMapper.readValue(employeeEntity.getKinhNghiem(), new TypeReference<>() {});
-            employeeDto.setKinhNghiem(experienceList);
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+        EmployeeDto employeeDto = EmployeeMapper.mapToEmployeeDto(employeeEntity, new EmployeeDto());
+        if (employeeEntity.getKinhNghiem() != null) {
+
+            try {
+                List<Experience> experienceList = objectMapper.readValue(employeeEntity.getKinhNghiem(), new TypeReference<>() {
+                });
+                employeeDto.setKinhNghiem(experienceList);
+            }
+            catch (Exception e) {
+                throw new RuntimeException(e.getMessage());
+            }
         }
         return employeeDto;
     }

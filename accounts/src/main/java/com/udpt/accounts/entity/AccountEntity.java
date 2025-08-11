@@ -7,7 +7,7 @@ import lombok.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "accounts")
+@Table(name = "taikhoan")
 @Getter @Setter
 @ToString
 @NoArgsConstructor
@@ -15,19 +15,19 @@ import java.util.UUID;
 public class AccountEntity extends BaseEntity {
 
     @Id
-    @Column(name = "user_id", columnDefinition = "BINARY(16)")
-    private UUID userId;
+    @Column(name = "ma_tai_khoan")
+    private String userId;
 
     @Column(name = "email")
     private String emailAddress;
 
-    @Column(name = "mobile_number")
+    @Column(name = "so_dt")
     private String mobileNo;
 
-    @Column(name = "username")
+    @Column(name = "ten_nguoi_dung")
     private String username;
 
-    @Column(name = "password")
+    @Column(name = "mat_khau")
     private String password;
 
     @Enumerated(EnumType.STRING)

@@ -6,37 +6,35 @@ import lombok.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "records")
+@Table(name = "hoso_benhnhan")
 @Getter @Setter
 @ToString
 @AllArgsConstructor @NoArgsConstructor
 public class RecordEntity {
 
     @Id
+    @Column(name = "ma_ho_so")
     private int id;
 
-    @Column(name = "patient_id")
+    @Column(name = "ma_benh_nhan")
     private String patientId;
 
-    @Column(name = "visit_date")
+    @Column(name = "ngay_kham")
     private LocalDate visitDate;
 
-    @Column(name = "symptoms")
+    @Column(name = "trieu_chung")
     private String symptoms;
 
-    @Column(name = "diagnosis")
+    @Column(name = "chan_doan")
     private String diagnosis;
 
-    @Column(name = "doctor_id")
+    @Column(name = "ma_bac_si")
     private String doctorId;
 
-    @Column(name = "department")
-    private String departmnet;
-
-    @Column(name = "treament_notes")
+    @Column(name = "ghi_chu_dieu_tri")
     private String note;
 
     @ManyToOne
-    @JoinColumn(name = "patient_id", insertable = false, updatable = false)
+    @JoinColumn(name = "ma_benh_nhan", insertable = false, updatable = false)
     private PatientEntity patient;
 }
