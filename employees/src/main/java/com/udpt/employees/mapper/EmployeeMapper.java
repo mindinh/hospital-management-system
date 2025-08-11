@@ -7,6 +7,7 @@ public class EmployeeMapper {
     private EmployeeMapper() {}
 
     public static EmployeeDto mapToEmployeeDto(EmployeeEntity employeeEntity, EmployeeDto employeeDto) {
+        employeeDto.setMaNV(employeeEntity.getMaNV());
         employeeDto.setHoTen(employeeEntity.getHoTenNV());
         employeeDto.setNgaySinh(employeeEntity.getNgaySinhNV());
 

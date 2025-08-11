@@ -14,10 +14,10 @@ public class AccountDto {
     private String email;
 
     @Pattern(regexp = "(^$|[0-9]{10})", message = "Mobile number must be 10 digits")
-    private String mobileNo;
+    private String soDienThoai;
 
     @Pattern(regexp = "^[a-zA-Z0-9@#$%^&+=!._-]{6,15}$", message = "Username invalid or too short")
-    private String username;
+    private String tenNguoiDung;
 
 
 }

@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS khoa (
 );
 
 CREATE TABLE IF NOT EXISTS nhanvien (
-    ma_nv VARCHAR(20) PRIMARY KEY,
+    ma_nv VARCHAR(16) PRIMARY KEY,
     ma_chung_chi VARCHAR(15),
     so_dt_nv CHAR(10),
     ho_ten_nv VARCHAR(30),

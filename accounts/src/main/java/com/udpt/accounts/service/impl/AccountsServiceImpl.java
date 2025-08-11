@@ -12,14 +12,13 @@ import com.udpt.accounts.exception.ResourceNotFoundException;
 import com.udpt.accounts.mapper.AccountMapper;
 import com.udpt.accounts.repository.AccountRepository;
 import com.udpt.accounts.service.IAccountsService;
+import com.udpt.accounts.utils.IdGenerator;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
-import java.util.UUID;
-
 
 @Service
 @AllArgsConstructor
@@ -31,16 +30,22 @@ public class AccountsServiceImpl implements IAccountsService {
 
     @Override
     public void createPatientAccount(AccountDto accountDto) {
-        Optional<AccountEntity> optionalAccount = accountRepository.findByEmailAddress(accountDto.getEmail());
+        Optional<AccountEntity> optionalAccount = Optional.of(new AccountEntity());
+        if (accountDto.getEmail() != null) {
+            optionalAccount = accountRepository.findByEmailAddress(accountDto.getEmail());
+        }
+        else {
+            optionalAccount = accountRepository.findByMobileNo(accountDto.getSoDienThoai());
+        }
+
         if (optionalAccount.isPresent()) {
-            throw new AccountAlreadyExistException("Account already exist with this email address");
+            throw new AccountAlreadyExistException("Account already exist with this email address or mobile no.");
         }
         AccountEntity accountEntity = AccountMapper.mapToAccountEntity(accountDto, new AccountEntity());
-        UUID id = Generators.timeBasedGenerator().generate();
-        System.out.println(id);
-        accountEntity.setUserId(id);
+
+        accountEntity.setUserId(IdGenerator.generateAccountCode("BN"));
         accountEntity.setUsername(accountDto.getEmail().split("@")[0]);
-        accountEntity.setRole(Role.PATIENT);
+        accountEntity.setRole(Role.BENHNHAN);
         accountEntity.setStatus(Status.ACTIVE);
 
         accountEntity.setCreatedAt(LocalDateTime.now());
@@ -48,21 +53,43 @@ public class AccountsServiceImpl implements IAccountsService {
 
         accountRepository.save(accountEntity);
 
-//        AccountCreatedEvent event = new AccountCreatedEvent(
-//                accountEntity.getUserId(), accountEntity.getEmailAddress(), accountEntity.getMobileNo(), String.valueOf(Role.PATIENT)
-//        );
-//        eventPublisher.publishAccountCreated(event);
 
     }
 
     @Override
     public void createEmployeeAccount(AccountDto accountDto, String role) {
-        Optional<AccountEntity> optionalAccount = accountRepository.findByEmailAddress(accountDto.getEmail());
-        if (optionalAccount.isPresent()) {
-            throw new AccountAlreadyExistException("Account already exist with this email address");
+        Optional<AccountEntity> optionalAccount = Optional.of(new AccountEntity());
+        if (accountDto.getEmail() != null) {
+            optionalAccount = accountRepository.findByEmailAddress(accountDto.getEmail());
         }
+        else {
+            optionalAccount = accountRepository.findByMobileNo(accountDto.getSoDienThoai());
+        }
+
+        if (optionalAccount.isPresent()) {
+            throw new AccountAlreadyExistException("Account already exist with this email address or mobile no.");
+        }
+
         AccountEntity accountEntity = AccountMapper.mapToAccountEntity(accountDto, new AccountEntity());
-        accountEntity.setUserId(Generators.timeBasedGenerator().generate());
+        switch (role) {
+            case "TIEPTAN":
+                accountEntity.setRole(Role.TIEPTAN);
+                accountEntity.setUserId(IdGenerator.generateAccountCode("TT"));
+                break;
+            case "DUOCSI":
+                accountEntity.setRole(Role.DUOCSI);
+                accountEntity.setUserId(IdGenerator.generateAccountCode("DS"));
+                break;
+            case "BACSI":
+                accountEntity.setRole(Role.BACSI);
+                accountEntity.setUserId(IdGenerator.generateAccountCode("BS"));
+                break;
+            case "ADMIN":
+                accountEntity.setRole(Role.ADMIN);
+                accountEntity.setUserId(IdGenerator.generateAccountCode("AD"));
+                break;
+        }
+
         accountEntity.setUsername(accountDto.getEmail().split("@")[0]);
         accountEntity.setRole(Role.valueOf(role));
         accountEntity.setStatus(Status.ACTIVE);
@@ -72,10 +99,6 @@ public class AccountsServiceImpl implements IAccountsService {
 
         accountRepository.save(accountEntity);
 
-//        AccountCreatedEvent event = new AccountCreatedEvent(
-//                accountEntity.getUserId(), accountEntity.getEmailAddress(), accountEntity.getMobileNo(), String.valueOf(Role.valueOf(role))
-//        );
-//        eventPublisher.publishAccountCreated(event);
     }
 
     @Override
@@ -89,8 +112,8 @@ public class AccountsServiceImpl implements IAccountsService {
 
     @Override
     public boolean updateAccount(AccountDto accountDto) {
-        AccountEntity accountEntity = accountRepository.findByMobileNo(accountDto.getMobileNo()).orElseThrow(
-                () -> new ResourceNotFoundException("Account", "Mobile number", accountDto.getMobileNo())
+        AccountEntity accountEntity = accountRepository.findByMobileNo(accountDto.getSoDienThoai()).orElseThrow(
+                () -> new ResourceNotFoundException("Account", "Mobile number", accountDto.getSoDienThoai())
         );
 
         AccountMapper.mapToAccountEntity(accountDto, accountEntity);

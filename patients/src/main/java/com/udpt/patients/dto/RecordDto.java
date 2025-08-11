@@ -8,10 +8,9 @@ import java.time.LocalDate;
 @Data
 public class RecordDto {
 
-    private LocalDate visitDate;
-    private String visitDepartment;
-    private String doctorDiagnosis;
-    private String patientSymptoms;
-    private String doctorNotes;
+    private LocalDate ngayKham;
+    private String chanDoan;
+    private String trieuChung;
+    private String ghiChu;
 
 }

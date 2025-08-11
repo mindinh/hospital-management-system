@@ -1,17 +1,16 @@
-package com.udpt.patients.utils;
+package com.udpt.accounts.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
-public class PatientIdGenerator {
-    private static final String PREFIX = "BN";
+public class IdGenerator {
 
-    public static String generatePatientCode() {
+    public static String generateAccountCode(String prefix) {
         String datePart = new SimpleDateFormat("yyMMdd").format(new Date());
         String randomPart = generateRandomCode(7);
 
-        return String.format("%s-%s%s", PREFIX, datePart, randomPart);
+        return String.format("%s-%s%s", prefix, datePart, randomPart);
     }
 
     private static String generateRandomCode(int length) {

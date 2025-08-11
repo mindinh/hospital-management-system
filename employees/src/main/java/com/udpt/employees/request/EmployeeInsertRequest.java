@@ -1,6 +1,7 @@
 package com.udpt.employees.request;
 
 public record EmployeeInsertRequest(
+        String maNV,
         String chucVu,
         String soDT,
         String hoTen,

@@ -30,15 +30,14 @@ public class PatientsServiceImpl implements IPatientsService {
 
     @Override
     public void createPatient(PatientDto patientDto) {
-        Optional<PatientEntity> optionalPatientEntity = patientsRepository.findByPatientMobileNo(patientDto.getMobileNo());
+        Optional<PatientEntity> optionalPatientEntity = patientsRepository.findByPatientMobileNo(patientDto.getSoDienThoai());
 
         if (optionalPatientEntity.isPresent()) {
-            throw new PatientAlreadyExistException(patientDto.getMobileNo());
+            throw new PatientAlreadyExistException(patientDto.getSoDienThoai());
         }
         PatientEntity patientEntity = PatientMapper.mapToPatientEntity(patientDto, new PatientEntity());
 
-        patientEntity.setAccountId(patientDto.getAccountNo());
-        patientEntity.setPatientId(PatientIdGenerator.generatePatientCode());
+        patientEntity.setPatientId(patientDto.getMaBenhNhan());
 
         patientEntity.setCreatedAt(LocalDateTime.now());
         patientEntity.setCreatedBy("patient-service");
@@ -56,8 +55,8 @@ public class PatientsServiceImpl implements IPatientsService {
 
     @Override
     public void updatePatient(PatientDto patientDto) {
-        PatientEntity patientEntity = patientsRepository.findByPatientMobileNo(patientDto.getMobileNo()).orElseThrow(
-                () -> new ResourceNotFoundException("Patient", "Mobile Number", patientDto.getMobileNo())
+        PatientEntity patientEntity = patientsRepository.findByPatientMobileNo(patientDto.getSoDienThoai()).orElseThrow(
+                () -> new ResourceNotFoundException("Patient", "Mobile Number", patientDto.getSoDienThoai())
         );
 
         PatientMapper.mapToPatientEntity(patientDto, patientEntity);
@@ -85,7 +84,7 @@ public class PatientsServiceImpl implements IPatientsService {
 
         RecordEntity recordEntity = RecordMapper.mapToRecordEntity(recordDto, new RecordEntity());
         recordEntity.setPatient(patientEntity);
-        recordEntity.setVisitDate(recordDto.getVisitDate());
+        recordEntity.setVisitDate(recordDto.getNgayKham());
 
         recordsRepository.save(recordEntity);
 

@@ -8,16 +8,16 @@ public class AccountMapper {
 
     public static AccountDto mapToAccountDto(AccountEntity accountEntity, AccountDto accountDto) {
         accountDto.setEmail(accountEntity.getEmailAddress());
-        accountDto.setMobileNo(accountEntity.getMobileNo());
-        accountDto.setUsername(accountEntity.getUsername());
+        accountDto.setSoDienThoai(accountEntity.getMobileNo());
+        accountDto.setTenNguoiDung(accountEntity.getUsername());
 
         return accountDto;
     }
 
     public static AccountEntity mapToAccountEntity(AccountDto accountDto, AccountEntity accountEntity) {
         accountEntity.setEmailAddress(accountDto.getEmail());
-        accountEntity.setMobileNo(accountDto.getMobileNo());
-        accountEntity.setUsername(accountDto.getUsername());
+        accountEntity.setMobileNo(accountDto.getSoDienThoai());
+        accountEntity.setUsername(accountDto.getTenNguoiDung());
 
 
         return accountEntity;

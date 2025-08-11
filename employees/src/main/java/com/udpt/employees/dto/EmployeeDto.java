@@ -8,6 +8,7 @@ import java.util.List;
 
 @Data
 public class EmployeeDto {
+    private String maNV;
     private String hoTen;
     private LocalDate ngaySinh;
     private List<Experience> kinhNghiem;

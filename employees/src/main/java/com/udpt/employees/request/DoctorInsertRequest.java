@@ -5,6 +5,7 @@ import com.udpt.employees.entity.Experience;
 import java.util.List;
 
 public record DoctorInsertRequest(
+        String maNV,
         String maChungChi,
         String hoTen,
         String ngaySinh,

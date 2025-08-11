@@ -32,6 +32,7 @@ public class PatientController {
         return ResponseEntity.ok(patientsService.getPatientDetails(mobileNo));
     }
 
+    @PutMapping("/update")
     public ResponseEntity<?> updatePatient(@Valid @RequestBody PatientDto patientDto) {
         patientsService.updatePatient(patientDto);
 

@@ -4,21 +4,18 @@ package com.udpt.patients.dto;
 import lombok.Data;
 
 import java.util.Date;
-import java.util.UUID;
 
 @Data
 public class PatientDto {
 
-    // For testing
-    private UUID accountNo;
-    // Replace with an account created event later
+    private String maBenhNhan;
 
-    private String mobileNo;
+    private String soDienThoai;
 
-    private String fullName;
+    private String hoTen;
 
-    private Date dateOfBirth;
+    private String ngaySinh;
 
-    private String gender;
+    private String gioiTinh;
 
 }
