@@ -45,6 +45,9 @@ public class EmployeeEntity extends BaseEntity {
     @OneToMany(mappedBy = "nhanvien")
     private List<DegreeEntity> bangCap;
 
+    @OneToMany(mappedBy = "bacsi")
+    private List<ScheduleEntity> lichLamViec;
+
     @ManyToOne
     @JoinColumn(name = "ma_khoa")
     private DepartmentEntity khoa;

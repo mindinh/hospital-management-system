@@ -3,18 +3,17 @@ package com.udpt.employees.service.impl;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.udpt.employees.dto.EmployeeDto;
-import com.udpt.employees.entity.EmployeeEntity;
-import com.udpt.employees.entity.Experience;
-import com.udpt.employees.entity.Gender;
-import com.udpt.employees.entity.Role;
+import com.udpt.employees.entity.*;
 import com.udpt.employees.exception.EmployeeAlreadyExistException;
 import com.udpt.employees.exception.ResourceNotFoundException;
 import com.udpt.employees.mapper.EmployeeMapper;
+import com.udpt.employees.repository.DepartmentRepository;
 import com.udpt.employees.repository.EmployeesRepository;
+import com.udpt.employees.repository.ScheduleRepository;
 import com.udpt.employees.request.DoctorInsertRequest;
 import com.udpt.employees.request.EmployeeInsertRequest;
+import com.udpt.employees.request.ScheduleInsertRequest;
 import com.udpt.employees.service.IEmployeesService;
-import com.udpt.employees.utils.EmployeeIdGenerator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +28,8 @@ import java.util.Optional;
 public class EmployeesServiceImpl implements IEmployeesService {
     private ObjectMapper objectMapper;
     private EmployeesRepository employeesRepository;
+    private DepartmentRepository departmentRepository;
+    private ScheduleRepository scheduleRepository;
 
     @Override
     public void createEmployee(EmployeeInsertRequest request) {
@@ -133,5 +134,43 @@ public class EmployeesServiceImpl implements IEmployeesService {
             }
         }
         return employeeDto;
+    }
+
+    @Override
+    public boolean updateDepartment(String employeeId, int departmentId) {
+        EmployeeEntity employee = employeesRepository.findByMaNV(employeeId).orElseThrow(
+                () -> new ResourceNotFoundException("Bac Si", "Ma Bac Si", employeeId)
+        );
+
+        DepartmentEntity department = departmentRepository.findById(departmentId).orElseThrow(
+                () -> new ResourceNotFoundException("Khoa", "Ma Khoa", String.valueOf(departmentId))
+        );
+
+        employee.setKhoa(department);
+        employeesRepository.save(employee);
+        return true;
+    }
+
+    @Override
+    public void addSchedule(ScheduleInsertRequest request) {
+        EmployeeEntity employee = employeesRepository.findByMaNV(request.maBacSi()).orElseThrow(
+                () -> new ResourceNotFoundException("Bac Si", "Ma Bac Si", request.maBacSi())
+        );
+
+        List<ScheduleEntity> schedules = request.lichLamViec().stream().map(
+                dto -> {
+                    ScheduleEntity schedule = new ScheduleEntity();
+                    schedule.setBacsi(employee);
+                    schedule.setNgayLamViec(dto.getNgayLamViec());
+                    schedule.setGioBatDau(dto.getGioBatDau());
+                    schedule.setGioKetThuc(dto.getGioKetThuc());
+                    schedule.setCreatedAt(LocalDateTime.now());
+                    schedule.setCreatedBy("employees-service");
+
+                    return schedule;
+                }
+        ).toList();
+
+        scheduleRepository.saveAll(schedules);
     }
 }
