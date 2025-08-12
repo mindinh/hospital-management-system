@@ -13,7 +13,7 @@ import java.util.List;
 @Table(name = "khoa")
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
-public class DepartmentEntity {
+public class DepartmentEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ma_khoa")
@@ -21,6 +21,9 @@ public class DepartmentEntity {
 
     @Column(name = "ten_khoa")
     private String tenKhoa;
+
+    @Column(name = "gioi_thieu_khoa")
+    private String gioiThieu;
 
     @Column(name = "truong_khoa")
     private String truongKhoa;
