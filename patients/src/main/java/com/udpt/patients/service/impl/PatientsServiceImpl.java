@@ -54,6 +54,14 @@ public class PatientsServiceImpl implements IPatientsService {
     }
 
     @Override
+    public PatientDto getPatientDetailsById(String id) {
+        PatientEntity patientEntity = patientsRepository.findByPatientId(id).orElseThrow(
+                () -> new ResourceNotFoundException("Patient", "Patient Id", id)
+        );
+        return PatientMapper.mapToPatientDto(patientEntity, new PatientDto());
+    }
+
+    @Override
     public void updatePatient(PatientDto patientDto) {
         PatientEntity patientEntity = patientsRepository.findByPatientMobileNo(patientDto.getSoDienThoai()).orElseThrow(
                 () -> new ResourceNotFoundException("Patient", "Mobile Number", patientDto.getSoDienThoai())

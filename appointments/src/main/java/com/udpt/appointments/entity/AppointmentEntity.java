@@ -12,10 +12,10 @@ import java.time.LocalTime;
 @Getter @Setter
 @ToString
 @AllArgsConstructor @NoArgsConstructor
-public class AppointmentEntity {
+public class AppointmentEntity extends BaseEntity {
     @Id
     @Column(name = "ma_lich_kham")
-    private String maLich;
+    private String maLichKham;
 
     @Column(name = "ma_bac_si")
     private String maBacSi;
@@ -29,7 +29,11 @@ public class AppointmentEntity {
     @Column(name = "gio_kham")
     private LocalTime gioKham;
 
+    @Column(name = "ghi_chu")
+    private String ghiChuKham;
+
     @Enumerated(EnumType.STRING)
+    @Column(name = "tinh_trang")
     private Status trangThai;
 
     @OneToOne(mappedBy = "lich", cascade = CascadeType.ALL)
