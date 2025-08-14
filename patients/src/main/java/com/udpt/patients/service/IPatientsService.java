@@ -8,6 +8,7 @@ import java.util.List;
 public interface IPatientsService {
     void createPatient(PatientDto patientDto);
     PatientDto getPatientDetails(String mobileNo);
+    PatientDto getPatientDetailsById(String id);
     List<RecordDto> getPatientRecords(String patientId);
     void updatePatient(PatientDto patientDto);
     boolean addPatientRecord(String patientId, RecordDto recordDto);

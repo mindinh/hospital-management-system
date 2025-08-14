@@ -11,7 +11,7 @@ import java.time.LocalTime;
 @Table(name = "phieukham")
 @Getter @Setter @ToString
 @AllArgsConstructor @NoArgsConstructor
-public class ExaminationFormEntity {
+public class ExaminationFormEntity extends BaseEntity {
     @Id
     @Column(name = "ma_phieu")
     private String maPhieu;
@@ -35,6 +35,6 @@ public class ExaminationFormEntity {
     private String soPhong;
 
     @OneToOne
-    @JoinColumn(name = "ma_lich_kham", referencedColumnName = "maLichKham")
+    @JoinColumn(name = "ma_lich_kham", referencedColumnName = "ma_lich_kham")
     private AppointmentEntity lich;
 }

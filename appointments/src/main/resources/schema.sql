@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS dichvu;
-DROP TABLE IF EXISTS lichkham;
 DROP TABLE IF EXISTS phieukham;
+DROP TABLE IF EXISTS lichkham;
 
 CREATE TABLE dichvu (
     ma_dich_vu INT PRIMARY KEY AUTO_INCREMENT,
@@ -18,6 +18,7 @@ CREATE TABLE lichkham (
     ma_benh_nhan VARCHAR(16),
     ngay_kham DATE,
     gio_kham TIME,
+    ghi_chu TEXT,
     tinh_trang ENUM('DA_DAT', 'DA_HUY', 'CHUA_THANH_TOAN', 'DA_THANH_TOAN'),
     created_at DATETIME NOT NULL,
     created_by VARCHAR(20) NOT NULL,
