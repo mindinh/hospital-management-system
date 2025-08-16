@@ -30,7 +30,7 @@ public class AccountsServiceImpl implements IAccountsService {
 
     @Override
     public void createPatientAccount(AccountDto accountDto) {
-        Optional<AccountEntity> optionalAccount = Optional.of(new AccountEntity());
+        Optional<AccountEntity> optionalAccount;
         if (accountDto.getEmail() != null) {
             optionalAccount = accountRepository.findByEmailAddress(accountDto.getEmail());
         }
