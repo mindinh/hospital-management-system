@@ -1,0 +1,49 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: auth
+  datasource:
+    url: jdbc:mysql://localhost:3308/accountsdb
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      access: unrestricted
+  info:
+    env:
+      enabled: true
+
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+    hostname: localhost
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      default-zone: http://localhost:8761/eureka
+
+
+jwt:
+  key: hePrX3lreiS3uE8ESeBIkcc+4NynKRSQRT0DqWdxY/o=
+  access-token:
+    expiration-ms: 1800000
+  refresh-token:
+    expiration-ms: 604800000
+
+
+info:
+  app:
+    name: "auth"
+    description: "Hospital Management System Auth Services"
+

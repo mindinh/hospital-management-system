@@ -15,6 +15,26 @@ spring:
                 - Path=/api/v1/accounts/**
               filters:
                 - StripPrefix=0
+            - id: auth
+              uri: lb://AUTH
+              predicates:
+                - Path=/api/v1/auth/**
+              filters:
+                - StripPrefix=0
+            - id: patients
+              uri: lb://PATIENTS
+              predicates:
+                - Path=/api/v1/patients/**
+                - Path=/api/v1/records/**
+              filters:
+                - StripPrefix=0
+            - id: employees
+              uri: lb://EMPLOYEES
+              predicates:
+                - Path=/api/v1/departments/**
+                - Path=/api/v1/schedules/**
+              filters:
+                - StripPrefix=0
 
 logging:
   level:
