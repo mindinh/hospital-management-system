@@ -37,7 +37,7 @@ eureka:
 jwt:
   key: hePrX3lreiS3uE8ESeBIkcc+4NynKRSQRT0DqWdxY/o=
   access-token:
-    expiration-ms: 1800000
+    expiration-ms: 300000
   refresh-token:
     expiration-ms: 604800000
 

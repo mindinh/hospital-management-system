@@ -1,5 +1,6 @@
 package com.udpt.accounts.config;
 
+import com.udpt.accounts.filter.CustomSecurityFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -38,13 +39,17 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, CorsConfigurationSource corsConfigurationSource) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, CustomSecurityFilter filter, CorsConfigurationSource corsConfigurationSource) throws Exception {
         return http.csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(requests -> {
-                    requests.anyRequest().permitAll();
+                    requests.requestMatchers("/api/v1/accounts/create").permitAll();
+                    requests.requestMatchers("/api/v1/accounts/details").hasRole("ADMIN");
+                    requests.requestMatchers("/api/v1/accounts/employee/create", "/api/v1/accounts/update","/api/v1/accounts/delete").hasRole("ADMIN");
+                    requests.anyRequest().authenticated();
                 })
+                .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
                 .build();
 
     }
