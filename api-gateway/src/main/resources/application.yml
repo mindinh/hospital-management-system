@@ -35,6 +35,12 @@ spring:
                 - Path=/api/v1/schedules/**
               filters:
                 - StripPrefix=0
+            - id: medication
+              uri: lb://MEDICATION
+              predicates:
+                - Path=/api/v1/medications/**
+              filters:
+                - StripPrefix=0
 
 logging:
   level:
