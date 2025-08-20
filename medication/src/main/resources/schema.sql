@@ -24,6 +24,7 @@ CREATE TABLE donthuoc (
     ma_benh_nhan VARCHAR(16),
     ghi_chu TEXT,
     ngay_cap DATETIME,
+    tinh_trang ENUM('DOI_LAY_THUOC', 'DA_SAN_SANG', 'DA_NHAN'),
 
     created_at DATETIME NOT NULL,
     created_by VARCHAR(20) NOT NULL,
@@ -32,15 +33,23 @@ CREATE TABLE donthuoc (
 );
 
 CREATE TABLE chitiet_donthuoc (
+    ma_chi_tiet VARCHAR(16) PRIMARY KEY,
     ma_don_thuoc VARCHAR(16),
     ma_thuoc VARCHAR(16),
+    ten_thuoc VARCHAR(50),
     so_luong INT,
     chi_dinh TEXT,
 
     created_at DATETIME NOT NULL,
     created_by VARCHAR(20) NOT NULL,
     updated_at DATETIME DEFAULT NULL,
-    updated_by VARCHAR(20) DEFAULT NULL
+    updated_by VARCHAR(20) DEFAULT NULL,
+
+    CONSTRAINT FK_CTDT_DT FOREIGN KEY (ma_don_thuoc)
+    REFERENCES donthuoc(ma_don_thuoc),
+    CONSTRAINT FK_CTDT_THUOC FOREIGN KEY (ma_thuoc)
+    REFERENCES thuoc(ma_thuoc)
+
 );
 
 INSERT INTO thuoc (ma_thuoc, so_dk_thuoc, ten_thuoc, mo_ta_thuoc, dieu_tri, loai_thuoc, so_luong, created_at, created_by)
