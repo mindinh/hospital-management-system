@@ -3,6 +3,8 @@ package com.udpt.medication.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "thuoc")
 @Getter @Setter
@@ -34,5 +36,8 @@ public class MedicationEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "tinh_trang")
     private Status status;
+
+    @OneToMany(mappedBy = "medication")
+    private List<PrescriptionDetailEntity> prescriptionDetails;
 
 }
