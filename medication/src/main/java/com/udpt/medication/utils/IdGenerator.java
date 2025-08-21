@@ -5,13 +5,12 @@ import java.util.Date;
 import java.util.Random;
 
 public class IdGenerator {
-    private static final String PREFIX = "MD";
 
-    public static String generateMedicineCode() {
+    public static String generateCode(String prefix) {
         String datePart = new SimpleDateFormat("yyMMdd").format(new Date());
         String randomPart = generateRandomCode(7);
 
-        return String.format("%s-%s%s", PREFIX , datePart, randomPart);
+        return String.format("%s-%s%s", prefix , datePart, randomPart);
     }
 
     private static String generateRandomCode(int length) {
