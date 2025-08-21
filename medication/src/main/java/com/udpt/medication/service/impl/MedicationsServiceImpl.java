@@ -27,7 +27,7 @@ public class MedicationsServiceImpl implements IMedicationsService {
         }
 
         MedicationEntity medication = new MedicationEntity();
-        medication.setId(IdGenerator.generateMedicineCode());
+        medication.setId(IdGenerator.generateCode("MD"));
         medication.setMedicationRegisterNo(request.soDangKy());
         medication.setMedicationName(request.tenThuoc());
         medication.setMedicationDescription(request.moTaThuoc());

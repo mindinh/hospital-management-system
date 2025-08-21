@@ -15,7 +15,7 @@ public class PrescriptionDetailEntity {
     private int id;
 
     @Column(name = "ten_thuoc")
-    private String tenThuoc;
+    private String medName;
 
     @Column(name = "so_luong")
     private int quantity;
