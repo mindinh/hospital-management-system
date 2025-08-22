@@ -1,4 +1,7 @@
-CREATE TABLE IF NOT EXISTS benhnhan (
+DROP TABLE IF NOT EXISTS hoso_benhnhan;
+DROP TABLE IF NOT EXISTS benhnhan;
+
+CREATE TABLE benhnhan (
     ma_benh_nhan VARCHAR(16),
     so_dt_bn CHAR(10),
     ho_ten_bn VARCHAR(30),
@@ -15,7 +18,7 @@ CREATE TABLE IF NOT EXISTS benhnhan (
 );
 
 
-CREATE TABLE IF NOT EXISTS hoso_benhnhan (
+CREATE TABLE hoso_benhnhan (
     ma_ho_so INT PRIMARY KEY AUTO_INCREMENT,
     ma_benh_nhan VARCHAR(20) NOT NULL,
     ngay_kham DATETIME NOT NULL,
@@ -29,5 +32,9 @@ CREATE TABLE IF NOT EXISTS hoso_benhnhan (
     CONSTRAINT FK_HOSOBENHAN_BENHNHAN FOREIGN KEY (ma_benh_nhan)
     REFERENCES benhnhan (ma_benh_nhan)
 );
+
+INSERT INTO benhnhan (ma_benh_nhan,so_dt_bn,ho_ten_bn,ngay_sinh_bn,gioi_tinh_bn,dia_chi_bn,so_bhyt_bn,created_at,created_by,updated_at,updated_by) VALUES
+    ('BN-250816Y63OUCH','0923456789','Tran Van Bn','2000-02-17','NAM',NULL,NULL,'2025-08-11 14:09:37','patient-service',NULL,NULL);
+
 
 
