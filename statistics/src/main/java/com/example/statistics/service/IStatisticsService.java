@@ -1,4 +1,4 @@
-package com.example.statistics.Service;
+package com.example.statistics.service;
 
 import java.time.LocalDate;
 import java.util.Map;

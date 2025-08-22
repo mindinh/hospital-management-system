@@ -1,6 +1,6 @@
-package com.example.statistics.Service.impl;
+package com.example.statistics.service.impl;
 
-import com.example.statistics.Service.IStatisticsService;
+import com.example.statistics.service.IStatisticsService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

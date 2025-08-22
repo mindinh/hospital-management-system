@@ -1,6 +1,6 @@
-package com.example.statistics.Controller;
+package com.example.statistics.controller;
 
-import com.example.statistics.Service.IStatisticsService;
+import com.example.statistics.service.IStatisticsService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
