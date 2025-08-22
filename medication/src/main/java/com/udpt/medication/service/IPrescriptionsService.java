@@ -7,8 +7,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface IPrescriptionsService {
+
     @Transactional
     void createPrescription(CreatePrescriptionRequest request);
 
     List<PrescriptionDto> getPrescriptions(String patientId);
+
+    boolean completePrescriptionRetrieval(String prescriptionId);
+    boolean completePrescriptionDelivery(String prescriptionId);
 }

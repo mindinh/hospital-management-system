@@ -28,18 +28,20 @@ public class AuthServiceImpl implements IAuthService {
 
     @Override
     public AuthenticationResponse login(String email, String password) {
-        String accessToken = "", refreshToken = "";
+        String accessToken = "", refreshToken = "", username = "", fullname = "";
 
         Optional<UserEntity> user = usersRepository.findByEmailAddress(email);
         if (user.isPresent()) {
             UserEntity u = user.get();
 
             if (passwordEncoder.matches(password, u.getPassword())) {
+                username = u.getUsername();
                 accessToken = jwtHelper.generateAccessToken(String.valueOf(u.getRole()));
                 refreshToken = jwtHelper.generateRefreshToken(String.valueOf(u.getRole()));
             }
+
         }
-        return new AuthenticationResponse(accessToken, refreshToken);
+        return new AuthenticationResponse(username, fullname, email, accessToken, refreshToken);
     }
 
 

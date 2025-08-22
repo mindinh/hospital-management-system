@@ -8,6 +8,7 @@ import com.udpt.medication.entity.MedicationEntity;
 import com.udpt.medication.entity.PrescriptionDetailEntity;
 import com.udpt.medication.entity.PrescriptionEntity;
 import com.udpt.medication.entity.Status;
+import com.udpt.medication.exception.CreatePrescriptionException;
 import com.udpt.medication.exception.ResourceNotFoundException;
 import com.udpt.medication.repository.MedicationsRepository;
 import com.udpt.medication.repository.PrescriptionDetailsRepository;
@@ -54,6 +55,14 @@ public class PrescriptionsServiceImpl implements IPrescriptionsService {
             throw new ResourceNotFoundException("Benh Nhan", "Ma Benh Nhan", request.maBenhNhan());
         }
 
+        List<String> medicineIds = request.prescriptionDetails().stream().map(
+                PrescriptionDetailDto::getMaThuoc
+        ).toList();
+        List<MedicationEntity> medicationEntities = medicationsRepository.findByIdIn(medicineIds);
+        if (medicationEntities.size() != medicineIds.size()) {
+            throw new RuntimeException("Medicine Ids don't match");
+        }
+
         try {
             PrescriptionEntity prescription = new PrescriptionEntity();
             prescription.setId(IdGenerator.generateCode("P"));
@@ -87,7 +96,7 @@ public class PrescriptionsServiceImpl implements IPrescriptionsService {
             prescriptionDetailsRepository.saveAll(prescriptionDetails);
 
         } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+            throw new CreatePrescriptionException(e.getMessage());
         }
 
     }
@@ -127,4 +136,27 @@ public class PrescriptionsServiceImpl implements IPrescriptionsService {
                 .toList();
     }
 
+    @Override
+    public boolean completePrescriptionRetrieval(String prescriptionId) {
+        PrescriptionEntity prescriptionEntity = prescriptionsRepository.findById(prescriptionId).orElseThrow(
+                () -> new ResourceNotFoundException("Don Thuoc", "Ma Don Thuoc", prescriptionId)
+        );
+
+        prescriptionEntity.setStatus(Status.DA_SAN_SANG);
+
+        prescriptionsRepository.save(prescriptionEntity);
+        return true;
+    }
+
+    @Override
+    public boolean completePrescriptionDelivery(String prescriptionId) {
+        PrescriptionEntity prescriptionEntity = prescriptionsRepository.findById(prescriptionId).orElseThrow(
+                () -> new ResourceNotFoundException("Don Thuoc", "Ma Don Thuoc", prescriptionId)
+        );
+
+        prescriptionEntity.setStatus(Status.DA_NHAN);
+
+        prescriptionsRepository.save(prescriptionEntity);
+        return true;
+    }
 }

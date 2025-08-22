@@ -45,12 +45,18 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(requests -> {
                     // authorize medications endpoints
-                    requests.requestMatchers("/api/v1/medications/create").hasRole("ADMIN");
-                    requests.requestMatchers("/api/v1/medications/details").permitAll();
+                    requests.requestMatchers(HttpMethod.POST, "/api/v1/medications/create").hasRole("ADMIN");
+                    requests.requestMatchers(HttpMethod.GET, "/api/v1/medications/details").permitAll();
+                    requests.requestMatchers(HttpMethod.PUT,"/api/v1/accounts/update/{id}").hasAnyRole("ADMIN", "DUOCSI");
+                    requests.requestMatchers(HttpMethod.DELETE,"/api/v1/medications/delete").hasRole("ADMIN");
 
                     // authorize prescriptions endpoints
-                    requests.requestMatchers("/api/v1/prescriptions/create").hasAnyRole("BACSI", "ADMIN");
+                    requests.requestMatchers(HttpMethod.POST, "/api/v1/prescriptions/create").hasAnyRole("BACSI", "ADMIN");
                     requests.requestMatchers(HttpMethod.GET, "/api/v1/prescriptions").permitAll();
+                    requests.requestMatchers(HttpMethod.PUT, "/api/v1/prescriptions/ready/{maDonThuoc}").hasAnyRole("DUOCSI", "ADMIN");
+                    requests.requestMatchers(HttpMethod.PUT, "/api/v1/prescriptions/checkout/{maDonThuoc}").hasAnyRole("DUOCSI", "ADMIN");
+
+
                     requests.anyRequest().authenticated();
                 })
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
