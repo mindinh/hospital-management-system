@@ -28,13 +28,21 @@ public class AppointmentQueryController {
                                               @RequestParam LocalDate startDate,
                                               @RequestParam LocalDate endDate) {
         int count = appointmentsQueryService.countPatientsByDoctorAndDateRange(maBacSi, startDate, endDate);
+
+        if (count == 0) {
+            Map<String, Object> message = Map.of(
+                    "message", "No patients found for doctor " + maBacSi +
+                            " from " + startDate  + " to " + endDate
+            );
+            return ResponseEntity.ok(message);
+        }
+
         Map<String, Object> body = Map.of(
                 "maBacSi", maBacSi,
                 "startDate", startDate,
                 "endDate", endDate,
                 "soLuongBenhNhan", count
         );
-
         return ResponseEntity.ok(body);
     }
 

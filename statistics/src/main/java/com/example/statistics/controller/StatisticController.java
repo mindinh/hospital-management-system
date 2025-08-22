@@ -25,6 +25,11 @@ public class StatisticController {
             @RequestParam LocalDate startDate,
             @RequestParam LocalDate endDate) {
 
+        if (startDate.isAfter(endDate)) {
+            return ResponseEntity.badRequest()
+                    .body("startDate must be before endDate");
+        }
+
         Map<String, Object> statistic = statisticsService.getPatientStatistic(maBacSi, startDate, endDate);
         return ResponseEntity.ok(statistic);
     }
