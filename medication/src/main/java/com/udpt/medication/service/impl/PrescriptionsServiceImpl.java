@@ -60,6 +60,7 @@ public class PrescriptionsServiceImpl implements IPrescriptionsService {
             prescription.setDoctorId(request.maBacSi());
             prescription.setPatientId(request.maBenhNhan());
             prescription.setNotes(request.ghiChu());
+            prescription.setPrescriptionDate(LocalDateTime.now());
             prescription.setStatus(Status.DOI_LAY_THUOC);
             prescription.setCreatedAt(LocalDateTime.now());
             prescription.setCreatedBy("medication-service");
@@ -67,14 +68,18 @@ public class PrescriptionsServiceImpl implements IPrescriptionsService {
             PrescriptionEntity finalPrescription = prescriptionsRepository.save(prescription);
 
 
-            List<PrescriptionDetailEntity> prescriptionDetails = request.prescriptionDetailList().stream().map(
+            List<PrescriptionDetailEntity> prescriptionDetails = request.prescriptionDetails().stream().map(
                     dto -> {
                        PrescriptionDetailEntity prescriptionDetail = new PrescriptionDetailEntity();
+                       prescriptionDetail.setId(IdGenerator.generateCode("DT"));
                        prescriptionDetail.setMedName(dto.getTenThuoc());
                        prescriptionDetail.setQuantity(dto.getSoLuong());
                        prescriptionDetail.setIndication(dto.getChiDinh());
                        prescriptionDetail.setPrescription(finalPrescription);
                        prescriptionDetail.setMedication(em.getReference(MedicationEntity.class, dto.getMaThuoc()));
+
+                       prescriptionDetail.setCreatedAt(LocalDateTime.now());
+                       prescriptionDetail.setCreatedBy("medication-service");
                        return prescriptionDetail;
                     }
             ).toList();

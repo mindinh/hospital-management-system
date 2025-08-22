@@ -8,6 +8,6 @@ public record CreatePrescriptionRequest(
         String maBacSi,
         String maBenhNhan,
         String ghiChu,
-        List<PrescriptionDetailDto> prescriptionDetailList
+        List<PrescriptionDetailDto> prescriptionDetails
 ) {
 }

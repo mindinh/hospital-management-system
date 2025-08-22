@@ -1,5 +1,5 @@
-DROP TABLE IF NOT EXISTS hoso_benhnhan;
-DROP TABLE IF NOT EXISTS benhnhan;
+DROP TABLE IF EXISTS hoso_benhnhan;
+DROP TABLE IF EXISTS benhnhan;
 
 CREATE TABLE benhnhan (
     ma_benh_nhan VARCHAR(16),

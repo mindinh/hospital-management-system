@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS thuoc;
-DROP TABLE IF EXISTS donthuoc;
 DROP TABLE IF EXISTS chitiet_donthuoc;
+DROP TABLE IF EXISTS donthuoc;
+DROP TABLE IF EXISTS thuoc;
 
 CREATE TABLE thuoc (
     ma_thuoc VARCHAR(16) PRIMARY KEY,

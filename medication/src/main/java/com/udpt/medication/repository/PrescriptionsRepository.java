@@ -30,18 +30,19 @@ public interface PrescriptionsRepository extends JpaRepository<PrescriptionEntit
 
     @Query(value = """
     SELECT 
-        p.id AS prescriptionId,
-        p.doctorId AS maBacSi,
-        p.patientId AS maBenhNhan,
-        p.notes AS ghiChu,
-        pd.medication.id AS thuocId,
-        pd.medication.medicationName AS tenThuoc,
-        pd.quantity AS soLuong,
-        pd.indication AS lieuDung
-    FROM PrescriptionEntity p
-    LEFT JOIN PrescriptionDetailEntity pd 
-    ON p.id = pd.prescription.id
-    WHERE p.patientId = :maBenhNhan
+        d.ma_don_thuoc AS maDonThuoc,
+        d.ma_bac_si AS maBacSi,
+        d.ma_benh_nhan AS maBenhNhan,
+        d.ghi_chu AS ghiChu,
+        ct.ma_chi_tiet AS maChiTiet,
+        ct.ma_thuoc AS maThuoc,
+        ct.ten_thuoc AS tenThuoc,
+        ct.so_luong AS soLuong,
+        ct.chi_dinh AS chiDinh
+    FROM donthuoc d
+    LEFT JOIN chitiet_donthuoc ct
+    ON d.ma_don_thuoc = ct.ma_don_thuoc 
+    WHERE d.ma_benh_nhan = :maBenhNhan
     """, nativeQuery = true)
     List<PrescriptionFlatDto> findPrescriptionsWithDetails(@Param("maBenhNhan") String maBenhNhan);
 
