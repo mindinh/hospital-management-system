@@ -2,6 +2,7 @@ package com.udpt.medication.service.impl;
 
 import com.udpt.medication.dto.MedicineDto;
 import com.udpt.medication.entity.MedicationEntity;
+import com.udpt.medication.entity.Status;
 import com.udpt.medication.exception.ResourceNotFoundException;
 import com.udpt.medication.repository.MedicationsRepository;
 import com.udpt.medication.request.CreateMedicineRequest;
@@ -53,5 +54,38 @@ public class MedicationsServiceImpl implements IMedicationsService {
         medicineDto.setLoaiThuoc(medicationEntity.getMedicationType());
 
         return medicineDto;
+    }
+
+    @Override
+    public boolean updateMedicine(String medicineId, MedicineDto medicineDto) {
+        MedicationEntity medicationEntity = medicationsRepository.findById(medicineId).orElseThrow(
+                () -> new ResourceNotFoundException("Thuoc", "So Dang Ky", medicineId)
+        );
+
+        if (medicineDto.getTenThuoc() != null) {
+            medicationEntity.setMedicationName(medicineDto.getTenThuoc());
+        }
+        if (medicineDto.getMoTaThuoc() != null) {
+            medicationEntity.setMedicationDescription(medicineDto.getMoTaThuoc());
+        }
+        if (medicineDto.getDieuTri() != null) {
+            medicationEntity.setTreatsFor(medicineDto.getDieuTri());
+        }
+        if (medicineDto.getLoaiThuoc() != null) {
+            medicationEntity.setMedicationType(medicineDto.getLoaiThuoc());
+        }
+        medicationsRepository.save(medicationEntity);
+        return true;
+    }
+
+    @Override
+    public boolean deleteMedicine(String medicineId) {
+        MedicationEntity medicationEntity = medicationsRepository.findById(medicineId).orElseThrow(
+                () -> new ResourceNotFoundException("Thuoc", "So Dang Ky", medicineId)
+        );
+
+        medicationEntity.setStatus(Status.DELETED);
+        medicationsRepository.save(medicationEntity);
+        return true;
     }
 }
