@@ -65,4 +65,9 @@ public class AppointmentsServiceImpl implements IAppointmentsCommandService, IAp
     public int countPatientsByDoctorAndDateRange(String maBacSi, LocalDate startDate, LocalDate endDate){
         return appointmentsRepository.countPatientsByDoctorAndDateRange(maBacSi, startDate, endDate);
     }
+
+    @Override
+    public int countPatientsByDateRange(LocalDate startDate, LocalDate endDate){
+        return appointmentsRepository.countPatientsByDateRange(startDate, endDate);
+    }
 }

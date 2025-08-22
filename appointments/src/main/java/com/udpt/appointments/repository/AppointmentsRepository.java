@@ -24,4 +24,13 @@ public interface AppointmentsRepository extends JpaRepository<AppointmentEntity,
             @Param("endDate") LocalDate endDate
     );
 
+    @Query("SELECT COUNT(DISTINCT a.maBenhNhan) " +
+            "FROM AppointmentEntity a " +
+            "WHERE a.ngayKham BETWEEN :startDate AND :endDate " +
+            "AND a.trangThai != 'DA_HUY'")
+    int countPatientsByDateRange(
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate
+    );
+
 }

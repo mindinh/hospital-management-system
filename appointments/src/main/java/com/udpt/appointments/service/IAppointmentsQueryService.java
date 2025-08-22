@@ -6,4 +6,5 @@ import java.time.LocalDate;
 
 public interface IAppointmentsQueryService {
     int countPatientsByDoctorAndDateRange(String maBacSi, LocalDate startDate, LocalDate endDate);
+    int countPatientsByDateRange(LocalDate startDate, LocalDate endDate);
 }

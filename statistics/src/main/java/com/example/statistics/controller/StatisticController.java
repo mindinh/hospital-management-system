@@ -19,8 +19,8 @@ public class StatisticController {
         this.statisticsService = statisticsService;
     }
 
-    @GetMapping("/patients")
-    public ResponseEntity<?> getStats(
+    @GetMapping("/patients/doctor")
+    public ResponseEntity<?> getStatsByDoctor(
             @RequestParam String maBacSi,
             @RequestParam LocalDate startDate,
             @RequestParam LocalDate endDate) {
@@ -30,7 +30,21 @@ public class StatisticController {
                     .body("startDate must be before endDate");
         }
 
-        Map<String, Object> statistic = statisticsService.getPatientStatistic(maBacSi, startDate, endDate);
+        Map<String, Object> statistic = statisticsService.getPatientByDoctorStatistic(maBacSi, startDate, endDate);
+        return ResponseEntity.ok(statistic);
+    }
+
+    @GetMapping("/patients")
+    public ResponseEntity<?> getStats(
+            @RequestParam LocalDate startDate,
+            @RequestParam LocalDate endDate) {
+
+        if (startDate.isAfter(endDate)) {
+            return ResponseEntity.badRequest()
+                    .body("startDate must be before endDate");
+        }
+
+        Map<String, Object> statistic = statisticsService.getPatientStatistic(startDate, endDate);
         return ResponseEntity.ok(statistic);
     }
 }

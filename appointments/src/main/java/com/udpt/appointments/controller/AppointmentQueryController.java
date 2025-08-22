@@ -23,8 +23,8 @@ public class AppointmentQueryController {
         this.appointmentsQueryService = appointmentsQueryService;
     }
 
-    @GetMapping("/statistic")
-    public ResponseEntity<?> patientStatistic(@RequestParam String maBacSi,
+    @GetMapping("/statistic/doctor")
+    public ResponseEntity<?> patientStatisticByDoctor(@RequestParam String maBacSi,
                                               @RequestParam LocalDate startDate,
                                               @RequestParam LocalDate endDate) {
         int count = appointmentsQueryService.countPatientsByDoctorAndDateRange(maBacSi, startDate, endDate);
@@ -46,4 +46,24 @@ public class AppointmentQueryController {
         return ResponseEntity.ok(body);
     }
 
+    @GetMapping("/statistic")
+    public ResponseEntity<?> patientStatistic(@RequestParam LocalDate startDate,
+                                              @RequestParam LocalDate endDate) {
+        int count = appointmentsQueryService.countPatientsByDateRange(startDate, endDate);
+
+        if (count == 0) {
+            Map<String, Object> message = Map.of(
+                    "message", "No patients found "+
+                            " from " + startDate  + " to " + endDate
+            );
+            return ResponseEntity.ok(message);
+        }
+
+        Map<String, Object> body = Map.of(
+                "startDate", startDate,
+                "endDate", endDate,
+                "soLuongBenhNhan", count
+        );
+        return ResponseEntity.ok(body);
+    }
 }

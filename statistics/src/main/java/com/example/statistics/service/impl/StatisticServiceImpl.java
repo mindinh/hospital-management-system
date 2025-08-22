@@ -17,10 +17,21 @@ public class StatisticServiceImpl implements IStatisticsService {
     }
 
     @Override
-    public Map<String, Object> getPatientStatistic(String maBacSi, LocalDate startDate, LocalDate endDate) {
+    public Map<String, Object> getPatientByDoctorStatistic(String maBacSi, LocalDate startDate, LocalDate endDate) {
         String url = String.format(
-                "http://appointments/api/v1/appointments/statistic?maBacSi=%s&startDate=%s&endDate=%s",
+                "http://appointments/api/v1/appointments/statistic/doctor?maBacSi=%s&startDate=%s&endDate=%s",
                 maBacSi, startDate, endDate
+        );
+
+        ResponseEntity<Map> response = restTemplate.getForEntity(url, Map.class);
+        return response.getBody();
+    }
+
+    @Override
+    public Map<String, Object> getPatientStatistic(LocalDate startDate, LocalDate endDate) {
+        String url = String.format(
+                "http://appointments/api/v1/appointments/statistic?startDate=%s&endDate=%s",
+                startDate, endDate
         );
 
         ResponseEntity<Map> response = restTemplate.getForEntity(url, Map.class);
