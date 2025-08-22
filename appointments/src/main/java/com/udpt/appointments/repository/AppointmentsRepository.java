@@ -17,7 +17,7 @@ public interface AppointmentsRepository extends JpaRepository<AppointmentEntity,
             "FROM AppointmentEntity a " +
             "WHERE a.maBacSi = :maBacSi " +
             "AND a.ngayKham BETWEEN :startDate AND :endDate " +
-            "AND a.trangThai IN ('DA_DAT', 'DA_THANH_TOAN')")
+            "AND a.trangThai != 'DA_HUY'")
     int countPatientsByDoctorAndDateRange(
             @Param("maBacSi") String maBacSi,
             @Param("startDate") LocalDate startDate,

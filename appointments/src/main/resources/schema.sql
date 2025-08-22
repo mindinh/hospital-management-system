@@ -1,8 +1,8 @@
-DROP TABLE IF EXISTS dichvu;
-DROP TABLE IF EXISTS phieukham;
-DROP TABLE IF EXISTS lichkham;
+--DROP TABLE IF EXISTS dichvu;
+--DROP TABLE IF EXISTS phieukham;
+--DROP TABLE IF EXISTS lichkham;
 
-CREATE TABLE dichvu (
+CREATE TABLE IF NOT EXISTS dichvu (
     ma_dich_vu INT PRIMARY KEY AUTO_INCREMENT,
     ten_dich_vu VARCHAR(100),
     mo_ta_dich_vu TEXT,
@@ -12,7 +12,7 @@ CREATE TABLE dichvu (
     updated_by VARCHAR(20) DEFAULT NULL
 );
 
-CREATE TABLE lichkham (
+CREATE TABLE IF NOT EXISTS lichkham (
     ma_lich_kham VARCHAR(16) PRIMARY KEY,
     ma_bac_si VARCHAR(16),
     ma_benh_nhan VARCHAR(16),
@@ -26,7 +26,7 @@ CREATE TABLE lichkham (
     updated_by VARCHAR(20) DEFAULT NULL
 );
 
-CREATE TABLE phieukham (
+CREATE TABLE IF NOT EXISTS phieukham (
     ma_phieu VARCHAR(16) PRIMARY KEY,
     ma_lich_kham VARCHAR(16),
     ten_bac_si VARCHAR(30),
