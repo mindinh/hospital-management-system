@@ -20,7 +20,7 @@ public class RecordController {
         return ResponseEntity.ok(recordsService.getAllRecords());
     }
 
-    @GetMapping("/records/{id}")
+    @GetMapping("/details/{id}")
     public ResponseEntity<?> getPatientRecords(@PathVariable String id) {
         return ResponseEntity.ok(recordsService.getAllPatientRecords(id));
     }

@@ -35,9 +35,9 @@ public class AuthServiceImpl implements IAuthService {
             UserEntity u = user.get();
 
             if (passwordEncoder.matches(password, u.getPassword())) {
-                username = u.getUsername();
                 accessToken = jwtHelper.generateAccessToken(String.valueOf(u.getRole()));
                 refreshToken = jwtHelper.generateRefreshToken(String.valueOf(u.getRole()));
+                username = u.getUsername();
             }
 
         }

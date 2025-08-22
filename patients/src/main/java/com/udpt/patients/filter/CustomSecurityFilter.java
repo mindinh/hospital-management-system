@@ -1,7 +1,7 @@
-package com.udpt.accounts.filter;
+package com.udpt.patients.filter;
 
 
-import com.udpt.accounts.utils.JwtHelper;
+import com.udpt.patients.utils.JwtHelper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,8 +30,6 @@ public class CustomSecurityFilter extends OncePerRequestFilter {
             String token = authenHeader.substring(7);
 
             boolean isSuccess = jwtHelper.decrypt(token);
-
-            System.out.println("custom security filter is success: " + isSuccess);
 
             if (isSuccess) {
                 String role = jwtHelper.getDataToken(token);

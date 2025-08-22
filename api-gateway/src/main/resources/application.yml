@@ -33,6 +33,12 @@ spring:
                 - Path=/api/v1/departments/**, /api/v1/schedules/**
               filters:
                 - StripPrefix=0
+            - id: appointments
+              uri: lb://APPOINTMENTS
+              predicates:
+                - Path=/api/v1/appointments/**, /api/v1/services/**
+              filters:
+                - StripPrefix=0
             - id: medication
               uri: lb://MEDICATION
               predicates:

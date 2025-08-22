@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/api/v1", produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(value = "/api/v1/patients", produces = {MediaType.APPLICATION_JSON_VALUE})
 public class PatientController {
 
     private IPatientsService patientsService;
@@ -26,13 +26,13 @@ public class PatientController {
         return ResponseEntity.ok(new ResponseDto("200", "Patient registered successfully"));
     }
 
-    @GetMapping("/patient-details")
+    @GetMapping("/details/me")
     public ResponseEntity<?> getPatientDetails(@RequestParam String mobileNo) {
 
         return ResponseEntity.ok(patientsService.getPatientDetails(mobileNo));
     }
 
-    @GetMapping("/patient-details/{id}")
+    @GetMapping("/details/{id}")
     public ResponseEntity<?> getPatientDetailsById(@PathVariable String id) {
 
         return ResponseEntity.ok(patientsService.getPatientDetailsById(id));

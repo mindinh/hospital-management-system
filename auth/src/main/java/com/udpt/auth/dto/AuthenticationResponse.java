@@ -1,7 +1,7 @@
 package com.udpt.auth.dto;
 
 public record AuthenticationResponse(
-        String usernam,
+        String username,
         String hoTen,
         String email,
         String accessToken,
