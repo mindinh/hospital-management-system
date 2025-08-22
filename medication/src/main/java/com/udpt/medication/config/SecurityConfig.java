@@ -3,6 +3,7 @@ package com.udpt.medication.config;
 import com.udpt.medication.filter.CustomSecurityFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -43,8 +44,13 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(requests -> {
+                    // authorize medications endpoints
                     requests.requestMatchers("/api/v1/medications/create").hasRole("ADMIN");
                     requests.requestMatchers("/api/v1/medications/details").permitAll();
+
+                    // authorize prescriptions endpoints
+                    requests.requestMatchers("/api/v1/prescriptions/create").hasAnyRole("BACSI", "ADMIN");
+                    requests.requestMatchers(HttpMethod.GET, "/api/v1/prescriptions").permitAll();
                     requests.anyRequest().authenticated();
                 })
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)

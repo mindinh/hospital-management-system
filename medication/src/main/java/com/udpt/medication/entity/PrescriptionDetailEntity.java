@@ -8,11 +8,11 @@ import lombok.*;
 @Getter @Setter
 @ToString
 @AllArgsConstructor @NoArgsConstructor
-public class PrescriptionDetailEntity {
+public class PrescriptionDetailEntity extends BaseEntity {
 
     @Id
     @Column(name = "ma_chi_tiet")
-    private int id;
+    private String id;
 
     @Column(name = "ten_thuoc")
     private String medName;
