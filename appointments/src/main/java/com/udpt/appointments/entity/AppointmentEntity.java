@@ -15,28 +15,28 @@ import java.time.LocalTime;
 public class AppointmentEntity extends BaseEntity {
     @Id
     @Column(name = "ma_lich_kham")
-    private String maLichKham;
+    private String appointmentId;
 
     @Column(name = "ma_bac_si")
-    private String maBacSi;
+    private String doctorId;
 
     @Column(name = "ma_benh_nhan")
-    private String maBenhNhan;
+    private String patientId;
 
     @Column(name = "ngay_kham")
-    private LocalDate ngayKham;
+    private LocalDate appointmentDate;
 
     @Column(name = "gio_kham")
-    private LocalTime gioKham;
+    private LocalTime appointmentTime;
 
     @Column(name = "ghi_chu")
-    private String ghiChuKham;
+    private String appointmentNotes;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "tinh_trang")
-    private Status trangThai;
+    private Status status;
 
-    @OneToOne(mappedBy = "lich", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "appointment", cascade = CascadeType.ALL)
     private ExaminationFormEntity examinationForm;
 
 }

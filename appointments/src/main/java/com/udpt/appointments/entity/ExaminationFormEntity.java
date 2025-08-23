@@ -14,27 +14,27 @@ import java.time.LocalTime;
 public class ExaminationFormEntity extends BaseEntity {
     @Id
     @Column(name = "ma_phieu")
-    private String maPhieu;
+    private String formId;
 
     @Column(name = "ten_bac_si")
-    private String tenBacSi;
+    private String doctorName;
 
     @Column(name = "ten_benh_nhan")
-    private String tenBenhNhan;
+    private String patientName;
 
     @Column(name = "ngay_kham")
-    private LocalDate ngayKham;
+    private LocalDate appointmentDate;
 
     @Column(name = "gio_kham")
-    private LocalTime gioKham;
+    private LocalTime appointmentTime;
 
     @Column(name = "so_thu_tu")
-    private int soThuTu;
+    private int number;
 
     @Column(name = "so_phong")
-    private String soPhong;
+    private String roomNumber;
 
     @OneToOne
     @JoinColumn(name = "ma_lich_kham", referencedColumnName = "ma_lich_kham")
-    private AppointmentEntity lich;
+    private AppointmentEntity appointment;
 }

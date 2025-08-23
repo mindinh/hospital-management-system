@@ -46,8 +46,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(requests -> {
                     // authorize medications endpoints
                     requests.requestMatchers(HttpMethod.POST, "/api/v1/medications/create").hasRole("ADMIN");
-                    requests.requestMatchers(HttpMethod.GET, "/api/v1/medications/details").permitAll();
-                    requests.requestMatchers(HttpMethod.PUT,"/api/v1/accounts/update/{id}").hasAnyRole("ADMIN", "DUOCSI");
+                    requests.requestMatchers(HttpMethod.GET, "/api/v1/medications/details").hasAnyRole("ADMIN", "BACSI", "DUOCSI");
+                    requests.requestMatchers(HttpMethod.GET, "/api/v1/medications/*").hasAnyRole("ADMIN", "BACSI", "DUOCSI");
+                    requests.requestMatchers(HttpMethod.PUT,"/api/v1/medication/update/*").hasAnyRole("ADMIN", "DUOCSI");
                     requests.requestMatchers(HttpMethod.DELETE,"/api/v1/medications/delete").hasRole("ADMIN");
 
                     // authorize prescriptions endpoints

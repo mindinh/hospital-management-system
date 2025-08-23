@@ -19,15 +19,17 @@ CREATE TABLE benhnhan (
 
 
 CREATE TABLE hoso_benhnhan (
-    ma_ho_so INT PRIMARY KEY AUTO_INCREMENT,
-    ma_benh_nhan VARCHAR(20) NOT NULL,
-    ngay_kham DATETIME NOT NULL,
-    ly_do_kham TEXT,
+    ma_ho_so VARCHAR(16) PRIMARY KEY,
+    ma_benh_nhan VARCHAR(20),
+    ngay_kham DATETIME,
     trieu_chung TEXT,
     chan_doan TEXT,
     ghi_chu_dieu_tri TEXT,
-    ma_bac_si VARCHAR(20) NOT NULL,
-
+    ma_bac_si VARCHAR(20),
+    created_at DATETIME NOT NULL,
+    created_by VARCHAR(20) NOT NULL,
+    updated_at DATETIME DEFAULT NULL,
+    updated_by VARCHAR(20) DEFAULT NULL,
 
     CONSTRAINT FK_HOSOBENHAN_BENHNHAN FOREIGN KEY (ma_benh_nhan)
     REFERENCES benhnhan (ma_benh_nhan)

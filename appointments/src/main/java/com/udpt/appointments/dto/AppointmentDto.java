@@ -8,7 +8,7 @@ import java.time.LocalTime;
 
 @Data
 public class AppointmentDto {
-
+    private String maLichKham;
     private String tenBacSi;
     private String chuyenKhoa;
     private String tenBenhNhan;

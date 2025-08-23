@@ -3,24 +3,21 @@ package com.udpt.patients.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "hoso_benhnhan")
 @Getter @Setter
 @ToString
 @AllArgsConstructor @NoArgsConstructor
-public class RecordEntity {
+public class RecordEntity extends BaseEntity {
 
     @Id
     @Column(name = "ma_ho_so")
-    private int id;
-
-    @Column(name = "ma_benh_nhan")
-    private String patientId;
+    private String recordId;
 
     @Column(name = "ngay_kham")
-    private LocalDate visitDate;
+    private LocalDateTime visitDate;
 
     @Column(name = "trieu_chung")
     private String symptoms;
@@ -35,6 +32,6 @@ public class RecordEntity {
     private String note;
 
     @ManyToOne
-    @JoinColumn(name = "ma_benh_nhan", insertable = false, updatable = false)
+    @JoinColumn(name = "ma_benh_nhan")
     private PatientEntity patient;
 }

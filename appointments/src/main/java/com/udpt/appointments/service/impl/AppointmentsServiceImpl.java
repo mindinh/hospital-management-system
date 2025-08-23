@@ -1,5 +1,6 @@
 package com.udpt.appointments.service.impl;
 
+import com.udpt.appointments.dto.AppointmentDto;
 import com.udpt.appointments.dto.CreateAppointmentCommand;
 import com.udpt.appointments.entity.AppointmentEntity;
 import com.udpt.appointments.entity.Status;
@@ -12,8 +13,13 @@ import com.udpt.appointments.service.IAppointmentsCommandService;
 import com.udpt.appointments.service.IAppointmentsQueryService;
 import com.udpt.appointments.service.client.DoctorClient;
 import com.udpt.appointments.service.client.PatientClient;
+import com.udpt.appointments.utils.AppointmentSpecification;
 import com.udpt.appointments.utils.IdGenerator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -46,18 +52,62 @@ public class AppointmentsServiceImpl implements IAppointmentsCommandService, IAp
         }
 
         AppointmentEntity appointment = new AppointmentEntity();
-        appointment.setMaLichKham(IdGenerator.generateAccountCode("LK"));
-        appointment.setMaBenhNhan(command.getMaBenhNhan());
-        appointment.setMaBacSi(command.getMaBacSi());
-        appointment.setNgayKham(command.getNgayKham());
-        appointment.setGioKham(command.getGioKham());
-        appointment.setGhiChuKham(command.getGhiChu());
-        appointment.setTrangThai(Status.DA_DAT);
+        appointment.setAppointmentId(IdGenerator.generateAccountCode("LK"));
+        appointment.setPatientId(command.getMaBenhNhan());
+        appointment.setDoctorId(command.getMaBacSi());
+        appointment.setAppointmentDate(command.getNgayKham());
+        appointment.setAppointmentTime(command.getGioKham());
+        appointment.setAppointmentNotes(command.getGhiChu());
+        appointment.setStatus(Status.DA_DAT);
 
         appointment.setCreatedAt(LocalDateTime.now());
         appointment.setCreatedBy("appointments-service");
 
         appointmentsRepository.save(appointment);
+
+    }
+
+    @Override
+    public boolean checkinAppointment(String id) {
+        AppointmentEntity appointmentEntity = appointmentsRepository.findByAppointmentId(id).orElseThrow(
+                () -> new ResourceNotFoundException("Lich Kham", "Ma Lich Kham", id)
+        );
+
+        appointmentEntity.setStatus(Status.DA_THANH_TOAN);
+        appointmentsRepository.save(appointmentEntity);
+        return true;
+    }
+
+    @Override
+    public boolean cancelAppointment(String id) {
+        AppointmentEntity appointmentEntity = appointmentsRepository.findByAppointmentId(id).orElseThrow(
+                () -> new ResourceNotFoundException("Lich Kham", "Ma Lich Kham", id)
+        );
+
+        appointmentEntity.setStatus(Status.DA_HUY);
+        appointmentsRepository.save(appointmentEntity);
+        return true;
+    }
+
+    @Override
+    public Page<AppointmentDto> searchAppointments(String doctorId, String patientId, LocalDate startDate, LocalDate endDate, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("appointmentId").descending());
+        Page<AppointmentEntity> appointments =  appointmentsRepository.findAll(
+                AppointmentSpecification.filter(doctorId, patientId, startDate, endDate),
+                pageable
+        );
+
+        return appointments.map(
+            a -> {
+                AppointmentDto appointmentDto = new AppointmentDto();
+                appointmentDto.setMaLichKham(a.getAppointmentId());
+                appointmentDto.setNgayKham(a.getAppointmentDate());
+                appointmentDto.setGioKham(a.getAppointmentTime());
+                appointmentDto.setTinhTrang(String.valueOf(a.getStatus()));
+
+                return appointmentDto;
+            }
+        );
 
     }
 

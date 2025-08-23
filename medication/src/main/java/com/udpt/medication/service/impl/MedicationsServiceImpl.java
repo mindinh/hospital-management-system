@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -54,6 +55,22 @@ public class MedicationsServiceImpl implements IMedicationsService {
         medicineDto.setLoaiThuoc(medicationEntity.getMedicationType());
 
         return medicineDto;
+    }
+
+    @Override
+    public List<MedicineDto> getMedicinesByName(String name) {
+        return medicationsRepository.findTop5ByMedicationNameContaining(name).stream().map(
+                med -> {
+                    MedicineDto medicineDto = new MedicineDto();
+                    medicineDto.setMaThuoc(med.getId());
+                    medicineDto.setTenThuoc(med.getMedicationName());
+                    medicineDto.setMoTaThuoc(med.getMedicationDescription());
+                    medicineDto.setDieuTri(med.getTreatsFor());
+                    medicineDto.setLoaiThuoc(med.getMedicationType());
+
+                    return medicineDto;
+                }
+        ).toList();
     }
 
     @Override

@@ -26,7 +26,7 @@ public class RecordsServiceImpl implements IRecordsService {
     @Override
     public List<RecordDto> getAllPatientRecords(String patientId) {
 
-        return recordsRepository.findByPatientId(patientId).stream().map(
+        return recordsRepository.findByPatient_PatientId(patientId).stream().map(
                 recordEntity -> RecordMapper.mapToRecordDto(recordEntity, new RecordDto())
         ).toList();
     }
