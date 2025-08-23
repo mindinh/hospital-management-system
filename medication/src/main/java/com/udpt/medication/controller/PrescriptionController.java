@@ -4,9 +4,12 @@ package com.udpt.medication.controller;
 import com.udpt.medication.dto.ResponseDto;
 import com.udpt.medication.request.CreatePrescriptionRequest;
 import com.udpt.medication.service.IPrescriptionsService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 
 @RestController
@@ -29,6 +32,18 @@ public class PrescriptionController {
     public ResponseEntity<?> getAllPrescriptions(@RequestParam String maBenhNhan) {
 
         return ResponseEntity.ok(prescriptionsService.getPrescriptions(maBenhNhan));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<?> searchPrescriptions(
+            @RequestParam(required = false) String maBS,
+            @RequestParam(required = false) String maBN,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate ngayCap,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+
+        return ResponseEntity.ok(prescriptionsService.searchPrescriptions(maBS, maBN, ngayCap, page, size));
     }
 
     @PutMapping("/ready/{maDonThuoc}")

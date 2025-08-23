@@ -38,6 +38,19 @@ public class PatientController {
         return ResponseEntity.ok(patientsService.getPatientDetailsById(id));
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<?> searchPatients(
+            @RequestParam(required = false) String maBN,
+            @RequestParam(required = false) String hoTen,
+            @RequestParam(required = false) String soDT,
+            @RequestParam(required = false) String bhyt,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+
+        return ResponseEntity.ok(patientsService.searchPatients(maBN, hoTen, soDT, bhyt, page, size));
+    }
+
     @PutMapping("/update")
     public ResponseEntity<?> updatePatient(@Valid @RequestBody PatientDto patientDto) {
         patientsService.updatePatient(patientDto);

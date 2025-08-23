@@ -5,14 +5,17 @@ import com.udpt.medication.dto.PrescriptionFlatDto;
 import com.udpt.medication.entity.PrescriptionEntity;
 import feign.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface PrescriptionsRepository extends JpaRepository<PrescriptionEntity, String> {
+public interface PrescriptionsRepository extends JpaRepository<PrescriptionEntity, String>, JpaSpecificationExecutor<PrescriptionEntity> {
     List<PrescriptionEntity> findByPatientId(String patientId);
+
+    List<PrescriptionEntity> findAll();
 
     @Query("""
     SELECT new com.udpt.medication.dto.PrescriptionDetailDto(

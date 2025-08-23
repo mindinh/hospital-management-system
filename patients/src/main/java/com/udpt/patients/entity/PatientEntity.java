@@ -35,7 +35,7 @@ public class PatientEntity extends BaseEntity {
     private String patientAddress;
 
     @Column(name = "so_bhyt_bn")
-    private String medialInsuranceNumber;
+    private String medicalInsuranceNumber;
 
     @OneToMany(mappedBy = "patient")
     private List<RecordEntity> records;
