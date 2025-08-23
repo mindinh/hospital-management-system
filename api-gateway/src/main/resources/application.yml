@@ -30,7 +30,7 @@ spring:
             - id: employees
               uri: lb://EMPLOYEES
               predicates:
-                - Path=/api/v1/departments/**, /api/v1/schedules/**
+                - Path=/api/v1/departments/**, /api/v1/schedules/**, /api/v1/employees/**
               filters:
                 - StripPrefix=0
             - id: appointments
