@@ -45,14 +45,14 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(requests -> {
                     // authorize patients endpoints
-                    requests.requestMatchers(HttpMethod.POST, "api/v1/patients/create", "api/v1/patients/add-record").hasAnyRole("ADMIN", "BACSI");
-                    requests.requestMatchers(HttpMethod.PUT, "api/v1/patients/update").hasAnyRole("ADMIN", "BENHNHAN");
-                    requests.requestMatchers(HttpMethod.GET, "api/v1/patients/details/{id}").hasAnyRole("ADMIN", "BACSI");
-                    requests.requestMatchers(HttpMethod.GET, "api/v1/patients/details/me").hasAnyRole("BENHNHAN");
+                    requests.requestMatchers(HttpMethod.POST, "/api/v1/patients/create", "api/v1/patients/add-record").hasAnyRole("ADMIN", "BACSI");
+                    requests.requestMatchers(HttpMethod.PUT, "/api/v1/patients/update").hasAnyRole("ADMIN", "BENHNHAN");
+                    requests.requestMatchers(HttpMethod.GET, "/api/v1/patients/details/*").hasAnyRole("ADMIN", "BACSI");
+                    requests.requestMatchers(HttpMethod.GET, "/api/v1/patients/details/me").hasAnyRole("BENHNHAN");
 
                     // authorize records endpoints
-                    requests.requestMatchers(HttpMethod.GET, "api/v1/records/all-records").hasAnyRole("ADMIN");
-                    requests.requestMatchers(HttpMethod.GET, "api/v1/records/details/{id}").hasAnyRole("ADMIN", "BACSI");
+                    requests.requestMatchers(HttpMethod.GET, "/api/v1/records/all-records").hasAnyRole("ADMIN");
+                    requests.requestMatchers(HttpMethod.GET, "/api/v1/records/details/{id}").hasAnyRole("ADMIN", "BACSI");
 
 
                     requests.anyRequest().authenticated();

@@ -50,6 +50,7 @@ public class PrescriptionsServiceImpl implements IPrescriptionsService {
         if (doctorResponse == null) {
             throw new ResourceNotFoundException("Bac Si", "Ma Bac Si", request.maBacSi());
         }
+        System.out.println(doctorResponse.getMaNV());
         PatientResponse patientResponse = patientClient.getPatientDetailsById(request.maBenhNhan());
         if (patientResponse == null) {
             throw new ResourceNotFoundException("Benh Nhan", "Ma Benh Nhan", request.maBenhNhan());
