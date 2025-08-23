@@ -20,11 +20,17 @@ import com.udpt.medication.service.IPrescriptionsService;
 import com.udpt.medication.service.client.DoctorClient;
 import com.udpt.medication.service.client.PatientClient;
 import com.udpt.medication.utils.IdGenerator;
+import com.udpt.medication.utils.PrescriptionSpecification;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -135,6 +141,21 @@ public class PrescriptionsServiceImpl implements IPrescriptionsService {
                     );
                 })
                 .toList();
+    }
+
+    @Override
+    public Page<PrescriptionDto> searchPrescriptions(String doctorId, String patientId, LocalDate prescribedDate, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("patientId").descending());
+        Page<PrescriptionEntity> prescriptions =  prescriptionsRepository.findAll(
+                PrescriptionSpecification.filter(doctorId, patientId, prescribedDate),
+                pageable
+        );
+
+        return prescriptions.map(
+                p -> new PrescriptionDto(
+                    p.getDoctorId(), p.getPatientId(), p.getNotes(), p.getPrescriptionDate().toString()
+                )
+        );
     }
 
     @Override

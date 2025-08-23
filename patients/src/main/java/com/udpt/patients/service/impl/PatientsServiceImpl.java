@@ -12,6 +12,11 @@ import com.udpt.patients.repository.PatientsRepository;
 import com.udpt.patients.repository.RecordsRepository;
 import com.udpt.patients.service.IPatientsService;
 import com.udpt.patients.utils.PatientIdGenerator;
+import com.udpt.patients.utils.PatientSpecification;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -38,7 +43,6 @@ public class PatientsServiceImpl implements IPatientsService {
         PatientEntity patientEntity = PatientMapper.mapToPatientEntity(patientDto, new PatientEntity());
 
         patientEntity.setPatientId(patientDto.getMaBenhNhan());
-
         patientEntity.setCreatedAt(LocalDateTime.now());
         patientEntity.setCreatedBy("patient-service");
         patientsRepository.save(patientEntity);
@@ -59,6 +63,25 @@ public class PatientsServiceImpl implements IPatientsService {
                 () -> new ResourceNotFoundException("Patient", "Patient Id", id)
         );
         return PatientMapper.mapToPatientDto(patientEntity, new PatientDto());
+    }
+
+    @Override
+    public Page<PatientDto> searchPatients(String code, String fullName, String mobileNo, String insuranceNo, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("patientId").descending());
+        Page<PatientEntity> patients =  patientsRepository.findAll(
+                PatientSpecification.filter(code, fullName, mobileNo, insuranceNo),
+                pageable
+        );
+
+        return patients.map(
+                p -> new PatientDto(
+                        p.getPatientId(),
+                        p.getPatientMobileNo(),
+                        p.getPatientFullname(),
+                        p.getPatientDOB().toString(),
+                        p.getGender().toString()
+                )
+        );
     }
 
     @Override
