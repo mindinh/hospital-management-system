@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface MedicationsRepository extends JpaRepository<MedicationEntity, String> {
     Optional<MedicationEntity> findByMedicationRegisterNo(String registerNo);
     List<MedicationEntity> findByIdIn(List<String> ids);
+    List<MedicationEntity> findTop5ByMedicationNameContaining(String medicationName);
 }

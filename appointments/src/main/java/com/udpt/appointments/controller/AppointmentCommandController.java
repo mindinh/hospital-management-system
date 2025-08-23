@@ -6,10 +6,7 @@ import com.udpt.appointments.dto.ResponseDto;
 import com.udpt.appointments.service.IAppointmentsCommandService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/api/v1/appointments", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -25,6 +22,24 @@ public class AppointmentCommandController {
         appointmentsCommandService.createAppointment(command);
 
         return ResponseEntity.ok(new ResponseDto("200", "Appointment booked successfully"));
+    }
+
+    @PutMapping("/checkin/{id}")
+    public ResponseEntity<?> checkinAppointment(@PathVariable String id) {
+        boolean isSuccess = appointmentsCommandService.checkinAppointment(id);
+        if (isSuccess) {
+            return ResponseEntity.ok(new ResponseDto("200", "Thanh toán lịch khám thành công. Đã có thể khám"));
+        }
+        return ResponseEntity.ok(new ResponseDto("500", "Lỗi"));
+    }
+
+    @DeleteMapping("/cancel/{id}")
+    public ResponseEntity<?> cancelAppointment(@PathVariable String id) {
+        boolean isSuccess = appointmentsCommandService.cancelAppointment(id);
+        if (isSuccess) {
+            return ResponseEntity.ok(new ResponseDto("204", "Hủy lịch khám thành công"));
+        }
+        return ResponseEntity.ok(new ResponseDto("500", "Lỗi"));
     }
 
 }

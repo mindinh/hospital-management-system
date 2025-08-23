@@ -5,4 +5,6 @@ import com.udpt.appointments.request.AppointmentInsertRequest;
 
 public interface IAppointmentsCommandService {
     void createAppointment(CreateAppointmentCommand command);
+    boolean checkinAppointment(String id);
+    boolean cancelAppointment(String id);
 }

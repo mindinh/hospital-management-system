@@ -2,8 +2,9 @@ package com.udpt.patients.controller;
 
 
 import com.udpt.patients.dto.PatientDto;
-import com.udpt.patients.dto.RecordDto;
 import com.udpt.patients.dto.ResponseDto;
+import com.udpt.patients.requests.PatientRegisterRequest;
+import com.udpt.patients.requests.RecordInsertRequest;
 import com.udpt.patients.service.IPatientsService;
 import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
@@ -20,10 +21,10 @@ public class PatientController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createPatient(@Valid @RequestBody PatientDto patientDto) {
-        patientsService.createPatient(patientDto);
+    public ResponseEntity<?> createPatient(@Valid @RequestBody PatientRegisterRequest request) {
+        patientsService.createPatient(request);
 
-        return ResponseEntity.ok(new ResponseDto("200", "Patient registered successfully"));
+        return ResponseEntity.ok(new ResponseDto("201", "Patient registered successfully"));
     }
 
     @GetMapping("/details/me")
@@ -59,9 +60,9 @@ public class PatientController {
     }
 
     @PostMapping("/add-record")
-    public ResponseEntity<?> addPatientRecord(@RequestParam String patientId, @RequestBody RecordDto recordDto) {
+    public ResponseEntity<?> addPatientRecord(@RequestBody RecordInsertRequest request) {
         boolean isSuccess = false;
-        isSuccess = patientsService.addPatientRecord(patientId, recordDto);
+        isSuccess = patientsService.addPatientRecord(request);
         if (!isSuccess) {
             return ResponseEntity.internalServerError().body(new ResponseDto("500", "Record not added successfully"));
         }

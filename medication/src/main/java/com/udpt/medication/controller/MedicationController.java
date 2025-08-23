@@ -30,6 +30,12 @@ public class MedicationController {
         return ResponseEntity.ok(medicationsService.getMedicineDetails(registerNo));
     }
 
+    @GetMapping()
+    public ResponseEntity<?> getMedicinesByName(@RequestParam String tenThuoc) {
+
+        return ResponseEntity.ok(medicationsService.getMedicinesByName(tenThuoc));
+    }
+
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateMedicine(@PathVariable String id, @RequestBody MedicineDto medicineDto) {
         boolean isSuccess = medicationsService.updateMedicine(id, medicineDto);

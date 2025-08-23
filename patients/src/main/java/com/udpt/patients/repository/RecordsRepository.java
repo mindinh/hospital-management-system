@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface RecordsRepository extends JpaRepository<RecordEntity, Integer> {
-    List<RecordEntity> findByPatientId(String patientId);
+    List<RecordEntity> findByPatient_PatientId(String patientId);
 }

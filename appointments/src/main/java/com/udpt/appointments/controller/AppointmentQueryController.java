@@ -23,6 +23,17 @@ public class AppointmentQueryController {
         this.appointmentsQueryService = appointmentsQueryService;
     }
 
+    public ResponseEntity<?> searchAppointments(
+            @RequestParam(required = false) String maBS,
+            @RequestParam(required = false) String maBN,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate ngayKhamTu,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate ngayKhamDen,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        return ResponseEntity.ok(appointmentsQueryService.searchAppointments(maBS, maBN, ngayKhamTu, ngayKhamDen, page, size));
+    }
+
     @GetMapping("/statistic/doctor")
     public ResponseEntity<?> patientStatisticByDoctor(@RequestParam String maBacSi,
                                               @RequestParam LocalDate startDate,
