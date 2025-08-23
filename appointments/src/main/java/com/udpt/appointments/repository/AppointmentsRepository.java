@@ -14,24 +14,24 @@ import java.util.Optional;
 public interface AppointmentsRepository extends JpaRepository<AppointmentEntity, String>, JpaSpecificationExecutor<AppointmentEntity> {
     Optional<AppointmentEntity> findByAppointmentId(String appointmentId);
     List<AppointmentEntity> findAll();
-    List<AppointmentEntity> findByMaBenhNhanAndTrangThai(String maBn, String tt);
-    List<AppointmentEntity> findByMaBacSiAndTrangThai(String maBs, String tt);
+    List<AppointmentEntity> findByPatientIdAndStatus(String maBn, String tt);
+    List<AppointmentEntity> findByDoctorIdAndStatus(String maBs, String tt);
 
-    @Query("SELECT COUNT(DISTINCT a.maBenhNhan) " +
+    @Query("SELECT COUNT(DISTINCT a.patientId) " +
             "FROM AppointmentEntity a " +
-            "WHERE a.maBacSi = :maBacSi " +
-            "AND a.ngayKham BETWEEN :startDate AND :endDate " +
-            "AND a.trangThai != 'DA_HUY'")
+            "WHERE a.doctorId = :maBacSi " +
+            "AND a.appointmentDate BETWEEN :startDate AND :endDate " +
+            "AND a.status != 'DA_HUY'")
     int countPatientsByDoctorAndDateRange(
             @Param("maBacSi") String maBacSi,
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate
     );
 
-    @Query("SELECT COUNT(DISTINCT a.maBenhNhan) " +
+    @Query("SELECT COUNT(DISTINCT a.patientId) " +
             "FROM AppointmentEntity a " +
-            "WHERE a.ngayKham BETWEEN :startDate AND :endDate " +
-            "AND a.trangThai != 'DA_HUY'")
+            "WHERE a.appointmentDate BETWEEN :startDate AND :endDate " +
+            "AND a.status != 'DA_HUY'")
     int countPatientsByDateRange(
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate
