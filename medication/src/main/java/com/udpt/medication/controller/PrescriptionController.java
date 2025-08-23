@@ -34,16 +34,23 @@ public class PrescriptionController {
         return ResponseEntity.ok(prescriptionsService.getPrescriptions(maBenhNhan));
     }
 
+    @GetMapping("/details/{id}")
+    public ResponseEntity<?> getPrescriptionDetails(@PathVariable String id) {
+
+        return ResponseEntity.ok(prescriptionsService.getPrescriptionDetails(id));
+    }
+
     @GetMapping("/search")
     public ResponseEntity<?> searchPrescriptions(
             @RequestParam(required = false) String maBS,
             @RequestParam(required = false) String maBN,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate ngayCap,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate tuNgay,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate denNgay,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
 
-        return ResponseEntity.ok(prescriptionsService.searchPrescriptions(maBS, maBN, ngayCap, page, size));
+        return ResponseEntity.ok(prescriptionsService.searchPrescriptions(maBS, maBN, tuNgay, denNgay, page, size));
     }
 
     @PutMapping("/ready/{maDonThuoc}")

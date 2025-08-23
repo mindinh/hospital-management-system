@@ -10,7 +10,7 @@ import java.util.List;
 
 
 public class PrescriptionSpecification {
-    public static Specification<PrescriptionEntity> filter(String doctorId, String patientId, LocalDate prescriptionDate) {
+    public static Specification<PrescriptionEntity> filter(String doctorId, String patientId, LocalDate fromDate, LocalDate toDate) {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
 
@@ -20,8 +20,11 @@ public class PrescriptionSpecification {
             if (patientId != null && !patientId.isEmpty()) {
                 predicates.add(cb.like(cb.lower(root.get("patientId")), "%" + patientId + "%"));
             }
-            if (prescriptionDate != null) {
-                predicates.add(cb.equal(root.get("prescriptionDate"), prescriptionDate));
+            if (fromDate != null) {
+                predicates.add(cb.greaterThanOrEqualTo(root.get("prescriptionDate"), fromDate));
+            }
+            if (toDate != null) {
+                predicates.add(cb.lessThanOrEqualTo(root.get("prescriptionDate"), toDate));
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));
