@@ -10,6 +10,7 @@ import com.udpt.medication.entity.PrescriptionEntity;
 import com.udpt.medication.entity.Status;
 import com.udpt.medication.exception.CreatePrescriptionException;
 import com.udpt.medication.exception.ResourceNotFoundException;
+import com.udpt.medication.mapper.PrescriptionDetailMapper;
 import com.udpt.medication.repository.MedicationsRepository;
 import com.udpt.medication.repository.PrescriptionDetailsRepository;
 import com.udpt.medication.repository.PrescriptionsRepository;
@@ -144,17 +145,43 @@ public class PrescriptionsServiceImpl implements IPrescriptionsService {
     }
 
     @Override
-    public Page<PrescriptionDto> searchPrescriptions(String doctorId, String patientId, LocalDate prescribedDate, int page, int size) {
+    public PrescriptionDto getPrescriptionDetails(String prescriptionId) {
+        PrescriptionEntity prescriptionEntity = prescriptionsRepository.findById(prescriptionId).orElseThrow(
+                () -> new ResourceNotFoundException("Don Thuoc", "Ma Don Thuoc", prescriptionId)
+        );
+
+        PrescriptionDto dto = new PrescriptionDto();
+        dto.setMaBacSi(prescriptionEntity.getDoctorId());
+        dto.setMaBenhNhan(prescriptionEntity.getPatientId());
+        dto.setGhiChu(prescriptionEntity.getNotes());
+        dto.setNgayCap(prescriptionEntity.getPrescriptionDate().toString());
+        dto.setPrescriptionDetails(
+                prescriptionEntity.getPrescriptionDetails().stream().map(
+                        pd -> PrescriptionDetailMapper.mapToDto(pd, new PrescriptionDetailDto())
+                ).toList()
+        );
+
+        return dto;
+    }
+
+    @Override
+    public Page<PrescriptionDto> searchPrescriptions(String doctorId, String patientId, LocalDate fromDate, LocalDate toDate, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("patientId").descending());
         Page<PrescriptionEntity> prescriptions =  prescriptionsRepository.findAll(
-                PrescriptionSpecification.filter(doctorId, patientId, prescribedDate),
+                PrescriptionSpecification.filter(doctorId, patientId, fromDate, toDate),
                 pageable
         );
 
         return prescriptions.map(
-                p -> new PrescriptionDto(
-                    p.getDoctorId(), p.getPatientId(), p.getNotes(), p.getPrescriptionDate().toString()
-                )
+            p -> new PrescriptionDto(
+                p.getDoctorId(),
+                p.getPatientId(),
+                p.getNotes(),
+                p.getPrescriptionDate().toString(),
+                p.getPrescriptionDetails().stream().map(
+                        pd -> PrescriptionDetailMapper.mapToDto(pd, new PrescriptionDetailDto())
+                ).toList()
+            )
         );
     }
 

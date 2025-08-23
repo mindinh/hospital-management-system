@@ -53,6 +53,7 @@ public class SecurityConfig {
                     // authorize prescriptions endpoints
                     requests.requestMatchers(HttpMethod.POST, "/api/v1/prescriptions/create").hasAnyRole("BACSI", "ADMIN");
                     requests.requestMatchers(HttpMethod.GET, "/api/v1/prescriptions").permitAll();
+                    requests.requestMatchers(HttpMethod.GET, "/api/v1/prescriptions/details/*").hasAnyRole("ADMIN", "BACSI", "DUOCSI");
                     requests.requestMatchers(HttpMethod.GET, "/api/v1/prescriptions/search").hasAnyRole("ADMIN", "DUOCSI");
                     requests.requestMatchers(HttpMethod.PUT, "/api/v1/prescriptions/ready/{maDonThuoc}").hasAnyRole("DUOCSI", "ADMIN");
                     requests.requestMatchers(HttpMethod.PUT, "/api/v1/prescriptions/checkout/{maDonThuoc}").hasAnyRole("DUOCSI", "ADMIN");

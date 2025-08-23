@@ -15,7 +15,8 @@ public interface IPrescriptionsService {
     void createPrescription(CreatePrescriptionRequest request);
 
     List<PrescriptionDto> getPrescriptions(String patientId);
-    Page<PrescriptionDto> searchPrescriptions(String doctorId, String patientId, LocalDate prescribedDate, int page, int size);
+    PrescriptionDto getPrescriptionDetails(String prescriptionId);
+    Page<PrescriptionDto> searchPrescriptions(String doctorId, String patientId, LocalDate fromDate, LocalDate toDate, int page, int size);
 
     boolean completePrescriptionRetrieval(String prescriptionId);
     boolean completePrescriptionDelivery(String prescriptionId);

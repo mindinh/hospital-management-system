@@ -28,7 +28,7 @@ public class AuthServiceImpl implements IAuthService {
 
     @Override
     public AuthenticationResponse login(String email, String password) {
-        String accessToken = "", refreshToken = "", username = "", fullname = "";
+        String accessToken = "", refreshToken = "", username = "", fullname = "", id = "";
 
         Optional<UserEntity> user = usersRepository.findByEmailAddress(email);
         if (user.isPresent()) {
@@ -38,10 +38,11 @@ public class AuthServiceImpl implements IAuthService {
                 accessToken = jwtHelper.generateAccessToken(String.valueOf(u.getRole()));
                 refreshToken = jwtHelper.generateRefreshToken(String.valueOf(u.getRole()));
                 username = u.getUsername();
+                id = u.getUserId();
             }
 
         }
-        return new AuthenticationResponse(username, fullname, email, accessToken, refreshToken);
+        return new AuthenticationResponse(id, username, fullname, email, accessToken, refreshToken);
     }
 
 
