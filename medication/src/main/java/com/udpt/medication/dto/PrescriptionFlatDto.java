@@ -1,5 +1,7 @@
 package com.udpt.medication.dto;
 
+import java.time.LocalDateTime;
+
 public record PrescriptionFlatDto(
         String maDonThuoc,
         String maBacSi,

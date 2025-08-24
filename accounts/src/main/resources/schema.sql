@@ -41,3 +41,18 @@ INSERT INTO taikhoan (ma_tai_khoan,email,ten_nguoi_dung,so_dt,mat_khau,role,stat
      ('BN-250823QWE963S','bn018@gmail.com','bn018','0911111128','$2a$10$exeKn1rNZbuvdErAy4VWAOjcvzKrwXKaf4pt/JeFd.b48zFh7Qje6','BENHNHAN','ACTIVE','2025-08-23 15:30:25','account-service',NULL,NULL),
      ('BN-250823RTY741D','bn019@gmail.com','bn019','0911111129','$2a$10$exeKn1rNZbuvdErAy4VWAOjcvzKrwXKaf4pt/JeFd.b48zFh7Qje6','BENHNHAN','ACTIVE','2025-08-23 17:45:11','account-service',NULL,NULL),
      ('BN-250823FGH258A','bn020@gmail.com','bn020','0911111130','$2a$10$exeKn1rNZbuvdErAy4VWAOjcvzKrwXKaf4pt/JeFd.b48zFh7Qje6','BENHNHAN','ACTIVE','2025-08-23 19:05:54','account-service',NULL,NULL);
+
+INSERT INTO taikhoan (ma_tai_khoan, email, ten_nguoi_dung, so_dt, mat_khau, role, status, created_at, created_by)
+VALUES
+-- Bác sĩ
+('BS-250824ABC123X', 'bacsi01@hospital.com', 'Nguyen Van Bac', '0911111111', '$2a$10$exeKn1rNZbuvdErAy4VWAOjcvzKrwXKaf4pt/JeFd.b48zFh7Qje6', 'BACSI', 'ACTIVE', NOW(), 'accounts-service'),
+('BS-250824JKL789M', 'bacsi02@hospital.com', 'Pham Thi Hoa', '0944444444', '$2a$10$exeKn1rNZbuvdErAy4VWAOjcvzKrwXKaf4pt/JeFd.b48zFh7Qje6', 'BACSI', 'ACTIVE', NOW(), 'accounts-service'),
+('BS-250824XYZ456Q', 'bacsi03@hospital.com', 'Le Van An', '0977777777', '$2a$10$exeKn1rNZbuvdErAy4VWAOjcvzKrwXKaf4pt/JeFd.b48zFh7Qje6', 'BACSI', 'ACTIVE', NOW(), 'accounts-service'),
+
+-- Dược sĩ
+('DS-250824QWE789Z', 'duocsi01@hospital.com', 'Tran Thi Duoc', '0922222222', '$2a$10$exeKn1rNZbuvdErAy4VWAOjcvzKrwXKaf4pt/JeFd.b48zFh7Qje6', 'DUOCSI', 'ACTIVE', NOW(), 'accounts-service'),
+('DS-250824RTY123P', 'duocsi02@hospital.com', 'Nguyen Van Thuoc', '0955555555', '$2a$10$exeKn1rNZbuvdErAy4VWAOjcvzKrwXKaf4pt/JeFd.b48zFh7Qje6', 'DUOCSI', 'ACTIVE', NOW(), 'accounts-service'),
+
+-- Tiếp tân
+('TT-250824LMN456K', 'tieptan01@hospital.com', 'Le Van Tan', '0933333333', '$2a$10$exeKn1rNZbuvdErAy4VWAOjcvzKrwXKaf4pt/JeFd.b48zFh7Qje6', 'TIEPTAN', 'ACTIVE', NOW(), 'accounts-service'),
+('TT-250824POI852V', 'tieptan02@hospital.com', 'Pham Thi Lan', '0966666666', '$2a$10$exeKn1rNZbuvdErAy4VWAOjcvzKrwXKaf4pt/JeFd.b48zFh7Qje6', 'TIEPTAN', 'ACTIVE', NOW(), 'accounts-service');

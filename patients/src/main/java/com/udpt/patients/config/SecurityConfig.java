@@ -57,6 +57,7 @@ public class SecurityConfig {
                     // authorize records endpoints
                     requests.requestMatchers(HttpMethod.GET, "/api/v1/records/all-records").hasAnyRole("ADMIN");
                     requests.requestMatchers(HttpMethod.GET, "/api/v1/records/details/{id}").hasAnyRole("ADMIN", "BACSI");
+                    requests.requestMatchers(HttpMethod.GET, "/api/v1/records/details/me").hasAnyRole("BENHNHAN");
 
 
                     requests.anyRequest().authenticated();

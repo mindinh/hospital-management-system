@@ -26,7 +26,7 @@ public class DepartmentEntity extends BaseEntity {
     private String gioiThieu;
 
     @Column(name = "truong_khoa")
-    private String truongKhoa;
+    private String maTruongKhoa;
 
     @OneToMany(mappedBy = "khoa")
     private List<EmployeeEntity> dsNhanVien;

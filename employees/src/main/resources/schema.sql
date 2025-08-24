@@ -72,3 +72,32 @@ INSERT INTO nhanvien (ma_nv,ma_chung_chi,so_dt_nv,ho_ten_nv,ngay_sinh_nv,gioi_ti
     ('BS-2508114ROHDGI','123456','0913456789','Ng Van BS','1982-04-21','NAM','213 AFDA P2','BACSI','[{"benhVien":"A","chuyenKhoa":"CK2","viTri":"Bac Si Dieu Tri","namBatDau":2010,"namKetThuc":2021}]',NULL,'2025-08-11 14:32:03','employees-service',NULL,NULL),
     ('DS-250811IEG9XJF',NULL,'0223456789','Ng Van DS','1989-06-18','NAM','213 AFDA P2','DUOCSI',NULL,NULL,'2025-08-11 14:29:24','employees-service',NULL,NULL),
     ('TT-250811FY2N8G1',NULL,'0213456789','Ng Van TT','1993-11-20','NAM','213 AFDA P2','TIEPTAN',NULL,NULL,'2025-08-11 14:28:42','employees-service',NULL,NULL);
+
+INSERT INTO nhanvien (ma_nv, ma_chung_chi, so_dt_nv, ho_ten_nv, ngay_sinh_nv, gioi_tinh_nv, dia_chi_nv, chuc_vu, kinh_nghiem, created_at, created_by)
+VALUES
+-- Bác sĩ
+('BS-250824ABC123X', 'CCBS001', '0911111111', 'Nguyen Van Bac', '1980-05-12', 'NAM', 'Hà Nội', 'BACSI',
+ '[{"benhVien":"Benh Vien A","chuyenKhoa":"CK2","viTri":"Bac Si Dieu Tri","namBatDau":2010,"namKetThuc":2021}]',
+ NOW(), 'employees-service'),
+
+('BS-250824JKL789M', 'CCBS002', '0944444444', 'Pham Thi Hoa', '1983-11-20', 'NU', 'TP HCM', 'BACSI',
+ '[{"benhVien":"Benh Vien B","chuyenKhoa":"CK1","viTri":"Bac Si Noi Tru","namBatDau":2012,"namKetThuc":2019}]',
+ NOW(), 'employees-service'),
+
+('BS-250824XYZ456Q', 'CCBS003', '0977777777', 'Le Van An', '1975-07-30', 'NAM', 'Đà Nẵng', 'BACSI',
+ '[{"benhVien":"Benh Vien C","chuyenKhoa":"CK3","viTri":"Truong Khoa","namBatDau":2005,"namKetThuc":2020}]',
+ NOW(), 'employees-service'),
+
+-- Dược sĩ
+('DS-250824QWE789Z', NULL, '0922222222', 'Tran Thi Duoc', '1985-08-22', 'NU', 'TP HCM', 'DUOCSI', NULL,
+ NOW(), 'employees-service'),
+
+('DS-250824RTY123P', NULL, '0955555555', 'Nguyen Van Thuoc', '1990-03-14', 'NAM', 'Hải Phòng', 'DUOCSI', NULL,
+ NOW(), 'employees-service'),
+
+-- Tiếp tân
+('TT-250824LMN456K', NULL, '0933333333', 'Le Van Tan', '1992-02-10', 'NAM', 'Đà Nẵng', 'TIEPTAN', NULL,
+ NOW(), 'employees-service'),
+
+('TT-250824POI852V', NULL, '0966666666', 'Pham Thi Lan', '1995-09-05', 'NU', 'Cần Thơ', 'TIEPTAN', NULL,
+ NOW(), 'employees-service');

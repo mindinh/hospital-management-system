@@ -167,10 +167,10 @@ public class PrescriptionsServiceImpl implements IPrescriptionsService {
     }
 
     @Override
-    public Page<PrescriptionDto> searchPrescriptions(String doctorId, String patientId, LocalDate fromDate, LocalDate toDate, int page, int size) {
+    public Page<PrescriptionDto> searchPrescriptions(String doctorId, String patientId, LocalDate fromDate, LocalDate toDate, String status, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("patientId").descending());
         Page<PrescriptionEntity> prescriptions =  prescriptionsRepository.findAll(
-                PrescriptionSpecification.filter(doctorId, patientId, fromDate, toDate),
+                PrescriptionSpecification.filter(doctorId, patientId, fromDate, toDate, Status.valueOf(status)),
                 pageable
         );
 
@@ -196,6 +196,8 @@ public class PrescriptionsServiceImpl implements IPrescriptionsService {
         );
 
         prescriptionEntity.setStatus(Status.DA_SAN_SANG);
+        prescriptionEntity.setUpdatedAt(LocalDateTime.now());
+        prescriptionEntity.setUpdatedBy("medication-service");
 
         prescriptionsRepository.save(prescriptionEntity);
         return true;
@@ -208,6 +210,8 @@ public class PrescriptionsServiceImpl implements IPrescriptionsService {
         );
 
         prescriptionEntity.setStatus(Status.DA_NHAN);
+        prescriptionEntity.setUpdatedAt(LocalDateTime.now());
+        prescriptionEntity.setUpdatedBy("medication-service");
 
         prescriptionsRepository.save(prescriptionEntity);
         return true;

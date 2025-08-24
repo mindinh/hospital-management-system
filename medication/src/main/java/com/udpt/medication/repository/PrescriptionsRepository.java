@@ -37,7 +37,7 @@ public interface PrescriptionsRepository extends JpaRepository<PrescriptionEntit
         d.ma_bac_si AS maBacSi,
         d.ma_benh_nhan AS maBenhNhan,
         d.ghi_chu AS ghiChu,
-        d.ngay_cap AS ngayCap,
+        DATE_FORMAT(d.ngay_cap, '%Y/%m/%d %H:%i:%s') AS ngayCap,
         d.tinh_trang AS tinhTrang,
         ct.ma_chi_tiet AS maChiTiet,
         ct.ma_thuoc AS maThuoc,

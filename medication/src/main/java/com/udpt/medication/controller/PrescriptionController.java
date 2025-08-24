@@ -2,6 +2,7 @@ package com.udpt.medication.controller;
 
 
 import com.udpt.medication.dto.ResponseDto;
+import com.udpt.medication.entity.Status;
 import com.udpt.medication.request.CreatePrescriptionRequest;
 import com.udpt.medication.service.IPrescriptionsService;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -46,11 +47,12 @@ public class PrescriptionController {
             @RequestParam(required = false) String maBN,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate tuNgay,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate denNgay,
+            @RequestParam(required = false, defaultValue = "DOI_LAY_THUOC") String status,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
 
-        return ResponseEntity.ok(prescriptionsService.searchPrescriptions(maBS, maBN, tuNgay, denNgay, page, size));
+        return ResponseEntity.ok(prescriptionsService.searchPrescriptions(maBS, maBN, tuNgay, denNgay, status, page, size));
     }
 
     @PutMapping("/ready/{maDonThuoc}")

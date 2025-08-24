@@ -32,15 +32,7 @@ public class DepartmentsServiceImpl implements IDepartmentsService {
     @Override
     public List<DepartmentDto> getAllDepartment() {
 
-        return departmentRepository.findAll().stream().map(
-                d -> {
-                    DepartmentDto dto = new DepartmentDto();
-                    dto.setKhoa(d.getTenKhoa());
-                    dto.setGioiThieuKhoa(d.getGioiThieu());
-
-                    return dto;
-                }
-        ).toList();
+        return departmentRepository.findAllKhoaWithTruongKhoaAndSoBacSi();
     }
 
     @Override
@@ -59,7 +51,7 @@ public class DepartmentsServiceImpl implements IDepartmentsService {
 
         DepartmentEntity newDepartment = new DepartmentEntity();
         newDepartment.setTenKhoa(request.tenKhoa());
-        newDepartment.setTruongKhoa(headOfDepartment.getMaNV());
+        newDepartment.setMaTruongKhoa(headOfDepartment.getMaNV());
         newDepartment.setCreatedAt(LocalDateTime.now());
         newDepartment.setCreatedBy("employees-service");
 
