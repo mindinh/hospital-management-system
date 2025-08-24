@@ -35,14 +35,14 @@ public class CustomSecurityFilter extends OncePerRequestFilter {
 
             if (isSuccess) {
                 String role = jwtHelper.getDataToken(token);
-                System.out.println(role);
+                String id = jwtHelper.getId(token);
                 List<SimpleGrantedAuthority> authorities = new ArrayList<>();
                 authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
                 // tạo ra chứng thực để bypass filter của security
                 SecurityContext securityContext = SecurityContextHolder.getContext();
 
                 UsernamePasswordAuthenticationToken authenticationToken =
-                        new UsernamePasswordAuthenticationToken("", "", authorities);
+                        new UsernamePasswordAuthenticationToken(id, "", authorities);
                 securityContext.setAuthentication(authenticationToken);
             }
         }

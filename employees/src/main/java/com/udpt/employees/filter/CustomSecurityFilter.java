@@ -1,7 +1,7 @@
-package com.udpt.patients.filter;
+package com.udpt.employees.filter;
 
 
-import com.udpt.patients.utils.JwtHelper;
+import com.udpt.employees.utils.JwtHelper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,7 +34,7 @@ public class CustomSecurityFilter extends OncePerRequestFilter {
             if (isSuccess) {
                 String role = jwtHelper.getDataToken(token);
                 String id = jwtHelper.getId(token);
-                System.out.println(role + "-" + id);
+                System.out.println(role);
                 List<SimpleGrantedAuthority> authorities = new ArrayList<>();
                 authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
                 // tạo ra chứng thực để bypass filter của security
@@ -42,7 +42,6 @@ public class CustomSecurityFilter extends OncePerRequestFilter {
 
                 UsernamePasswordAuthenticationToken authenticationToken =
                         new UsernamePasswordAuthenticationToken(id, "", authorities);
-                System.out.println(authenticationToken.getAuthorities());
                 securityContext.setAuthentication(authenticationToken);
             }
         }

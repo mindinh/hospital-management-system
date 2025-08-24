@@ -48,8 +48,8 @@ public class SecurityConfig {
                     requests.requestMatchers(HttpMethod.POST, "/api/v1/patients/create").permitAll();
                     requests.requestMatchers(HttpMethod.POST,"api/v1/patients/add-record").hasAnyRole("ADMIN", "BACSI");
                     requests.requestMatchers(HttpMethod.PUT, "/api/v1/patients/update").hasAnyRole("ADMIN", "BENHNHAN");
-                    requests.requestMatchers(HttpMethod.GET, "/api/v1/patients/details/*").hasAnyRole("ADMIN", "BACSI");
-                    requests.requestMatchers(HttpMethod.GET, "/api/v1/patients/details/me").hasAnyRole("BENHNHAN");
+                    requests.requestMatchers(HttpMethod.GET, "/api/v1/patients/details/me").hasRole("BENHNHAN");
+                    requests.requestMatchers(HttpMethod.GET, "/api/v1/patients/details/*").hasAnyRole("ADMIN", "BACSI", "TIEPTAN");
                     requests.requestMatchers(HttpMethod.GET, "/api/v1/patients/search").hasAnyRole("ADMIN", "BACSI");
                     requests.requestMatchers(HttpMethod.POST, "/api/v1/patients/add-record").hasAnyRole("ADMIN", "BACSI");
 

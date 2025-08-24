@@ -9,6 +9,7 @@ import com.udpt.patients.service.IPatientsService;
 import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,9 +29,9 @@ public class PatientController {
     }
 
     @GetMapping("/details/me")
-    public ResponseEntity<?> getPatientDetails(@RequestParam String mobileNo) {
-
-        return ResponseEntity.ok(patientsService.getPatientDetails(mobileNo));
+    public ResponseEntity<?> getPatientDetails(Authentication authentication) {
+        System.out.println(authentication);
+        return ResponseEntity.ok(patientsService.getPatientDetailsById(authentication.getName()));
     }
 
     @GetMapping("/details/{id}")

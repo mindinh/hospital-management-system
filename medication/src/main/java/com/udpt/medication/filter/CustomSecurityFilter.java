@@ -33,6 +33,7 @@ public class CustomSecurityFilter extends OncePerRequestFilter {
 
             if (isSuccess) {
                 String role = jwtHelper.getDataToken(token);
+                String id = jwtHelper.getId(token);
 
                 List<SimpleGrantedAuthority> authorities = new ArrayList<>();
                 authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
@@ -40,7 +41,7 @@ public class CustomSecurityFilter extends OncePerRequestFilter {
                 SecurityContext securityContext = SecurityContextHolder.getContext();
 
                 UsernamePasswordAuthenticationToken authenticationToken =
-                        new UsernamePasswordAuthenticationToken("", "", authorities);
+                        new UsernamePasswordAuthenticationToken(id, "", authorities);
                 securityContext.setAuthentication(authenticationToken);
             }
         }

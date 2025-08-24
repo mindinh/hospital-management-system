@@ -6,6 +6,7 @@ import com.udpt.appointments.dto.ResponseDto;
 import com.udpt.appointments.service.IAppointmentsCommandService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,6 +21,13 @@ public class AppointmentCommandController {
     @PostMapping("/create")
     public ResponseEntity<?> createAppointment(@RequestBody CreateAppointmentCommand command) {
         appointmentsCommandService.createAppointment(command);
+
+        return ResponseEntity.ok(new ResponseDto("201", "Appointment booked successfully"));
+    }
+
+    @PostMapping("/book")
+    public ResponseEntity<?> bookAppointment(@RequestBody CreateAppointmentCommand command, Authentication authentication) {
+        appointmentsCommandService.bookAppointment(command, authentication);
 
         return ResponseEntity.ok(new ResponseDto("201", "Appointment booked successfully"));
     }

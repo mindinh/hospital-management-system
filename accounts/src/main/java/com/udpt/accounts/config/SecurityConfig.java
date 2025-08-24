@@ -46,9 +46,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(requests -> {
                     requests.requestMatchers("/api/v1/register").permitAll();
 
-                    requests.requestMatchers("/api/v1/accounts/create").permitAll();
+                    requests.requestMatchers("/api/v1/accounts/create").hasRole("ADMIN");
                     requests.requestMatchers("/api/v1/accounts/details").hasRole("ADMIN");
                     requests.requestMatchers("/api/v1/accounts/employee/create", "/api/v1/accounts/update","/api/v1/accounts/delete").hasRole("ADMIN");
+
                     requests.anyRequest().authenticated();
                 })
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
@@ -56,29 +57,5 @@ public class SecurityConfig {
 
     }
 
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http, CustomSecurityFilter filter, CorsConfigurationSource corsConfigurationSource) throws Exception {
-//        return http.csrf(csrf -> csrf.disable())
-//                .cors(cors -> cors.configurationSource(corsConfigurationSource))
-//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .authorizeHttpRequests(requests -> {
-//                    // help define permission for access links
-//                    requests.requestMatchers("/api/users/add", "/api/users/update-role", "/api/users/delete/{id}").hasRole("ADMIN");
-//                    requests.requestMatchers("/api/login", "/api/register", "/api/login/refresh").permitAll();
-//                    requests.requestMatchers("/api/spaces/images/{spaceName}").permitAll();
-//                    requests.requestMatchers("/api/spaces/add", "/api/locations/add", "/api/locations/add-space-image/{locationName}/{spaceName}", "/api/locations/delete-space-image/{locationName}/{spaceName}/{fileName}").hasRole("ADMIN");
-//                    requests.requestMatchers("/api/spaces/add-image").hasRole("ADMIN");
-//                    requests.requestMatchers(HttpMethod.GET, "/api/spaces").permitAll();
-//                    requests.requestMatchers(HttpMethod.POST, "/api/spaces/add-combo/{name}", "/api/spaces/add-location/{spaceName}", "/api/spaces/remove-combo/").hasRole("ADMIN");
-//                    requests.requestMatchers(HttpMethod.GET, "/api/bookings").permitAll();
-//
-//                    requests.requestMatchers("/download/**").permitAll();
-//
-//                    requests.anyRequest().authenticated();
-//                })
-//                .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
-//                .build();
-//
-//    }
 
 }

@@ -58,8 +58,14 @@ public class JwtHelper {
         SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(keyJwt));
 
         try {
+            Claims claims = Jwts.parser()
+                    .verifyWith(key)
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
             // lưu cái role ở đâu thì get ở đó (subject(u.getRole))
-            role = Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload().getSubject();
+            role = claims.get("role", String.class);
+            // role = Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload().getSubject();
 
         } catch (Exception e) {
             System.out.println("get data token error " + e.getMessage());
@@ -67,5 +73,21 @@ public class JwtHelper {
         }
 
         return role;
+    }
+
+    public String getId(String token) {
+        String id = "";
+
+        SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(keyJwt));
+
+        try {
+            id = Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload().getSubject();
+
+        } catch (Exception e) {
+            System.out.println("get data token error " + e.getMessage());
+
+        }
+
+        return id;
     }
 }
