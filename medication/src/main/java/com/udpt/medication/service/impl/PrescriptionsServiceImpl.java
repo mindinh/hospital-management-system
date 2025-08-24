@@ -68,7 +68,7 @@ public class PrescriptionsServiceImpl implements IPrescriptionsService {
         ).toList();
         List<MedicationEntity> medicationEntities = medicationsRepository.findByIdIn(medicineIds);
         if (medicationEntities.size() != medicineIds.size()) {
-            throw new RuntimeException("Medicine Ids don't match");
+            throw new RuntimeException("Thuốc ko tồn tại");
         }
 
         try {
@@ -153,10 +153,12 @@ public class PrescriptionsServiceImpl implements IPrescriptionsService {
         );
 
         PrescriptionDto dto = new PrescriptionDto();
+        dto.setMaDonThuoc(prescriptionEntity.getId());
         dto.setMaBacSi(prescriptionEntity.getDoctorId());
         dto.setMaBenhNhan(prescriptionEntity.getPatientId());
         dto.setGhiChu(prescriptionEntity.getNotes());
         dto.setNgayCap(prescriptionEntity.getPrescriptionDate().toString());
+        dto.setTinhTrang(String.valueOf(prescriptionEntity.getStatus()));
         dto.setPrescriptionDetails(
                 prescriptionEntity.getPrescriptionDetails().stream().map(
                         pd -> PrescriptionDetailMapper.mapToDto(pd, new PrescriptionDetailDto())
