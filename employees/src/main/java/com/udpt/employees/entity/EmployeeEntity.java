@@ -52,4 +52,5 @@ public class EmployeeEntity extends BaseEntity {
     @JoinColumn(name = "ma_khoa")
     private DepartmentEntity khoa;
 
+
 }
