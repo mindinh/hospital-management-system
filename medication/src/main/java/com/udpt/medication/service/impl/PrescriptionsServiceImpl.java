@@ -138,6 +138,8 @@ public class PrescriptionsServiceImpl implements IPrescriptionsService {
                             first.maBacSi(),
                             first.maBenhNhan(),
                             first.ghiChu(),
+                            first.ngayCap(),
+                            first.tinhTrang(),
                             details
                     );
                 })
@@ -174,10 +176,12 @@ public class PrescriptionsServiceImpl implements IPrescriptionsService {
 
         return prescriptions.map(
             p -> new PrescriptionDto(
+                p.getId(),
                 p.getDoctorId(),
                 p.getPatientId(),
                 p.getNotes(),
                 p.getPrescriptionDate().toString(),
+                String.valueOf(p.getStatus()),
                 p.getPrescriptionDetails().stream().map(
                         pd -> PrescriptionDetailMapper.mapToDto(pd, new PrescriptionDetailDto())
                 ).toList()

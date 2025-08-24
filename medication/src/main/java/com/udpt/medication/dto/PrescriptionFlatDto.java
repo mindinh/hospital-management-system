@@ -5,6 +5,8 @@ public record PrescriptionFlatDto(
         String maBacSi,
         String maBenhNhan,
         String ghiChu,
+        String ngayCap,
+        String tinhTrang,
         String maChiTiet,
         String maThuoc,
         String tenThuoc,
