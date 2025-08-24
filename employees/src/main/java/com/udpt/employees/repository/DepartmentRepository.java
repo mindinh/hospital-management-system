@@ -14,10 +14,10 @@ public interface DepartmentRepository extends JpaRepository<DepartmentEntity, In
     Optional<DepartmentEntity> findById(int id);
     Optional<DepartmentEntity> findByTenKhoa(String tenKhoa);
 
-    @Query("SELECT new com.udpt.employees.dto.DepartmentDto(d.tenKhoa, d.gioiThieu, h.hoTenNV, COUNT(e.maNV)) " +
+    @Query("SELECT new com.udpt.employees.dto.DepartmentDto(d.id, d.tenKhoa, d.gioiThieu, h.hoTenNV, COUNT(e.maNV)) " +
             "FROM DepartmentEntity d LEFT JOIN EmployeeEntity h ON d.maTruongKhoa = h.maNV " +
             "LEFT JOIN EmployeeEntity e ON e.khoa.id = d.id " +
-            "GROUP BY d.tenKhoa, d.gioiThieu, h.hoTenNV")
+            "GROUP BY d.id, d.tenKhoa, d.gioiThieu, h.hoTenNV")
     List<DepartmentDto> findAllKhoaWithTruongKhoaAndSoBacSi();
 
 
