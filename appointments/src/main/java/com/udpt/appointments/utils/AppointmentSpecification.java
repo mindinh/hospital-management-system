@@ -1,6 +1,7 @@
 package com.udpt.appointments.utils;
 
 import com.udpt.appointments.entity.AppointmentEntity;
+import com.udpt.appointments.entity.Status;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -10,7 +11,7 @@ import java.util.List;
 
 
 public class AppointmentSpecification {
-    public static Specification<AppointmentEntity> filter(String doctorId, String patientId, LocalDate fromDate, LocalDate toDate) {
+    public static Specification<AppointmentEntity> filter(String doctorId, String patientId, LocalDate fromDate, LocalDate toDate, Status status) {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
 
@@ -25,6 +26,9 @@ public class AppointmentSpecification {
             }
             if (toDate != null) {
                 predicates.add(cb.lessThanOrEqualTo(root.get("appointmentDate"), toDate));
+            }
+            if (status != null) {
+                predicates.add(cb.equal(root.get("status"), String.valueOf(status)));
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));

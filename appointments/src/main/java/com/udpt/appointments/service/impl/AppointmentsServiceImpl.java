@@ -52,7 +52,7 @@ public class AppointmentsServiceImpl implements IAppointmentsCommandService, IAp
         }
 
         AppointmentEntity appointment = new AppointmentEntity();
-        appointment.setAppointmentId(IdGenerator.generateAccountCode("LK"));
+        appointment.setAppointmentId(IdGenerator.generateAccountCode("AP"));
         appointment.setPatientId(command.getMaBenhNhan());
         appointment.setDoctorId(command.getMaBacSi());
         appointment.setAppointmentDate(command.getNgayKham());
@@ -74,6 +74,9 @@ public class AppointmentsServiceImpl implements IAppointmentsCommandService, IAp
         );
 
         appointmentEntity.setStatus(Status.DA_THANH_TOAN);
+        appointmentEntity.setUpdatedAt(LocalDateTime.now());
+        appointmentEntity.setUpdatedBy("appointments-service");
+
         appointmentsRepository.save(appointmentEntity);
         return true;
     }
@@ -85,15 +88,18 @@ public class AppointmentsServiceImpl implements IAppointmentsCommandService, IAp
         );
 
         appointmentEntity.setStatus(Status.DA_HUY);
+        appointmentEntity.setUpdatedAt(LocalDateTime.now());
+        appointmentEntity.setUpdatedBy("appointments-service");
+
         appointmentsRepository.save(appointmentEntity);
         return true;
     }
 
     @Override
-    public Page<AppointmentDto> searchAppointments(String doctorId, String patientId, LocalDate startDate, LocalDate endDate, int page, int size) {
+    public Page<AppointmentDto> searchAppointments(String doctorId, String patientId, LocalDate startDate, LocalDate endDate, String status, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("appointmentId").descending());
         Page<AppointmentEntity> appointments =  appointmentsRepository.findAll(
-                AppointmentSpecification.filter(doctorId, patientId, startDate, endDate),
+                AppointmentSpecification.filter(doctorId, patientId, startDate, endDate, Status.valueOf(status)),
                 pageable
         );
 
