@@ -21,7 +21,7 @@ public class AppointmentCommandController {
     public ResponseEntity<?> createAppointment(@RequestBody CreateAppointmentCommand command) {
         appointmentsCommandService.createAppointment(command);
 
-        return ResponseEntity.ok(new ResponseDto("200", "Appointment booked successfully"));
+        return ResponseEntity.ok(new ResponseDto("201", "Appointment booked successfully"));
     }
 
     @PutMapping("/checkin/{id}")

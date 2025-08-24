@@ -23,15 +23,29 @@ public class AppointmentQueryController {
         this.appointmentsQueryService = appointmentsQueryService;
     }
 
+    @GetMapping("/my-appointments")
+    public ResponseEntity<?> getMyAppointments(
+            @RequestParam(required = false) String maBN,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate ngayKhamTu,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate ngayKhamDen,
+            @RequestParam(required = false, defaultValue = "DA_DAT") String tinhTrang,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        return ResponseEntity.ok(appointmentsQueryService.searchAppointments("", maBN, ngayKhamTu, ngayKhamDen, tinhTrang, page, size));
+    }
+
+    @GetMapping("/search")
     public ResponseEntity<?> searchAppointments(
             @RequestParam(required = false) String maBS,
             @RequestParam(required = false) String maBN,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate ngayKhamTu,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate ngayKhamDen,
+            @RequestParam(required = false, defaultValue = "DA_DAT") String tinhTrang,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-        return ResponseEntity.ok(appointmentsQueryService.searchAppointments(maBS, maBN, ngayKhamTu, ngayKhamDen, page, size));
+        return ResponseEntity.ok(appointmentsQueryService.searchAppointments(maBS, maBN, ngayKhamTu, ngayKhamDen, tinhTrang, page, size));
     }
 
     @GetMapping("/statistic/doctor")

@@ -9,5 +9,5 @@ import java.time.LocalDate;
 public interface IAppointmentsQueryService {
     int countPatientsByDoctorAndDateRange(String maBacSi, LocalDate startDate, LocalDate endDate);
     int countPatientsByDateRange(LocalDate startDate, LocalDate endDate);
-    Page<AppointmentDto> searchAppointments(String doctorId, String patientId, LocalDate startDate, LocalDate endDate, int page, int size);
+    Page<AppointmentDto> searchAppointments(String doctorId, String patientId, LocalDate startDate, LocalDate endDate, String status, int page, int size);
 }
