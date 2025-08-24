@@ -75,7 +75,7 @@ public class PatientsServiceImpl implements IPatientsService {
     @Override
     public PatientDto getPatientDetails(String mobileNo) {
         PatientEntity patientEntity = patientsRepository.findByPatientMobileNo(mobileNo).orElseThrow(
-                () -> new ResourceNotFoundException("Patient", "Mobile Number", mobileNo)
+                () -> new ResourceNotFoundException("Benh Nhan", "So Dien Thoai", mobileNo)
         );
         return PatientMapper.mapToPatientDto(patientEntity, new PatientDto());
     }
@@ -83,7 +83,7 @@ public class PatientsServiceImpl implements IPatientsService {
     @Override
     public PatientDto getPatientDetailsById(String id) {
         PatientEntity patientEntity = patientsRepository.findByPatientId(id).orElseThrow(
-                () -> new ResourceNotFoundException("Patient", "Patient Id", id)
+                () -> new ResourceNotFoundException("Benh Nhan", "Ma Benh Nhan", id)
         );
         return PatientMapper.mapToPatientDto(patientEntity, new PatientDto());
     }

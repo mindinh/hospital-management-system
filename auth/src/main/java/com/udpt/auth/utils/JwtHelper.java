@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
+import java.util.Map;
 import java.util.function.Function;
 
 @Component
@@ -23,23 +24,24 @@ public class JwtHelper {
     @Value("${jwt.refresh-token.expiration-ms}")
     private long refreshTokenExpirationMs;
 
-    private String generateToken(String subject, long expirationMs) {
+    private String generateToken(String role, String subject, long expirationMs) {
         SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(keyJwt));
 
         return Jwts.builder()
                 .subject(subject)
+                .claims(Map.of("role", role))
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expirationMs))
                 .signWith(key)
                 .compact();
     }
 
-    public String generateAccessToken(String role) {
-        return generateToken(role, accessTokenExpirationMs);
+    public String generateAccessToken(String role, String id) {
+        return generateToken(role, id, accessTokenExpirationMs);
     }
 
-    public String generateRefreshToken(String role) {
-        return generateToken(role, refreshTokenExpirationMs);
+    public String generateRefreshToken(String role, String id) {
+        return generateToken(role, id, refreshTokenExpirationMs);
     }
 
     public boolean isTokenExpired(String token) {
@@ -83,8 +85,14 @@ public class JwtHelper {
         SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(keyJwt));
 
         try {
+            Claims claims = Jwts.parser()
+                    .verifyWith(key)
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
             // lưu cái role ở đâu thì get ở đó (subject(u.getRole))
-            role = Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload().getSubject();
+            role = claims.get("role", String.class);
+            // role = Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload().getSubject();
 
         } catch (Exception e) {
             System.out.println("get data token error " + e.getMessage());
@@ -92,5 +100,21 @@ public class JwtHelper {
         }
 
         return role;
+    }
+
+    public String getDataSubject(String token) {
+        String id = "";
+
+        SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(keyJwt));
+
+        try {
+            id = Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload().getSubject();
+
+        } catch (Exception e) {
+            System.out.println("get data token error " + e.getMessage());
+
+        }
+
+        return id;
     }
 }

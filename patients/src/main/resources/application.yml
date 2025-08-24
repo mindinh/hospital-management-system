@@ -43,4 +43,6 @@ info:
   app:
     name: "patients"
     description: "Hospital Management System Patients Services"
-
+logging:
+  level:
+    org.springframework.security: DEBUG

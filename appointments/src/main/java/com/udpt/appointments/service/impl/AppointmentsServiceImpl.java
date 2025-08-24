@@ -20,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -65,6 +66,33 @@ public class AppointmentsServiceImpl implements IAppointmentsCommandService, IAp
 
         appointmentsRepository.save(appointment);
 
+    }
+
+    @Override
+    public void bookAppointment(CreateAppointmentCommand command, Authentication authentication) {
+        DoctorResponse doctorResponse = doctorClient.getDoctorDetails(command.getMaBacSi());
+        if (doctorResponse == null) {
+            throw new ResourceNotFoundException("Bac Si", "Ma Bac Si", command.getMaBacSi());
+        }
+
+        PatientResponse patientResponse = patientClient.getPatientDetails();
+        if (patientResponse == null) {
+            throw new ResourceNotFoundException("Benh Nhan", "Ma Benh Nhan", command.getMaBenhNhan());
+        }
+
+        AppointmentEntity appointment = new AppointmentEntity();
+        appointment.setAppointmentId(IdGenerator.generateAccountCode("AP"));
+        appointment.setPatientId(authentication.getName());
+        appointment.setDoctorId(command.getMaBacSi());
+        appointment.setAppointmentDate(command.getNgayKham());
+        appointment.setAppointmentTime(command.getGioKham());
+        appointment.setAppointmentNotes(command.getGhiChu());
+        appointment.setStatus(Status.DA_DAT);
+
+        appointment.setCreatedAt(LocalDateTime.now());
+        appointment.setCreatedBy("appointments-service");
+
+        appointmentsRepository.save(appointment);
     }
 
     @Override

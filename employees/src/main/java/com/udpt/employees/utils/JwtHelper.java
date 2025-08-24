@@ -1,8 +1,6 @@
-package com.udpt.patients.utils;
+package com.udpt.employees.utils;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -66,7 +64,7 @@ public class JwtHelper {
                     .build()
                     .parseSignedClaims(token)
                     .getPayload();
-            // lưu cái role ở đâu thì get ở đó (subject(u.getRole))
+
             role = claims.get("role", String.class);
 
         } catch (Exception e) {

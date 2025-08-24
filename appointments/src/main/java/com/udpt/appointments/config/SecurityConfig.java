@@ -53,6 +53,7 @@ public class SecurityConfig {
 
                     // authorize appointments command endpoints
                     requests.requestMatchers(HttpMethod.POST, "/api/v1/appointments/create").hasAnyRole("ADMIN", "TIEPTAN", "BENHNHAN");
+                    requests.requestMatchers(HttpMethod.POST, "/api/v1/appointments/book").hasAnyRole("BENHNHAN");
                     requests.requestMatchers(HttpMethod.PUT, "/api/v1/appointments/checkin/*").hasAnyRole("ADMIN", "TIEPTAN");
                     requests.requestMatchers(HttpMethod.DELETE, "/api/v1/appointments/cancel/*").hasAnyRole("ADMIN", "TIEPTAN", "BENHNHAN");
 
