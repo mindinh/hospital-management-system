@@ -31,5 +31,10 @@ public class DepartmentController {
         return ResponseEntity.ok(new ResponseDto("200", "Department added successfully"));
     }
 
+    @GetMapping("/doctors/{id}")
+    public ResponseEntity<?> getDepartmentDoctors(@PathVariable int id) {
+
+        return ResponseEntity.ok(departmentsService.getAllEmployee(id));
+    }
 
 }

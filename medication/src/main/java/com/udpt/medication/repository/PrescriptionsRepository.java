@@ -37,6 +37,8 @@ public interface PrescriptionsRepository extends JpaRepository<PrescriptionEntit
         d.ma_bac_si AS maBacSi,
         d.ma_benh_nhan AS maBenhNhan,
         d.ghi_chu AS ghiChu,
+        d.ngay_cap AS ngayCap,
+        d.tinh_trang AS tinhTrang,
         ct.ma_chi_tiet AS maChiTiet,
         ct.ma_thuoc AS maThuoc,
         ct.ten_thuoc AS tenThuoc,
