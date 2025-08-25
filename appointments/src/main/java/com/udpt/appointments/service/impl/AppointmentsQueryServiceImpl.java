@@ -3,6 +3,8 @@ package com.udpt.appointments.service.impl;
 import com.udpt.appointments.dto.AppointmentDto;
 import com.udpt.appointments.entity.read.AppointmentViewEntity;
 import com.udpt.appointments.entity.write.AppointmentEntity;
+import com.udpt.appointments.dto.MonthlyPatientStatisticDTO;
+import com.udpt.appointments.entity.AppointmentEntity;
 import com.udpt.appointments.entity.Status;
 import com.udpt.appointments.repository.read.AppointmentsReadRepository;
 import com.udpt.appointments.repository.write.AppointmentsWriteRepository;
@@ -15,24 +17,27 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class AppointmentsQueryServiceImpl implements IAppointmentsQueryService {
 
     private AppointmentsReadRepository appointmentsReadRepository;
     private AppointmentsWriteRepository appointmentsWriteRepository;
-    public AppointmentsQueryServiceImpl(AppointmentsReadRepository appointmentsReadRepository, AppointmentsWriteRepository appointmentsWriteRepository) {
+
+    public AppointmentsQueryServiceImpl(AppointmentsReadRepository appointmentsReadRepository,
+            AppointmentsWriteRepository appointmentsWriteRepository) {
         this.appointmentsReadRepository = appointmentsReadRepository;
         this.appointmentsWriteRepository = appointmentsWriteRepository;
     }
 
     @Override
-    public Page<AppointmentDto> searchAppointments(String doctorId, String patientId, LocalDate startDate, LocalDate endDate, String status, int page, int size) {
+    public Page<AppointmentDto> searchAppointments(String doctorId, String patientId, LocalDate startDate,
+            LocalDate endDate, String status, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("appointmentId").descending());
-        Page<AppointmentViewEntity> appointments =  appointmentsReadRepository.findAll(
+        Page<AppointmentViewEntity> appointments = appointmentsReadRepository.findAll(
                 AppointmentSpecification.filter(doctorId, patientId, startDate, endDate, Status.valueOf(status)),
-                pageable
-        );
+                pageable);
 
         return appointments.map(
                 a -> {
@@ -48,18 +53,18 @@ public class AppointmentsQueryServiceImpl implements IAppointmentsQueryService {
                     appointmentDto.setTinhTrang(String.valueOf(a.getStatus()));
 
                     return appointmentDto;
-                }
-        );
+                });
 
     }
 
     @Override
-    public int countPatientsByDoctorAndDateRange(String maBacSi, LocalDate startDate, LocalDate endDate){
-        return appointmentsWriteRepository.countPatientsByDoctorAndDateRange(maBacSi, startDate, endDate);
-    }
+    public List<MonthlyPatientStatisticDTO> countPatientsByMonth(int year) {
+        List<Object[]> results = appointmentsRepository.countPatientsByMonth(year);
+        return results.stream()
+                .map(r -> new MonthlyPatientStatisticDTO(
+                        ((Number) r[0]).intValue(),
+                        ((Number) r[1]).intValue()))
+                .toList();
 
-    @Override
-    public int countPatientsByDateRange(LocalDate startDate, LocalDate endDate){
-        return appointmentsWriteRepository.countPatientsByDateRange(startDate, endDate);
     }
 }

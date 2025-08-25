@@ -1,9 +1,9 @@
 package com.example.statistics.service;
 
-import java.time.LocalDate;
-import java.util.Map;
+import com.example.statistics.dto.MonthlyStatisticDto;
+
+import java.util.List;
 
 public interface IStatisticsService {
-    Map<String,Object> getPatientByDoctorStatistic(String maBacSi, LocalDate startDate, LocalDate endDate);
-    Map<String,Object> getPatientStatistic(LocalDate startDate, LocalDate endDate);
+    List<MonthlyStatisticDto> getAllStatistic(int year);
 }
