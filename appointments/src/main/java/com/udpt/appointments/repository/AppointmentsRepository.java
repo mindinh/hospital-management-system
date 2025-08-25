@@ -17,24 +17,16 @@ public interface AppointmentsRepository extends JpaRepository<AppointmentEntity,
     List<AppointmentEntity> findByPatientIdAndStatus(String maBn, String tt);
     List<AppointmentEntity> findByDoctorIdAndStatus(String maBs, String tt);
 
-    @Query("SELECT COUNT(DISTINCT a.patientId) " +
-            "FROM AppointmentEntity a " +
-            "WHERE a.doctorId = :maBacSi " +
-            "AND a.appointmentDate BETWEEN :startDate AND :endDate " +
-            "AND a.status != 'DA_HUY'")
-    int countPatientsByDoctorAndDateRange(
-            @Param("maBacSi") String maBacSi,
-            @Param("startDate") LocalDate startDate,
-            @Param("endDate") LocalDate endDate
-    );
+    @Query(value = "SELECT MONTH(l.ngay_kham) AS month, " +
+            "COUNT(DISTINCT l.ma_benh_nhan) AS patients " +
+            "FROM lichkham l " +
+            "WHERE YEAR(l.ngay_kham) = :year " +
+            "AND l.tinh_trang != 'DA_HUY' " +
+            "GROUP BY MONTH(l.ngay_kham) " +
+            "ORDER BY month",
+            nativeQuery = true)
+    List<Object[]> countPatientsByMonth(@Param("year") int year);
 
-    @Query("SELECT COUNT(DISTINCT a.patientId) " +
-            "FROM AppointmentEntity a " +
-            "WHERE a.appointmentDate BETWEEN :startDate AND :endDate " +
-            "AND a.status != 'DA_HUY'")
-    int countPatientsByDateRange(
-            @Param("startDate") LocalDate startDate,
-            @Param("endDate") LocalDate endDate
-    );
+
 
 }

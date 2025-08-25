@@ -1,6 +1,7 @@
 package com.udpt.appointments.controller;
 
 
+import com.udpt.appointments.dto.MonthlyPatientStatisticDTO;
 import com.udpt.appointments.dto.ResponseDto;
 import com.udpt.appointments.service.IAppointmentsQueryService;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -48,47 +50,9 @@ public class AppointmentQueryController {
         return ResponseEntity.ok(appointmentsQueryService.searchAppointments(maBS, maBN, ngayKhamTu, ngayKhamDen, tinhTrang, page, size));
     }
 
-    @GetMapping("/statistic/doctor")
-    public ResponseEntity<?> patientStatisticByDoctor(@RequestParam String maBacSi,
-                                              @RequestParam LocalDate startDate,
-                                              @RequestParam LocalDate endDate) {
-        int count = appointmentsQueryService.countPatientsByDoctorAndDateRange(maBacSi, startDate, endDate);
-
-        if (count == 0) {
-            Map<String, Object> message = Map.of(
-                    "message", "No patients found for doctor " + maBacSi +
-                            " from " + startDate  + " to " + endDate
-            );
-            return ResponseEntity.ok(message);
-        }
-
-        Map<String, Object> body = Map.of(
-                "maBacSi", maBacSi,
-                "startDate", startDate,
-                "endDate", endDate,
-                "soLuongBenhNhan", count
-        );
-        return ResponseEntity.ok(body);
-    }
-
     @GetMapping("/statistic")
-    public ResponseEntity<?> patientStatistic(@RequestParam LocalDate startDate,
-                                              @RequestParam LocalDate endDate) {
-        int count = appointmentsQueryService.countPatientsByDateRange(startDate, endDate);
-
-        if (count == 0) {
-            Map<String, Object> message = Map.of(
-                    "message", "No patients found "+
-                            " from " + startDate  + " to " + endDate
-            );
-            return ResponseEntity.ok(message);
-        }
-
-        Map<String, Object> body = Map.of(
-                "startDate", startDate,
-                "endDate", endDate,
-                "soLuongBenhNhan", count
-        );
-        return ResponseEntity.ok(body);
+    public ResponseEntity<List<MonthlyPatientStatisticDTO>> patientStatisticByMonth(@RequestParam int year) {
+        List<MonthlyPatientStatisticDTO> stats = appointmentsQueryService.countPatientsByMonth(year);
+        return ResponseEntity.ok(stats);
     }
 }

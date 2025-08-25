@@ -2,11 +2,11 @@ package com.udpt.appointments.service.impl;
 
 import com.udpt.appointments.dto.AppointmentDto;
 import com.udpt.appointments.dto.CreateAppointmentCommand;
+import com.udpt.appointments.dto.MonthlyPatientStatisticDTO;
 import com.udpt.appointments.entity.AppointmentEntity;
 import com.udpt.appointments.entity.Status;
 import com.udpt.appointments.exception.ResourceNotFoundException;
 import com.udpt.appointments.repository.AppointmentsRepository;
-import com.udpt.appointments.request.AppointmentInsertRequest;
 import com.udpt.appointments.response.DoctorResponse;
 import com.udpt.appointments.response.PatientResponse;
 import com.udpt.appointments.service.IAppointmentsCommandService;
@@ -15,7 +15,6 @@ import com.udpt.appointments.service.client.DoctorClient;
 import com.udpt.appointments.service.client.PatientClient;
 import com.udpt.appointments.utils.AppointmentSpecification;
 import com.udpt.appointments.utils.IdGenerator;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class AppointmentsServiceImpl implements IAppointmentsCommandService, IAppointmentsQueryService {
@@ -146,12 +146,14 @@ public class AppointmentsServiceImpl implements IAppointmentsCommandService, IAp
     }
 
     @Override
-    public int countPatientsByDoctorAndDateRange(String maBacSi, LocalDate startDate, LocalDate endDate){
-        return appointmentsRepository.countPatientsByDoctorAndDateRange(maBacSi, startDate, endDate);
+    public List<MonthlyPatientStatisticDTO> countPatientsByMonth(int year) {
+        List<Object[]> results = appointmentsRepository.countPatientsByMonth(year);
+        return results.stream()
+                .map(r -> new MonthlyPatientStatisticDTO(
+                        ((Number) r[0]).intValue(),
+                        ((Number) r[1]).intValue()
+                ))
+                .toList();
     }
 
-    @Override
-    public int countPatientsByDateRange(LocalDate startDate, LocalDate endDate){
-        return appointmentsRepository.countPatientsByDateRange(startDate, endDate);
-    }
 }
