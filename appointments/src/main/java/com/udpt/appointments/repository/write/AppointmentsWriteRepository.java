@@ -17,15 +17,7 @@ public interface AppointmentsWriteRepository extends JpaRepository<AppointmentEn
     List<AppointmentEntity> findByPatientIdAndStatus(String maBn, String tt);
     List<AppointmentEntity> findByDoctorIdAndStatus(String maBs, String tt);
 
-    @Query(value = "SELECT MONTH(l.ngay_kham) AS month, " +
-            "COUNT(DISTINCT l.ma_benh_nhan) AS patients " +
-            "FROM lichkham l " +
-            "WHERE YEAR(l.ngay_kham) = :year " +
-            "AND l.tinh_trang != 'DA_HUY' " +
-            "GROUP BY MONTH(l.ngay_kham) " +
-            "ORDER BY month",
-            nativeQuery = true)
-    List<Object[]> countPatientsByMonth(@Param("year") int year);
+
 
 
 

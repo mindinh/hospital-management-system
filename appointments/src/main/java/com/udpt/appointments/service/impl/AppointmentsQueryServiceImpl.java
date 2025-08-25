@@ -4,7 +4,6 @@ import com.udpt.appointments.dto.AppointmentDto;
 import com.udpt.appointments.entity.read.AppointmentViewEntity;
 import com.udpt.appointments.entity.write.AppointmentEntity;
 import com.udpt.appointments.dto.MonthlyPatientStatisticDTO;
-import com.udpt.appointments.entity.AppointmentEntity;
 import com.udpt.appointments.entity.Status;
 import com.udpt.appointments.repository.read.AppointmentsReadRepository;
 import com.udpt.appointments.repository.write.AppointmentsWriteRepository;
@@ -59,7 +58,7 @@ public class AppointmentsQueryServiceImpl implements IAppointmentsQueryService {
 
     @Override
     public List<MonthlyPatientStatisticDTO> countPatientsByMonth(int year) {
-        List<Object[]> results = appointmentsRepository.countPatientsByMonth(year);
+        List<Object[]> results = appointmentsReadRepository.countPatientsByMonth(year);
         return results.stream()
                 .map(r -> new MonthlyPatientStatisticDTO(
                         ((Number) r[0]).intValue(),
