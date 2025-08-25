@@ -53,8 +53,8 @@ public class SecurityConfig {
                     // authorize employees endpoints
                     requests.requestMatchers(HttpMethod.POST, "/api/v1/employees/create").hasRole("ADMIN");
                     requests.requestMatchers(HttpMethod.POST, "api/v1/employees/doctor/create").hasRole("ADMIN");
-                    requests.requestMatchers(HttpMethod.GET, "api/v1/employees/*").hasRole("ADMIN");
                     requests.requestMatchers(HttpMethod.GET, "api/v1/employees/doctor/*").hasAnyRole("ADMIN", "BENHNHAN");
+                    requests.requestMatchers(HttpMethod.GET, "api/v1/employees/*").hasRole("ADMIN");
                     requests.requestMatchers(HttpMethod.PUT, "/api/v1/employees/doctor/update-department/*").hasRole("ADMIN");
                     requests.requestMatchers(HttpMethod.POST, "/api/v1/employees/doctor/add-schedule").hasRole("ADMIN");
                     requests.requestMatchers(HttpMethod.POST, "/api/v1/employees/doctor/update-schedule/*").hasRole("ADMIN");

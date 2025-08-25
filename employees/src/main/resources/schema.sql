@@ -56,6 +56,8 @@ CREATE TABLE lichlamviec (
     ngay_lam_viec DATE NOT NULL,
     gio_bat_dau TIME NOT NULL,
     gio_ket_thuc TIME NOT NULL,
+    phong CHAR(4),
+
     created_at DATETIME NOT NULL,
     created_by VARCHAR(20) NOT NULL,
     updated_at DATETIME DEFAULT NULL,
@@ -108,3 +110,22 @@ VALUES
 
 ('TT-250824POI852V', NULL, '0966666666', 'Pham Thi Lan', '1995-09-05', 'NU', 'Cần Thơ', 'TIEPTAN', NULL,
  NOW(), 'employees-service');
+
+
+INSERT INTO lichlamviec (ma_bac_si,ngay_lam_viec,gio_bat_dau,gio_ket_thuc,phong,created_at,created_by,updated_at,updated_by) VALUES
+     ('BS-2508114ROHDGI','2025-09-04','08:00:00','12:00:00','I32','2025-08-25 11:54:19','employees-service',NULL,NULL),
+     ('BS-2508114ROHDGI','2025-09-06','13:00:00','17:00:00','I32','2025-08-25 11:54:19','employees-service',NULL,NULL),
+     ('BS-2508114ROHDGI','2025-09-08','08:00:00','15:00:00','I34','2025-08-25 11:54:19','employees-service',NULL,NULL),
+     ('BS-2508114ROHDGI','2025-09-12','09:00:00','16:00:00','I41','2025-08-25 11:54:19','employees-service',NULL,NULL),
+     ('BS-250824ABC123X','2025-09-03','08:00:00','12:00:00','C33','2025-08-25 11:55:32','employees-service',NULL,NULL),
+     ('BS-250824ABC123X','2025-09-07','13:00:00','17:00:00','C32','2025-08-25 11:55:32','employees-service',NULL,NULL),
+     ('BS-250824ABC123X','2025-09-10','08:00:00','15:00:00','C33','2025-08-25 11:55:32','employees-service',NULL,NULL),
+     ('BS-250824ABC123X','2025-09-15','09:00:00','16:00:00','C42','2025-08-25 11:55:32','employees-service',NULL,NULL),
+     ('BS-250824JKL789M','2025-09-04','08:00:00','12:00:00','B11','2025-08-25 11:56:35','employees-service',NULL,NULL),
+     ('BS-250824JKL789M','2025-09-07','13:00:00','17:00:00','C22','2025-08-25 11:56:35','employees-service',NULL,NULL);
+
+INSERT INTO lichlamviec (ma_bac_si,ngay_lam_viec,gio_bat_dau,gio_ket_thuc,phong,created_at,created_by,updated_at,updated_by) VALUES
+     ('BS-250824JKL789M','2025-09-10','08:00:00','15:00:00','B11','2025-08-25 11:56:35','employees-service',NULL,NULL),
+     ('BS-250824XYZ456Q','2025-09-04','08:00:00','12:00:00','D11','2025-08-25 11:57:11','employees-service',NULL,NULL),
+     ('BS-250824XYZ456Q','2025-09-07','13:00:00','17:00:00','E32','2025-08-25 11:57:11','employees-service',NULL,NULL),
+     ('BS-250824XYZ456Q','2025-09-10','08:00:00','15:00:00','D11','2025-08-25 11:57:11','employees-service',NULL,NULL);

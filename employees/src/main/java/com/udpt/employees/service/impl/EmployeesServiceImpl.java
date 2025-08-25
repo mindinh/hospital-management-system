@@ -101,6 +101,7 @@ public class EmployeesServiceImpl implements IEmployeesService {
         );
 
         EmployeeDto employeeDto = EmployeeMapper.mapToEmployeeDto(employeeEntity, new EmployeeDto());
+        employeeDto.setChuyenKhoa(employeeEntity.getKhoa().getTenKhoa());
         if (employeeEntity.getKinhNghiem() != null) {
 
             try {
@@ -164,6 +165,8 @@ public class EmployeesServiceImpl implements IEmployeesService {
                     schedule.setNgayLamViec(dto.getNgayLamViec());
                     schedule.setGioBatDau(dto.getGioBatDau());
                     schedule.setGioKetThuc(dto.getGioKetThuc());
+                    schedule.setSoPhong(dto.getPhong());
+
                     schedule.setCreatedAt(LocalDateTime.now());
                     schedule.setCreatedBy("employees-service");
 

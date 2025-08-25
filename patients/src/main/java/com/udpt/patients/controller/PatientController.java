@@ -6,6 +6,7 @@ import com.udpt.patients.dto.ResponseDto;
 import com.udpt.patients.requests.PatientRegisterRequest;
 import com.udpt.patients.requests.RecordInsertRequest;
 import com.udpt.patients.service.IPatientsService;
+import com.udpt.patients.service.IRecordsService;
 import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +18,10 @@ import org.springframework.web.bind.annotation.*;
 public class PatientController {
 
     private IPatientsService patientsService;
-    public PatientController(IPatientsService patientsService) {
+    private IRecordsService recordsService;
+    public PatientController(IPatientsService patientsService, IRecordsService recordsService) {
         this.patientsService = patientsService;
+        this.recordsService = recordsService;
     }
 
     @PostMapping("/create")
@@ -38,6 +41,12 @@ public class PatientController {
     public ResponseEntity<?> getPatientDetailsById(@PathVariable String id) {
 
         return ResponseEntity.ok(patientsService.getPatientDetailsById(id));
+    }
+
+    @GetMapping("/details/my-records")
+    public ResponseEntity<?> getPatientRecords(Authentication authentication) {
+
+        return ResponseEntity.ok(recordsService.getAllPatientRecords(authentication.getName()));
     }
 
     @GetMapping("/search")

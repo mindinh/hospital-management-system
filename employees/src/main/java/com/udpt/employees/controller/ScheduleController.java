@@ -15,7 +15,7 @@ public class ScheduleController {
         this.schedulesService = schedulesService;
     }
 
-    @GetMapping("doctor/{maNV}")
+    @GetMapping("/doctor/{maNV}")
     public ResponseEntity<?> getDoctorSchedules(@PathVariable String maNV) {
 
         return ResponseEntity.ok(schedulesService.getDoctorSchedule(maNV));

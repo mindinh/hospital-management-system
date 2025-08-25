@@ -9,7 +9,7 @@ import java.util.Date;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableFeignClients
+@EnableFeignClients(basePackages = "com.udpt.patients.service.client")
 public class PatientsApplication {
 
 	public static void main(String[] args) {
