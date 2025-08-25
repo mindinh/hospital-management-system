@@ -7,6 +7,7 @@ public class RecordMapper {
     private RecordMapper() {}
 
     public static RecordDto mapToRecordDto(RecordEntity recordEntity, RecordDto recordDto) {
+        recordDto.setMaHoSo(recordEntity.getRecordId());
         recordDto.setNgayKham(recordEntity.getVisitDate());
         recordDto.setTrieuChung(recordEntity.getSymptoms());
         recordDto.setChanDoan(recordEntity.getDiagnosis());

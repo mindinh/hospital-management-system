@@ -34,6 +34,8 @@ public class SchedulesServiceImpl implements ISchedulesService {
                     scheduleDto.setNgayLamViec(entity.getNgayLamViec());
                     scheduleDto.setGioBatDau(entity.getGioBatDau());
                     scheduleDto.setGioKetThuc(entity.getGioKetThuc());
+                    scheduleDto.setPhong(entity.getSoPhong());
+
                     return scheduleDto;
                 }
         ).toList();
