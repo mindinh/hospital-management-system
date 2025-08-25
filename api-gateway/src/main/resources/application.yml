@@ -45,6 +45,12 @@ spring:
                 - Path=/api/v1/medications/**, /api/v1/prescriptions/**
               filters:
                 - StripPrefix=0
+            - id: statistics
+              uri: lb://STATISTICS
+              predicates:
+                - Path=/api/v1/statistics/**
+              filters:
+                - StripPrefix=0
 
 logging:
   level:
