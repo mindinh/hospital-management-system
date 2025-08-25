@@ -1,5 +1,6 @@
-package com.udpt.appointments.entity;
+package com.udpt.appointments.entity.write;
 
+import com.udpt.appointments.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

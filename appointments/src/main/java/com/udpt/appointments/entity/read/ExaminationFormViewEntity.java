@@ -1,6 +1,7 @@
-package com.udpt.appointments.entity;
+package com.udpt.appointments.entity.read;
 
 
+import com.udpt.appointments.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,7 +12,7 @@ import java.time.LocalTime;
 @Table(name = "phieukham")
 @Getter @Setter @ToString
 @AllArgsConstructor @NoArgsConstructor
-public class ExaminationFormEntity extends BaseEntity {
+public class ExaminationFormViewEntity extends BaseEntity {
     @Id
     @Column(name = "ma_phieu")
     private String formId;
@@ -36,5 +37,5 @@ public class ExaminationFormEntity extends BaseEntity {
 
     @OneToOne
     @JoinColumn(name = "ma_lich_kham", referencedColumnName = "ma_lich_kham")
-    private AppointmentEntity appointment;
+    private AppointmentViewEntity appointment;
 }
