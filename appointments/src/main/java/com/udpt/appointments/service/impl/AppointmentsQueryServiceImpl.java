@@ -1,6 +1,7 @@
 package com.udpt.appointments.service.impl;
 
 import com.udpt.appointments.dto.AppointmentDto;
+import com.udpt.appointments.dto.MonthlyPatientStatisticDTO;
 import com.udpt.appointments.entity.AppointmentEntity;
 import com.udpt.appointments.entity.Status;
 import com.udpt.appointments.repository.AppointmentsRepository;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class AppointmentsQueryServiceImpl implements IAppointmentsQueryService {
@@ -47,12 +49,13 @@ public class AppointmentsQueryServiceImpl implements IAppointmentsQueryService {
     }
 
     @Override
-    public int countPatientsByDoctorAndDateRange(String maBacSi, LocalDate startDate, LocalDate endDate){
-        return appointmentsRepository.countPatientsByDoctorAndDateRange(maBacSi, startDate, endDate);
-    }
-
-    @Override
-    public int countPatientsByDateRange(LocalDate startDate, LocalDate endDate){
-        return appointmentsRepository.countPatientsByDateRange(startDate, endDate);
+    public List<MonthlyPatientStatisticDTO> countPatientsByMonth(int year) {
+        List<Object[]> results = appointmentsRepository.countPatientsByMonth(year);
+        return results.stream()
+                .map(r -> new MonthlyPatientStatisticDTO(
+                        ((Number) r[0]).intValue(),
+                        ((Number) r[1]).intValue()
+                ))
+                .toList();
     }
 }

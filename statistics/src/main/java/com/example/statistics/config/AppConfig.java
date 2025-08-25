@@ -1,5 +1,6 @@
 package com.example.statistics.config;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +11,7 @@ public class AppConfig {
 
     @Bean
     @LoadBalanced
-    public RestTemplate restTemplate() {
+    public RestTemplate restTemplate(HttpServletRequest request) {
         return new RestTemplate();
     }
 }
