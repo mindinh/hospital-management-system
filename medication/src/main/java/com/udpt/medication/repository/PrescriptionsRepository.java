@@ -51,4 +51,12 @@ public interface PrescriptionsRepository extends JpaRepository<PrescriptionEntit
     """, nativeQuery = true)
     List<PrescriptionFlatDto> findPrescriptionsWithDetails(@Param("maBenhNhan") String maBenhNhan);
 
+    @Query(value = "SELECT MONTH(d.ngay_cap) AS month, " +
+            "COUNT(DISTINCT d.ma_don_thuoc) AS prescriptions " +
+            "FROM donthuoc d " +
+            "WHERE YEAR(d.ngay_cap) = :year " +
+            "GROUP BY MONTH(d.ngay_cap) " +
+            "ORDER BY month",
+            nativeQuery = true)
+    List<Object[]> countPrescriptionsByMonth(@Param("year") int year);
 }

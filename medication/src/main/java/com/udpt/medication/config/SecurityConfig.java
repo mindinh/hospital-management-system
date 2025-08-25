@@ -58,6 +58,7 @@ public class SecurityConfig {
                     requests.requestMatchers(HttpMethod.GET, "/api/v1/prescriptions/search").hasAnyRole("ADMIN", "DUOCSI");
                     requests.requestMatchers(HttpMethod.PUT, "/api/v1/prescriptions/ready/{maDonThuoc}").hasAnyRole("DUOCSI", "ADMIN");
                     requests.requestMatchers(HttpMethod.PUT, "/api/v1/prescriptions/checkout/{maDonThuoc}").hasAnyRole("DUOCSI", "ADMIN");
+                    requests.requestMatchers(HttpMethod.PUT, "/api/v1/prescriptions/statistic").hasAnyRole("ADMIN");
 
 
                     requests.anyRequest().authenticated();

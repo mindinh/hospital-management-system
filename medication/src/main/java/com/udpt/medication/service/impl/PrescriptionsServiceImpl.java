@@ -1,6 +1,7 @@
 package com.udpt.medication.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.udpt.medication.dto.MonthlyPrescriptionStatisticDto;
 import com.udpt.medication.dto.PrescriptionDetailDto;
 import com.udpt.medication.dto.PrescriptionDto;
 import com.udpt.medication.dto.PrescriptionFlatDto;
@@ -217,5 +218,16 @@ public class PrescriptionsServiceImpl implements IPrescriptionsService {
 
         prescriptionsRepository.save(prescriptionEntity);
         return true;
+    }
+
+    @Override
+    public List<MonthlyPrescriptionStatisticDto> countPrescriptionsByMonth(int year){
+        List<Object[]> results = prescriptionsRepository.countPrescriptionsByMonth(year);
+        return results.stream()
+                .map(p -> new MonthlyPrescriptionStatisticDto(
+                        ((Number) p[0]).intValue(),
+                        ((Number) p[1]).intValue()
+                ))
+                .toList();
     }
 }
