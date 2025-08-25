@@ -1,8 +1,7 @@
 package com.udpt.medication.controller;
 
-
+import com.udpt.medication.dto.MonthlyPrescriptionStatisticDto;
 import com.udpt.medication.dto.ResponseDto;
-import com.udpt.medication.entity.Status;
 import com.udpt.medication.request.CreatePrescriptionRequest;
 import com.udpt.medication.service.IPrescriptionsService;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -11,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/v1/prescriptions", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -71,5 +70,11 @@ public class PrescriptionController {
             return ResponseEntity.ok(new ResponseDto("200", "Đã giao đơn thuốc"));
         }
         return ResponseEntity.ok(new ResponseDto("500", "Lỗi"));
+    }
+
+    @GetMapping("/statistic")
+    public ResponseEntity<List<MonthlyPrescriptionStatisticDto>> prescriptionStatisticByMonth(@RequestParam int year) {
+        List<MonthlyPrescriptionStatisticDto> stats = prescriptionsService.countPrescriptionsByMonth(year);
+        return ResponseEntity.ok(stats);
     }
 }

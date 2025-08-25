@@ -1,5 +1,6 @@
 package com.udpt.medication.service;
 
+import com.udpt.medication.dto.MonthlyPrescriptionStatisticDto;
 import com.udpt.medication.dto.PrescriptionDto;
 import com.udpt.medication.request.CreatePrescriptionRequest;
 import org.springframework.data.domain.Page;
@@ -20,4 +21,5 @@ public interface IPrescriptionsService {
 
     boolean completePrescriptionRetrieval(String prescriptionId);
     boolean completePrescriptionDelivery(String prescriptionId);
+    List<MonthlyPrescriptionStatisticDto> countPrescriptionsByMonth(int year);
 }
