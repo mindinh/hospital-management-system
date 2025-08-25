@@ -1,9 +1,9 @@
 package com.udpt.appointments.service.impl;
 
 import com.udpt.appointments.dto.ServiceDto;
-import com.udpt.appointments.entity.ServiceEntity;
+import com.udpt.appointments.entity.write.ServiceEntity;
 import com.udpt.appointments.exception.ResourceNotFoundException;
-import com.udpt.appointments.repository.ServicesRepository;
+import com.udpt.appointments.repository.write.ServicesRepository;
 import com.udpt.appointments.request.ServiceInsertRequest;
 import com.udpt.appointments.service.IServicesService;
 import lombok.AllArgsConstructor;

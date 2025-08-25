@@ -1,6 +1,6 @@
-package com.udpt.appointments.repository;
+package com.udpt.appointments.repository.write;
 
-import com.udpt.appointments.entity.ServiceEntity;
+import com.udpt.appointments.entity.write.ServiceEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

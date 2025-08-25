@@ -1,6 +1,6 @@
-package com.udpt.appointments.repository;
+package com.udpt.appointments.repository.write;
 
-import com.udpt.appointments.entity.AppointmentEntity;
+import com.udpt.appointments.entity.write.AppointmentEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface AppointmentsRepository extends JpaRepository<AppointmentEntity, String>, JpaSpecificationExecutor<AppointmentEntity> {
+public interface AppointmentsWriteRepository extends JpaRepository<AppointmentEntity, String>, JpaSpecificationExecutor<AppointmentEntity> {
     Optional<AppointmentEntity> findByAppointmentId(String appointmentId);
     List<AppointmentEntity> findAll();
     List<AppointmentEntity> findByPatientIdAndStatus(String maBn, String tt);

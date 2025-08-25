@@ -1,16 +1,20 @@
 package com.udpt.appointments.service.impl;
 
+import com.udpt.appointments.config.RabbitMQConfig;
 import com.udpt.appointments.dto.CreateAppointmentCommand;
-import com.udpt.appointments.entity.AppointmentEntity;
+import com.udpt.appointments.entity.write.AppointmentEntity;
 import com.udpt.appointments.entity.Status;
+import com.udpt.appointments.event.events.AppointmentCreatedEvent;
 import com.udpt.appointments.exception.ResourceNotFoundException;
-import com.udpt.appointments.repository.AppointmentsRepository;
+import com.udpt.appointments.repository.write.AppointmentsWriteRepository;
 import com.udpt.appointments.response.DoctorResponse;
 import com.udpt.appointments.response.PatientResponse;
 import com.udpt.appointments.service.IAppointmentsCommandService;
 import com.udpt.appointments.service.client.DoctorClient;
 import com.udpt.appointments.service.client.PatientClient;
 import com.udpt.appointments.utils.IdGenerator;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +25,14 @@ public class AppointmentsCommandServiceImpl implements IAppointmentsCommandServi
 
     private DoctorClient doctorClient;
     private PatientClient patientClient;
-    private AppointmentsRepository appointmentsRepository;
+    private AppointmentsWriteRepository appointmentsWriteRepository;
+    private RabbitTemplate rabbitTemplate;
 
-    public AppointmentsCommandServiceImpl(DoctorClient doctorClient, PatientClient patientClient, AppointmentsRepository appointmentsRepository) {
+    public AppointmentsCommandServiceImpl(DoctorClient doctorClient, PatientClient patientClient, AppointmentsWriteRepository appointmentsWriteRepository, RabbitTemplate rabbitTemplate) {
         this.doctorClient = doctorClient;
         this.patientClient = patientClient;
-        this.appointmentsRepository = appointmentsRepository;
-
+        this.appointmentsWriteRepository = appointmentsWriteRepository;
+        this.rabbitTemplate = rabbitTemplate;
     }
 
     @Override
@@ -54,8 +59,26 @@ public class AppointmentsCommandServiceImpl implements IAppointmentsCommandServi
         appointment.setCreatedAt(LocalDateTime.now());
         appointment.setCreatedBy("appointments-service");
 
-        appointmentsRepository.save(appointment);
+        AppointmentEntity entity = appointmentsWriteRepository.save(appointment);
 
+        AppointmentCreatedEvent event = new AppointmentCreatedEvent(
+                entity.getAppointmentId(),
+                entity.getPatientId(),
+                patientResponse.getMaBenhNhan(),
+                patientResponse.getSoDienThoai(),
+                entity.getDoctorId(),
+                doctorResponse.getHoTen(),
+                entity.getAppointmentNotes(),
+                String.valueOf(entity.getStatus()),
+                entity.getAppointmentDate(),
+                entity.getAppointmentTime()
+        );
+
+        rabbitTemplate.convertAndSend(
+                RabbitMQConfig.APPOINTMENT_EXCHANGE,
+                RabbitMQConfig.APPOINTMENT_ROUTING_KEY,
+                event
+        );
     }
 
     @Override
@@ -82,12 +105,12 @@ public class AppointmentsCommandServiceImpl implements IAppointmentsCommandServi
         appointment.setCreatedAt(LocalDateTime.now());
         appointment.setCreatedBy("appointments-service");
 
-        appointmentsRepository.save(appointment);
+        appointmentsWriteRepository.save(appointment);
     }
 
     @Override
     public boolean checkinAppointment(String id) {
-        AppointmentEntity appointmentEntity = appointmentsRepository.findByAppointmentId(id).orElseThrow(
+        AppointmentEntity appointmentEntity = appointmentsWriteRepository.findByAppointmentId(id).orElseThrow(
                 () -> new ResourceNotFoundException("Lich Kham", "Ma Lich Kham", id)
         );
 
@@ -95,13 +118,13 @@ public class AppointmentsCommandServiceImpl implements IAppointmentsCommandServi
         appointmentEntity.setUpdatedAt(LocalDateTime.now());
         appointmentEntity.setUpdatedBy("appointments-service");
 
-        appointmentsRepository.save(appointmentEntity);
+        appointmentsWriteRepository.save(appointmentEntity);
         return true;
     }
 
     @Override
     public boolean cancelAppointment(String id) {
-        AppointmentEntity appointmentEntity = appointmentsRepository.findByAppointmentId(id).orElseThrow(
+        AppointmentEntity appointmentEntity = appointmentsWriteRepository.findByAppointmentId(id).orElseThrow(
                 () -> new ResourceNotFoundException("Lich Kham", "Ma Lich Kham", id)
         );
 
@@ -109,7 +132,7 @@ public class AppointmentsCommandServiceImpl implements IAppointmentsCommandServi
         appointmentEntity.setUpdatedAt(LocalDateTime.now());
         appointmentEntity.setUpdatedBy("appointments-service");
 
-        appointmentsRepository.save(appointmentEntity);
+        appointmentsWriteRepository.save(appointmentEntity);
         return true;
     }
 

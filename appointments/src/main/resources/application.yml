@@ -5,13 +5,25 @@ spring:
   application:
     name: appointments
   datasource:
-    url: jdbc:mysql://localhost:3308/appointmentsdb
-    username: root
-    password: root
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    write:
+      jdbc-url: jdbc:mysql://localhost:3308/appointments_writedb
+      username: root
+      password: root
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    read:
+      jdbc-url: jdbc:mysql://localhost:3308/appointments_readdb
+      username: root
+      password: root
+      driver-class-name: com.mysql.cj.jdbc.Driver
   sql:
     init:
       mode: always
+  rabbitmq:
+    host: localhost
+    port: 5672
+    stream:
+      username: guess
+      password: guess
 
 management:
   endpoints:
@@ -43,3 +55,9 @@ info:
   app:
     name: "appointments"
     description: "Hospital Management System Appointments Services"
+
+logging:
+  level:
+    org:
+      springframework:
+        amqp: debug

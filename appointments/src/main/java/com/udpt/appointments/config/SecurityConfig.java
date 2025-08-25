@@ -58,8 +58,8 @@ public class SecurityConfig {
                     requests.requestMatchers(HttpMethod.DELETE, "/api/v1/appointments/cancel/*").hasAnyRole("ADMIN", "TIEPTAN", "BENHNHAN");
 
                     // authorize appointments query endpoints
-                    requests.requestMatchers(HttpMethod.GET, "/api/v1/appointments/search").hasAnyRole("ADMIN", "TIEPTAN");
                     requests.requestMatchers(HttpMethod.GET, "/api/v1/appointments/my-appointments").hasAnyRole("BENHNHAN");
+                    requests.requestMatchers(HttpMethod.GET, "/api/v1/appointments/search").hasAnyRole("ADMIN", "TIEPTAN");
                     requests.requestMatchers(HttpMethod.GET, "/api/v1/appointments/statistic").hasAnyRole("ADMIN");
 
 
