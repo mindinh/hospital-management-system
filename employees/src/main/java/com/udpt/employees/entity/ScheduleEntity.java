@@ -30,6 +30,9 @@ public class ScheduleEntity extends BaseEntity {
     @Column(name = "gio_ket_thuc")
     private LocalTime gioKetThuc;
 
+    @Column(name = "phong")
+    private String soPhong;
+
     @ManyToOne
     @JoinColumn(name = "ma_bac_si", referencedColumnName = "ma_nv", nullable = false)
     private EmployeeEntity bacsi;

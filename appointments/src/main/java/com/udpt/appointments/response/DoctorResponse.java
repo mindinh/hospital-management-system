@@ -7,5 +7,6 @@ import lombok.Data;
 public class DoctorResponse {
     private String maNV;
     private String hoTen;
+    private String chuyenKhoa;
 
 }

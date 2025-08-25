@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 @Data
 public class RecordDto {
 
+    private String maHoSo;
     private LocalDateTime ngayKham;
     private String chanDoan;
     private String trieuChung;

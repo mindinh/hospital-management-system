@@ -1,4 +1,4 @@
-package com.udpt.employees.dto;
+package com.udpt.appointments.dto;
 
 import lombok.Data;
 
@@ -12,6 +12,5 @@ public class ScheduleDto {
     private LocalDate ngayLamViec;
     private LocalTime gioBatDau;
     private LocalTime gioKetThuc;
-    private String phong;
 
 }
