@@ -18,6 +18,7 @@ public class AppointmentCreatedEvent implements Serializable {
     private String soDTBenhNhan;
     private String maBacSi;
     private String tenBacSi;
+    private String chuyenKhoa;
     private String ghiChu;
     private String tinhTrang;
     private LocalDate ngayKham;

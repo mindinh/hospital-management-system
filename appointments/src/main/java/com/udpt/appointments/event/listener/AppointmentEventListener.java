@@ -28,8 +28,9 @@ public class AppointmentEventListener {
         appointmentView.setAppointmentId(event.getMaLichKham());
         appointmentView.setDoctorId(event.getMaBacSi());
         appointmentView.setDoctorName(event.getTenBacSi());
+        appointmentView.setDepartment(event.getChuyenKhoa());
         appointmentView.setPatientId(event.getMaBenhNhan());
-        appointmentView.setPatientName(event.getTenBacSi());
+        appointmentView.setPatientName(event.getTenBenhNhan());
         appointmentView.setPatientMobileNo(event.getSoDTBenhNhan());
         appointmentView.setAppointmentNotes(event.getGhiChu());
         appointmentView.setStatus(Status.valueOf(event.getTinhTrang()));

@@ -18,7 +18,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.List;
 
 @Configuration
-@EnableWebSecurity // allow configuring security
+@EnableWebSecurity
 public class SecurityConfig {
 
     @Bean
@@ -59,7 +59,7 @@ public class SecurityConfig {
 
                     // authorize appointments query endpoints
                     requests.requestMatchers(HttpMethod.GET, "/api/v1/appointments/my-appointments").hasAnyRole("BENHNHAN");
-                    requests.requestMatchers(HttpMethod.GET, "/api/v1/appointments/search").hasAnyRole("ADMIN", "TIEPTAN");
+                    requests.requestMatchers(HttpMethod.GET, "/api/v1/appointments/search").hasAnyRole("ADMIN", "TIEPTAN", "BACSI");
                     requests.requestMatchers(HttpMethod.GET, "/api/v1/appointments/statistic").hasAnyRole("ADMIN");
 
 

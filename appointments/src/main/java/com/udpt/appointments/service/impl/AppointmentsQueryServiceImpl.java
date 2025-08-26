@@ -43,6 +43,7 @@ public class AppointmentsQueryServiceImpl implements IAppointmentsQueryService {
                     AppointmentDto appointmentDto = new AppointmentDto();
                     appointmentDto.setMaBacSi(a.getDoctorId());
                     appointmentDto.setTenBacSi(a.getDoctorName());
+                    appointmentDto.setChuyenKhoa(a.getDepartment());
                     appointmentDto.setMaBenhNhan(a.getPatientId());
                     appointmentDto.setTenBenhNhan(a.getPatientName());
                     appointmentDto.setSoDienThoaiBenhNhan(a.getPatientMobileNo());
