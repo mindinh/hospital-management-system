@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS benhnhan;
 CREATE TABLE benhnhan (
     ma_benh_nhan VARCHAR(16),
     so_dt_bn CHAR(10),
+    email_bn VARCHAR(50),
     ho_ten_bn VARCHAR(30),
     ngay_sinh_bn DATE,
     gioi_tinh_bn ENUM('NAM', 'NU'),

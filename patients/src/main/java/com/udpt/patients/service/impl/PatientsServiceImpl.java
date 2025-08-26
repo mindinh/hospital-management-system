@@ -55,6 +55,7 @@ public class PatientsServiceImpl implements IPatientsService {
         patientEntity.setPatientId(request.getMaBenhNhan());
         patientEntity.setPatientFullname(request.getHoTen());
         patientEntity.setPatientMobileNo(request.getSoDienThoai());
+        patientEntity.setPatientEmail(request.getEmail());
         patientEntity.setPatientDOB(LocalDate.parse(request.getNgaySinh(), formatter));
         patientEntity.setGender(Gender.valueOf(request.getGioiTinh()));
 
@@ -100,6 +101,7 @@ public class PatientsServiceImpl implements IPatientsService {
                 p -> new PatientDto(
                         p.getPatientId(),
                         p.getPatientMobileNo(),
+                        p.getPatientEmail(),
                         p.getPatientFullname(),
                         p.getPatientDOB().toString(),
                         p.getGender().toString()

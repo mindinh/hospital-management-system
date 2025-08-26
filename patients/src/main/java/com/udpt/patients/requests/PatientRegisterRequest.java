@@ -6,6 +6,7 @@ import lombok.Data;
 public class PatientRegisterRequest {
     private String maBenhNhan;
     private String soDienThoai;
+    private String email;
     private String hoTen;
     private String ngaySinh;
     private String gioiTinh;

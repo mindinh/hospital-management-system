@@ -56,20 +56,17 @@ public class PrescriptionController {
 
     @PutMapping("/ready/{maDonThuoc}")
     public ResponseEntity<?> completePrescriptionRetrieval(@PathVariable String maDonThuoc) {
-        boolean isSuccess = prescriptionsService.completePrescriptionRetrieval(maDonThuoc);
-        if (isSuccess) {
-            return ResponseEntity.ok(new ResponseDto("200", "Đã lấy thuốc"));
-        }
-        return ResponseEntity.ok(new ResponseDto("500", "Lỗi"));
+        prescriptionsService.completePrescriptionRetrieval(maDonThuoc);
+
+        return ResponseEntity.ok(new ResponseDto("200", "Đã lấy thuốc"));
     }
 
     @PutMapping("/checkout/{maDonThuoc}")
     public ResponseEntity<?> completePrescriptionDelivery(@PathVariable String maDonThuoc) {
-        boolean isSuccess = prescriptionsService.completePrescriptionDelivery(maDonThuoc);
-        if (isSuccess) {
-            return ResponseEntity.ok(new ResponseDto("200", "Đã giao đơn thuốc"));
-        }
-        return ResponseEntity.ok(new ResponseDto("500", "Lỗi"));
+        prescriptionsService.completePrescriptionDelivery(maDonThuoc);
+
+        return ResponseEntity.ok(new ResponseDto("200", "Đã giao đơn thuốc"));
+
     }
 
     @GetMapping("/statistic")

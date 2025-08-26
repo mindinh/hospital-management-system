@@ -19,7 +19,7 @@ public interface IPrescriptionsService {
     PrescriptionDto getPrescriptionDetails(String prescriptionId);
     Page<PrescriptionDto> searchPrescriptions(String doctorId, String patientId, LocalDate fromDate, LocalDate toDate, String status, int page, int size);
 
-    boolean completePrescriptionRetrieval(String prescriptionId);
-    boolean completePrescriptionDelivery(String prescriptionId);
+    void completePrescriptionRetrieval(String prescriptionId);
+    void completePrescriptionDelivery(String prescriptionId);
     List<MonthlyPrescriptionStatisticDto> countPrescriptionsByMonth(int year);
 }

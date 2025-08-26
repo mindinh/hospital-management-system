@@ -14,6 +14,7 @@ public class PatientMapper {
     public static PatientDto mapToPatientDto(PatientEntity patientEntity, PatientDto patientDto) {
         patientDto.setMaBenhNhan(patientEntity.getPatientId());
         patientDto.setSoDienThoai(patientEntity.getPatientMobileNo());
+        patientDto.setEmailBenhNhan(patientEntity.getPatientEmail());
         patientDto.setHoTen(patientEntity.getPatientFullname());
         patientDto.setGioiTinh(String.valueOf(patientEntity.getGender()));
         patientDto.setNgaySinh(String.valueOf(patientEntity.getPatientDOB()));
