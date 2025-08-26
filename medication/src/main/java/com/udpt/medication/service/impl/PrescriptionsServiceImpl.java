@@ -1,6 +1,8 @@
 package com.udpt.medication.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.udpt.medication.config.RabbitMQConfig;
 import com.udpt.medication.dto.MonthlyPrescriptionStatisticDto;
 import com.udpt.medication.dto.PrescriptionDetailDto;
 import com.udpt.medication.dto.PrescriptionDto;
@@ -9,6 +11,7 @@ import com.udpt.medication.entity.MedicationEntity;
 import com.udpt.medication.entity.PrescriptionDetailEntity;
 import com.udpt.medication.entity.PrescriptionEntity;
 import com.udpt.medication.entity.Status;
+import com.udpt.medication.event.events.PrescriptionReadyEvent;
 import com.udpt.medication.exception.CreatePrescriptionException;
 import com.udpt.medication.exception.ResourceNotFoundException;
 import com.udpt.medication.mapper.PrescriptionDetailMapper;
@@ -26,6 +29,7 @@ import com.udpt.medication.utils.PrescriptionSpecification;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.AllArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -50,6 +54,8 @@ public class PrescriptionsServiceImpl implements IPrescriptionsService {
     private PrescriptionDetailsRepository prescriptionDetailsRepository;
     private DoctorClient doctorClient;
     private PatientClient patientClient;
+    private RabbitTemplate rabbitTemplate;
+    private ObjectMapper objectMapper;
 
 
     @Override
@@ -58,7 +64,7 @@ public class PrescriptionsServiceImpl implements IPrescriptionsService {
         if (doctorResponse == null) {
             throw new ResourceNotFoundException("Bac Si", "Ma Bac Si", request.maBacSi());
         }
-        System.out.println(doctorResponse.getMaNV());
+
         PatientResponse patientResponse = patientClient.getPatientDetailsById(request.maBenhNhan());
         if (patientResponse == null) {
             throw new ResourceNotFoundException("Benh Nhan", "Ma Benh Nhan", request.maBenhNhan());
@@ -193,21 +199,48 @@ public class PrescriptionsServiceImpl implements IPrescriptionsService {
     }
 
     @Override
-    public boolean completePrescriptionRetrieval(String prescriptionId) {
+    public void completePrescriptionRetrieval(String prescriptionId) {
         PrescriptionEntity prescriptionEntity = prescriptionsRepository.findById(prescriptionId).orElseThrow(
                 () -> new ResourceNotFoundException("Don Thuoc", "Ma Don Thuoc", prescriptionId)
         );
+        DoctorResponse doctorResponse = doctorClient.getDoctorDetails(prescriptionEntity.getDoctorId());
+        PatientResponse patientResponse = patientClient.getPatientDetailsById(prescriptionEntity.getPatientId());
+
 
         prescriptionEntity.setStatus(Status.DA_SAN_SANG);
         prescriptionEntity.setUpdatedAt(LocalDateTime.now());
         prescriptionEntity.setUpdatedBy("medication-service");
 
         prescriptionsRepository.save(prescriptionEntity);
-        return true;
+
+        List<PrescriptionDetailDto> detailDtos = prescriptionEntity.getPrescriptionDetails().stream().map(
+                entity -> PrescriptionDetailMapper.mapToDto(entity, new PrescriptionDetailDto())
+        ).toList();
+
+        PrescriptionReadyEvent event = new PrescriptionReadyEvent(
+                doctorResponse.getHoTen(),
+                patientResponse.getHoTen(),
+                patientResponse.getEmailBenhNhan(),
+                prescriptionEntity.getPrescriptionDate().toString(),
+                detailDtos
+        );
+        try {
+            String json = objectMapper.writeValueAsString(event);
+            rabbitTemplate.convertAndSend(
+                    RabbitMQConfig.PRESCRIPTION_EXCHANGE,
+                    RabbitMQConfig.PRESCRIPTION_ROUTING_KEY,
+                    json
+            );
+        }
+        catch (JsonProcessingException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
+
     }
 
     @Override
-    public boolean completePrescriptionDelivery(String prescriptionId) {
+    public void completePrescriptionDelivery(String prescriptionId) {
         PrescriptionEntity prescriptionEntity = prescriptionsRepository.findById(prescriptionId).orElseThrow(
                 () -> new ResourceNotFoundException("Don Thuoc", "Ma Don Thuoc", prescriptionId)
         );
@@ -217,7 +250,7 @@ public class PrescriptionsServiceImpl implements IPrescriptionsService {
         prescriptionEntity.setUpdatedBy("medication-service");
 
         prescriptionsRepository.save(prescriptionEntity);
-        return true;
+
     }
 
     @Override

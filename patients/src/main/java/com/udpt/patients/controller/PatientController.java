@@ -33,7 +33,7 @@ public class PatientController {
 
     @GetMapping("/details/me")
     public ResponseEntity<?> getPatientDetails(Authentication authentication) {
-        System.out.println(authentication);
+
         return ResponseEntity.ok(patientsService.getPatientDetailsById(authentication.getName()));
     }
 

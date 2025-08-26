@@ -1,21 +1,24 @@
-server:
-  port: 8105
 spring:
   application:
-    name: medication
-  datasource:
-    url: jdbc:mysql://localhost:3308/medicationsdb
-    username: root
-    password: root
-    driver-class-name: com.mysql.cj.jdbc.Driver
-  sql:
-    init:
-      mode: always
+    name: notifications
+
   rabbitmq:
     host: localhost
     port: 5672
     username: guest
     password: guest
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: minhdinh1552@gmail.com
+    password: bnfg zjoy laba oold
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 management:
   endpoints:
@@ -40,10 +43,8 @@ eureka:
     service-url:
       default-zone: http://localhost:8761/eureka
 
-jwt:
-  key: hePrX3lreiS3uE8ESeBIkcc+4NynKRSQRT0DqWdxY/o=
 
 info:
   app:
-    name: "medication"
-    description: "Hospital Management System Medication Services"
+    name: "notifications"
+    description: "Hospital Management System Notifications Services"

@@ -21,6 +21,9 @@ public class PatientEntity extends BaseEntity {
     @Column(name = "so_dt_bn")
     private String patientMobileNo;
 
+    @Column(name = "email_bn")
+    private String patientEmail;
+
     @Column(name = "ho_ten_bn")
     private String patientFullname;
 

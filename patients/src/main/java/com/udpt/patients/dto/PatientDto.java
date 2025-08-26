@@ -15,6 +15,8 @@ public class PatientDto {
 
     private String soDienThoai;
 
+    private String emailBenhNhan;
+
     private String hoTen;
 
     private String ngaySinh;
