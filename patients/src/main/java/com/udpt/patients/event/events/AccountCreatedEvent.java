@@ -1,12 +1,8 @@
-package com.udpt.accounts.event.events;
+package com.udpt.patients.event.events;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-
-import java.util.UUID;
-
 
 @Data
 @AllArgsConstructor @NoArgsConstructor

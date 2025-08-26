@@ -12,7 +12,7 @@ spring:
             - id: accounts
               uri: lb://ACCOUNTS
               predicates:
-                - Path=/api/v1/accounts/**, /api/v1/register
+                - Path=/api/v1/accounts/**, /api/v1/register/**
               filters:
                 - StripPrefix=0
             - id: auth

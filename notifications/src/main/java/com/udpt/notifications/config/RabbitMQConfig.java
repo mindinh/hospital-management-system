@@ -7,6 +7,7 @@ import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 
 public class RabbitMQConfig {
+    public static final String OTP_QUEUE = "otp.queue";
     public static final String PRESCRIPTION_QUEUE = "prescription.queue";
     public static final String PRESCRIPTION_EXCHANGE = "prescription.exchange";
     public static final String PRESCRIPTION_ROUTING_KEY = "prescription.ready";
