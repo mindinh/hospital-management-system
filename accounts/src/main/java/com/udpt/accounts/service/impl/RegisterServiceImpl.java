@@ -43,7 +43,12 @@ public class RegisterServiceImpl implements IRegisterService {
         accountEntity.setUserId(IdGenerator.generateAccountCode("BN"));
         accountEntity.setUsername(request.email().split("@")[0]);
         accountEntity.setMobileNo(request.soDT());
-        accountEntity.setRole(Role.BENHNHAN);
+        if (request.chucVu() == null) {
+            accountEntity.setRole(Role.BENHNHAN);
+        }
+        else {
+            accountEntity.setRole(Role.valueOf(request.chucVu()));
+        }
         accountEntity.setStatus(Status.ACTIVE);
 
         accountEntity.setCreatedAt(LocalDateTime.now());
@@ -70,7 +75,7 @@ public class RegisterServiceImpl implements IRegisterService {
                         json
                 );
             }
-            else {
+            else if (entity.getRole().equals(Role.BACSI) || entity.getRole().equals(Role.DUOCSI) || entity.getRole().equals(Role.TIEPTAN)) {
                 rabbitTemplate.convertAndSend(
                         RabbitMQConfig.ACCOUNT_EXCHANGE,
                         RabbitMQConfig.ACCOUNT_ROUTING_KEY_EMPLOYEE,

@@ -7,6 +7,7 @@ public record AccountRegisterRequest(
         String hoTen,
         String soDT,
         String ngaySinh,
-        String gioiTinh
+        String gioiTinh,
+        String chucVu
 ) {
 }

@@ -64,10 +64,11 @@ public class AppointmentsCommandServiceImpl implements IAppointmentsCommandServi
         AppointmentCreatedEvent event = new AppointmentCreatedEvent(
                 entity.getAppointmentId(),
                 entity.getPatientId(),
-                patientResponse.getMaBenhNhan(),
+                patientResponse.getHoTen(),
                 patientResponse.getSoDienThoai(),
                 entity.getDoctorId(),
                 doctorResponse.getHoTen(),
+                doctorResponse.getChuyenKhoa(),
                 entity.getAppointmentNotes(),
                 String.valueOf(entity.getStatus()),
                 entity.getAppointmentDate(),

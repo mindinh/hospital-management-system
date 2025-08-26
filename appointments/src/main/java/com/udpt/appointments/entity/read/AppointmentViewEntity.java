@@ -24,6 +24,9 @@ public class AppointmentViewEntity extends BaseEntity {
     @Column(name = "ten_bac_si")
     private String doctorName;
 
+    @Column(name = "chuyen_khoa")
+    private String department;
+
     @Column(name = "ma_benh_nhan")
     private String patientId;
 

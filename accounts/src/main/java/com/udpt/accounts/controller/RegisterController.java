@@ -42,4 +42,11 @@ public class RegisterController {
 
         return ResponseEntity.ok(new ResponseDto("201", "Đã tạo tài khoản."));
     }
+
+    @PostMapping("/create/employee")
+    public ResponseEntity<?> createEmployee(@RequestBody AccountRegisterRequest accountRegisterRequest) {
+        registerService.register(accountRegisterRequest);
+
+        return ResponseEntity.ok(new ResponseDto("201", "Đã tạo tài khoản nhân viên."));
+    }
 }
