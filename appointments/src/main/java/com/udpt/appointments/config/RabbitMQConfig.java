@@ -16,6 +16,7 @@ public class RabbitMQConfig {
     public static final String APPOINTMENT_QUEUE = "appointment.queue";
     public static final String APPOINTMENT_EXCHANGE = "appointment.exchange";
     public static final String APPOINTMENT_ROUTING_KEY = "appointment.created";
+    public static final String APPOINTMENT_UPDATED_ROUTING_KEY = "appointment.updated";
 
     @Bean
     public Jackson2JsonMessageConverter producerJackson2MessageConverter() {
@@ -54,5 +55,13 @@ public class RabbitMQConfig {
                 .bind(appointmentQueue)
                 .to(appointmentExchange)
                 .with(APPOINTMENT_ROUTING_KEY);
+    }
+
+    @Bean
+    public Binding appointmentUpdatedBinding(Queue appointmentQueue, TopicExchange appointmentExchange) {
+        return BindingBuilder
+                .bind(appointmentQueue)
+                .to(appointmentExchange)
+                .with(APPOINTMENT_UPDATED_ROUTING_KEY);
     }
 }

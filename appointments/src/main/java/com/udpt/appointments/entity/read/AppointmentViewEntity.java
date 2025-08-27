@@ -36,6 +36,9 @@ public class AppointmentViewEntity extends BaseEntity {
     @Column(name = "so_dt_benh_nhan")
     private String patientMobileNo;
 
+    @Column(name = "email_benh_nhan")
+    private String patientEmail;
+
     @Column(name = "ngay_kham")
     private LocalDate appointmentDate;
 
