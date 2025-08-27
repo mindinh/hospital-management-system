@@ -17,7 +17,7 @@ public class ServiceController {
         this.servicesService = servicesService;
     }
 
-    @GetMapping("/all-services")
+    @GetMapping("/all")
     public ResponseEntity<?> getAllServices() {
 
         return ResponseEntity.ok(servicesService.getAllServices());

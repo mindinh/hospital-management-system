@@ -35,8 +35,8 @@ public class ServiceDesignationEntity extends BaseEntity {
     private Status status;
 
     @ManyToOne
-    @JoinColumn(name = "ma_phieu_kham")
-    private ExaminationFormEntity form;
+    @JoinColumn(name = "ma_lich_kham")
+    private AppointmentEntity appointment;
 
     @ManyToOne
     @JoinColumn(name = "ma_dich_vu")

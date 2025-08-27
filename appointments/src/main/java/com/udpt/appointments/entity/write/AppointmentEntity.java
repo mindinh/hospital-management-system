@@ -8,6 +8,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Table(name = "lichkham")
@@ -43,5 +44,8 @@ public class AppointmentEntity extends BaseEntity {
 
     @OneToOne(mappedBy = "appointment", cascade = CascadeType.ALL)
     private ExaminationFormEntity examinationForm;
+
+    @OneToMany(mappedBy = "appointment")
+    private List<ServiceDesignationEntity> serviceDesignationList;
 
 }

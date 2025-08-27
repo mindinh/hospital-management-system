@@ -45,6 +45,4 @@ public class ExaminationFormEntity extends BaseEntity {
     @JoinColumn(name = "ma_lich_kham", referencedColumnName = "ma_lich_kham")
     private AppointmentEntity appointment;
 
-    @OneToMany(mappedBy = "form")
-    private List<ServiceDesignationEntity> serviceDesignationList;
 }
