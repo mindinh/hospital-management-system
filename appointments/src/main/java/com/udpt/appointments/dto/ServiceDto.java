@@ -7,5 +7,6 @@ public class ServiceDto {
 
     private String tenDichVu;
     private String moTa;
+    private String soPhong;
 
 }

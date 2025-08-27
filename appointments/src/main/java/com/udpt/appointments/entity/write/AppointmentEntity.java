@@ -34,6 +34,9 @@ public class AppointmentEntity extends BaseEntity {
     @Column(name = "ghi_chu")
     private String appointmentNotes;
 
+    @Column(name = "so_phong")
+    private String roomNo;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "tinh_trang")
     private Status status;

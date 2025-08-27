@@ -62,7 +62,8 @@ public class SecurityConfig {
                     requests.requestMatchers(HttpMethod.GET, "/api/v1/appointments/search").hasAnyRole("ADMIN", "TIEPTAN", "BACSI");
                     requests.requestMatchers(HttpMethod.GET, "/api/v1/appointments/statistic").hasAnyRole("ADMIN");
 
-
+                    // authorize service designation endpoints
+                    requests.requestMatchers(HttpMethod.POST, "/api/v1/service-designation/create").hasAnyRole("ADMIN", "BACSI");
 
 
                     requests.anyRequest().authenticated();

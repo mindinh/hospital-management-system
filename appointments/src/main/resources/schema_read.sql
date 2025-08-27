@@ -14,7 +14,7 @@ CREATE TABLE dichvu (
 );
 
 CREATE TABLE lichkham (
-    ma_lich_kham VARCHAR(16),
+    ma_lich_kham VARCHAR(16) PRIMARY KEY,
     ma_bac_si VARCHAR(16),
     ten_bac_si VARCHAR(50),
     chuyen_khoa VARCHAR(50),

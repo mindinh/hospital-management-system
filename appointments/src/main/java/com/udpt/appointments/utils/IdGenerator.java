@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class IdGenerator {
 
-    public static String generateAccountCode(String prefix) {
+    public static String generateCode(String prefix) {
         String datePart = new SimpleDateFormat("yyMMdd").format(new Date());
         String randomPart = generateRandomCode(7);
 

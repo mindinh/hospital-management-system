@@ -36,7 +36,7 @@ spring:
             - id: appointments
               uri: lb://APPOINTMENTS
               predicates:
-                - Path=/api/v1/appointments/**, /api/v1/services/**
+                - Path=/api/v1/appointments/**, /api/v1/services/**, /api/v1/service-designation
               filters:
                 - StripPrefix=0
             - id: medication
