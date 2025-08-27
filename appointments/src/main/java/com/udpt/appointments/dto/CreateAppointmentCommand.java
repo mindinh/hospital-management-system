@@ -16,5 +16,6 @@ public class CreateAppointmentCommand {
     private String maBacSi;
     private LocalTime gioKham;
     private String ghiChu;
+    private String phong;
 
 }

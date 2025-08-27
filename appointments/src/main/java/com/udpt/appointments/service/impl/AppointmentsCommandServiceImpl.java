@@ -4,12 +4,15 @@ import com.udpt.appointments.config.RabbitMQConfig;
 import com.udpt.appointments.dto.CreateAppointmentCommand;
 import com.udpt.appointments.entity.write.AppointmentEntity;
 import com.udpt.appointments.entity.Status;
+import com.udpt.appointments.entity.write.ExaminationFormEntity;
 import com.udpt.appointments.event.events.AppointmentCreatedEvent;
 import com.udpt.appointments.event.events.AppointmentUpdatedEvent;
 import com.udpt.appointments.exception.ResourceNotFoundException;
 import com.udpt.appointments.repository.write.AppointmentsWriteRepository;
+import com.udpt.appointments.repository.write.ExamFormsRepository;
 import com.udpt.appointments.response.DoctorResponse;
 import com.udpt.appointments.response.PatientResponse;
+import com.udpt.appointments.service.CounterService;
 import com.udpt.appointments.service.IAppointmentsCommandService;
 import com.udpt.appointments.service.client.DoctorClient;
 import com.udpt.appointments.service.client.PatientClient;
@@ -27,13 +30,23 @@ public class AppointmentsCommandServiceImpl implements IAppointmentsCommandServi
     private DoctorClient doctorClient;
     private PatientClient patientClient;
     private AppointmentsWriteRepository appointmentsWriteRepository;
+    private ExamFormsRepository examFormsRepository;
     private RabbitTemplate rabbitTemplate;
+    private CounterService counterService;
 
-    public AppointmentsCommandServiceImpl(DoctorClient doctorClient, PatientClient patientClient, AppointmentsWriteRepository appointmentsWriteRepository, RabbitTemplate rabbitTemplate) {
+    public AppointmentsCommandServiceImpl(
+            DoctorClient doctorClient,
+            PatientClient patientClient,
+            AppointmentsWriteRepository appointmentsWriteRepository,
+            ExamFormsRepository examFormsRepository,
+            RabbitTemplate rabbitTemplate,
+            CounterService counterService) {
         this.doctorClient = doctorClient;
         this.patientClient = patientClient;
         this.appointmentsWriteRepository = appointmentsWriteRepository;
+        this.examFormsRepository = examFormsRepository;
         this.rabbitTemplate = rabbitTemplate;
+        this.counterService = counterService;
     }
 
     @Override
@@ -49,12 +62,13 @@ public class AppointmentsCommandServiceImpl implements IAppointmentsCommandServi
         }
 
         AppointmentEntity appointment = new AppointmentEntity();
-        appointment.setAppointmentId(IdGenerator.generateAccountCode("AP"));
+        appointment.setAppointmentId(IdGenerator.generateCode("AP"));
         appointment.setPatientId(command.getMaBenhNhan());
         appointment.setDoctorId(command.getMaBacSi());
         appointment.setAppointmentDate(command.getNgayKham());
         appointment.setAppointmentTime(command.getGioKham());
         appointment.setAppointmentNotes(command.getGhiChu());
+        appointment.setRoomNo(command.getPhong());
         appointment.setStatus(Status.DA_DAT);
 
         appointment.setCreatedAt(LocalDateTime.now());
@@ -97,12 +111,13 @@ public class AppointmentsCommandServiceImpl implements IAppointmentsCommandServi
         }
 
         AppointmentEntity appointment = new AppointmentEntity();
-        appointment.setAppointmentId(IdGenerator.generateAccountCode("AP"));
+        appointment.setAppointmentId(IdGenerator.generateCode("AP"));
         appointment.setPatientId(authentication.getName());
         appointment.setDoctorId(command.getMaBacSi());
         appointment.setAppointmentDate(command.getNgayKham());
         appointment.setAppointmentTime(command.getGioKham());
         appointment.setAppointmentNotes(command.getGhiChu());
+        appointment.setRoomNo(command.getPhong());
         appointment.setStatus(Status.DA_DAT);
 
         appointment.setCreatedAt(LocalDateTime.now());
@@ -154,6 +169,23 @@ public class AppointmentsCommandServiceImpl implements IAppointmentsCommandServi
                 RabbitMQConfig.APPOINTMENT_UPDATED_ROUTING_KEY,
                 event
         );
+
+        ExaminationFormEntity examinationForm = new ExaminationFormEntity();
+        examinationForm.setFormId(IdGenerator.generateCode("EF"));
+        examinationForm.setDoctorId(entity.getDoctorId());
+        examinationForm.setPatientId(entity.getPatientId());
+        examinationForm.setAppointmentDate(entity.getAppointmentDate());
+        examinationForm.setAppointmentTime(entity.getAppointmentTime());
+        examinationForm.setRoomNumber(entity.getRoomNo());
+        examinationForm.setNumber(String.valueOf(counterService.getNextCounter(entity.getRoomNo())));
+        examinationForm.setAppointment(entity);
+        examinationForm.setStatus(Status.DOI_KHAM);
+
+        examinationForm.setCreatedAt(LocalDateTime.now());
+        examinationForm.setCreatedBy("appointments-service");
+
+        examFormsRepository.save(examinationForm);
+
     }
 
     @Override

@@ -26,6 +26,7 @@ public class ServicesServiceImpl implements IServicesService {
                     ServiceDto serviceDto = new ServiceDto();
                     serviceDto.setTenDichVu(entity.getTenDichVu());
                     serviceDto.setMoTa(entity.getMoTaDV());
+                    serviceDto.setSoPhong(entity.getPhong());
 
                     return serviceDto;
                 }
@@ -55,6 +56,7 @@ public class ServicesServiceImpl implements IServicesService {
         ServiceEntity newService = new ServiceEntity();
         newService.setTenDichVu(request.tenDichVu());
         newService.setMoTaDV(request.moTaDichVu());
+        newService.setPhong(request.soPhong());
         newService.setCreatedAt(LocalDateTime.now());
         newService.setCreatedBy("appointments-service");
         servicesRepository.save(newService);

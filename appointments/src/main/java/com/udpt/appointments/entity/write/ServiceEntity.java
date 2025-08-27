@@ -4,6 +4,8 @@ import com.udpt.appointments.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "dichvu")
 @Getter @Setter
@@ -20,4 +22,10 @@ public class ServiceEntity extends BaseEntity {
 
     @Column(name = "mo_ta_dich_vu")
     private String moTaDV;
+
+    @Column(name = "phong")
+    private String phong;
+
+    @OneToMany(mappedBy = "service")
+    private List<ServiceDesignationEntity> serviceDesignationList;
 }
