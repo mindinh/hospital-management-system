@@ -8,7 +8,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.*;
 
 @RestController
 @RequestMapping(value = "/api/v1/service-designation", produces = {MediaType.APPLICATION_JSON_VALUE})

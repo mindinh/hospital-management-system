@@ -2,10 +2,13 @@ package com.udpt.appointments.service.impl;
 
 import com.udpt.appointments.dto.CreateServiceDesignationCommand;
 import com.udpt.appointments.entity.Status;
-import com.udpt.appointments.entity.write.ExaminationFormEntity;
+import com.udpt.appointments.entity.read.AppointmentViewEntity;
+import com.udpt.appointments.entity.write.AppointmentEntity;
 import com.udpt.appointments.entity.write.ServiceDesignationEntity;
 import com.udpt.appointments.entity.write.ServiceEntity;
 import com.udpt.appointments.exception.ResourceNotFoundException;
+import com.udpt.appointments.repository.read.AppointmentsReadRepository;
+import com.udpt.appointments.repository.write.AppointmentsWriteRepository;
 import com.udpt.appointments.repository.write.ExamFormsRepository;
 import com.udpt.appointments.repository.write.ServiceDesignationsRepository;
 import com.udpt.appointments.repository.write.ServicesRepository;
@@ -21,18 +24,18 @@ import java.time.LocalDateTime;
 public class ServiceDesignationsServiceImpl implements IServiceDesignationsService {
 
     private ServicesRepository servicesRepository;
-    private ExamFormsRepository examFormsRepository;
+    private AppointmentsWriteRepository appointmentsWriteRepository;
     private ServiceDesignationsRepository designationsRepository;
     private CounterService counterService;
 
     public ServiceDesignationsServiceImpl(
             ServicesRepository servicesRepository,
-            ExamFormsRepository examFormsRepository,
+            AppointmentsWriteRepository appointmentsWriteRepository,
             ServiceDesignationsRepository designationsRepository,
             CounterService counterService
     ) {
         this.servicesRepository = servicesRepository;
-        this.examFormsRepository = examFormsRepository;
+        this.appointmentsWriteRepository = appointmentsWriteRepository;
         this.designationsRepository = designationsRepository;
         this.counterService = counterService;
     }
@@ -43,13 +46,13 @@ public class ServiceDesignationsServiceImpl implements IServiceDesignationsServi
                 () -> new ResourceNotFoundException("Dich Vu", "Ma Dich Vu", String.valueOf(command.getMaDichVu()))
         );
 
-        ExaminationFormEntity formEntity = examFormsRepository.findByFormId(command.getMaPhieuKham()).orElseThrow(
-                () -> new ResourceNotFoundException("Phieu Kham", "Ma Phieu Kham", command.getMaPhieuKham())
+        AppointmentEntity appointmentEntity = appointmentsWriteRepository.findByAppointmentId(command.getMaLichKham()).orElseThrow(
+                () -> new ResourceNotFoundException("Phieu Kham", "Ma Phieu Kham", command.getMaLichKham())
         );
 
         ServiceDesignationEntity designationEntity = new ServiceDesignationEntity();
         designationEntity.setId(IdGenerator.generateCode("SD"));
-        designationEntity.setForm(formEntity);
+        designationEntity.setAppointment(appointmentEntity);
         designationEntity.setService(serviceEntity);
         designationEntity.setServiceName(serviceEntity.getTenDichVu());
         designationEntity.setDescription(command.getMoTa());

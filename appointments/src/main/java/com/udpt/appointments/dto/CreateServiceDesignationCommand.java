@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 public class CreateServiceDesignationCommand {
 
     private int maDichVu;
-    private String maPhieuKham;
+    private String maLichKham;
     private String tenDichVu;
     private String moTa;
     private String soPhong;

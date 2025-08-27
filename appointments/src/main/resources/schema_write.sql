@@ -51,7 +51,7 @@ CREATE TABLE phieukham (
 
 CREATE TABLE chidinh_dichvu (
     ma_chi_dinh VARCHAR(16) PRIMARY KEY,
-    ma_phieu_kham VARCHAR(16),
+    ma_lich_kham VARCHAR(16),
     ma_dich_vu INT,
     ten_dich_vu VARCHAR(100),
     mo_ta TEXT,
@@ -65,8 +65,8 @@ CREATE TABLE chidinh_dichvu (
     updated_at DATETIME DEFAULT NULL,
     updated_by VARCHAR(20) DEFAULT NULL,
 
-    CONSTRAINT FK_CHIDINH_PHIEUKHAM FOREIGN KEY (ma_phieu_kham)
-    REFERENCES phieukham (ma_phieu),
+    CONSTRAINT FK_CHIDINH_LICHKHAM FOREIGN KEY (ma_lich_kham)
+    REFERENCES lichkham (ma_lich_kham),
 
     CONSTRAINT FK_CHIDINH_DICHVU FOREIGN KEY (ma_dich_vu)
     REFERENCES dichvu (ma_dich_vu)

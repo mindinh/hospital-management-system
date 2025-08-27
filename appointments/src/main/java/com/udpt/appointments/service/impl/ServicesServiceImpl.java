@@ -24,6 +24,7 @@ public class ServicesServiceImpl implements IServicesService {
         return servicesRepository.findAll().stream().map(
                 entity -> {
                     ServiceDto serviceDto = new ServiceDto();
+                    serviceDto.setMaDichVu(entity.getMaDichVu());
                     serviceDto.setTenDichVu(entity.getTenDichVu());
                     serviceDto.setMoTa(entity.getMoTaDV());
                     serviceDto.setSoPhong(entity.getPhong());
@@ -40,8 +41,10 @@ public class ServicesServiceImpl implements IServicesService {
         );
 
         ServiceDto serviceDto = new ServiceDto();
+        serviceDto.setMaDichVu(serviceEntity.getMaDichVu());
         serviceDto.setTenDichVu(serviceEntity.getTenDichVu());
         serviceDto.setMoTa(serviceEntity.getMoTaDV());
+        serviceDto.setSoPhong(serviceEntity.getPhong());
 
         return serviceDto;
     }
@@ -57,8 +60,10 @@ public class ServicesServiceImpl implements IServicesService {
         newService.setTenDichVu(request.tenDichVu());
         newService.setMoTaDV(request.moTaDichVu());
         newService.setPhong(request.soPhong());
+
         newService.setCreatedAt(LocalDateTime.now());
         newService.setCreatedBy("appointments-service");
+
         servicesRepository.save(newService);
 
     }
