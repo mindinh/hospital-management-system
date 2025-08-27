@@ -64,6 +64,7 @@ public class SecurityConfig {
 
                     // authorize service designation endpoints
                     requests.requestMatchers(HttpMethod.POST, "/api/v1/service-designation/create").hasAnyRole("ADMIN", "BACSI");
+                    requests.requestMatchers(HttpMethod.PUT, "/api/v1/service-designation/update/*").hasAnyRole("ADMIN", "BACSI");
 
 
                     requests.anyRequest().authenticated();

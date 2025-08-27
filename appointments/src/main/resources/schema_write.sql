@@ -58,6 +58,7 @@ CREATE TABLE chidinh_dichvu (
     so_thu_tu INT,
     so_phong CHAR(4),
     ket_qua TEXT,
+    tinh_trang ENUM('DOI_KHAM', 'DA_KHAM'),
 
     created_at DATETIME NOT NULL,
     created_by VARCHAR(20) NOT NULL,

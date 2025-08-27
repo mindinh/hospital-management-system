@@ -34,9 +34,8 @@ public class AppointmentCommandController {
 
     @PutMapping("/checkin/{id}")
     public ResponseEntity<?> checkinAppointment(@PathVariable String id) {
-        appointmentsCommandService.checkinAppointment(id);
 
-        return ResponseEntity.ok(new ResponseDto("200", "Thanh toán lịch khám thành công. Đã có thể khám"));
+        return ResponseEntity.ok(appointmentsCommandService.checkinAppointment(id));
     }
 
     @DeleteMapping("/cancel/{id}")
