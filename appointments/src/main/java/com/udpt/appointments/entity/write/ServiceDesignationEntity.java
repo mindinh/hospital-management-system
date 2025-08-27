@@ -1,6 +1,7 @@
 package com.udpt.appointments.entity.write;
 
 import com.udpt.appointments.entity.BaseEntity;
+import com.udpt.appointments.entity.Status;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,6 +29,10 @@ public class ServiceDesignationEntity extends BaseEntity {
 
     @Column(name = "ket_qua")
     private String result;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tinh_trang")
+    private Status status;
 
     @ManyToOne
     @JoinColumn(name = "ma_phieu_kham")

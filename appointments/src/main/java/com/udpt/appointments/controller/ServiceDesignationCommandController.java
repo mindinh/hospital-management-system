@@ -2,13 +2,11 @@ package com.udpt.appointments.controller;
 
 import com.udpt.appointments.dto.CreateServiceDesignationCommand;
 import com.udpt.appointments.dto.ResponseDto;
+import com.udpt.appointments.request.UpdateServiceDesignationResult;
 import com.udpt.appointments.service.IServiceDesignationsService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.awt.*;
 
@@ -28,4 +26,10 @@ public class ServiceDesignationCommandController {
         return ResponseEntity.ok(new ResponseDto("201", "Đã tạo chỉ định dịch vụ"));
     }
 
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateServiceDesignationResult(@PathVariable String id, @RequestBody UpdateServiceDesignationResult result) {
+        serviceDesignationsService.updateServiceDesignationResult(id, result);
+
+        return ResponseEntity.ok(new ResponseDto("200", "Đã ghi nhận kết quả chỉ định dịch vụ."));
+    }
 }

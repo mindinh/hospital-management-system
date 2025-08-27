@@ -2,6 +2,7 @@ package com.udpt.appointments.service.impl;
 
 import com.udpt.appointments.config.RabbitMQConfig;
 import com.udpt.appointments.dto.CreateAppointmentCommand;
+import com.udpt.appointments.dto.ExamFormDto;
 import com.udpt.appointments.entity.write.AppointmentEntity;
 import com.udpt.appointments.entity.Status;
 import com.udpt.appointments.entity.write.ExaminationFormEntity;
@@ -148,7 +149,7 @@ public class AppointmentsCommandServiceImpl implements IAppointmentsCommandServi
     }
 
     @Override
-    public void checkinAppointment(String id) {
+    public ExamFormDto checkinAppointment(String id) {
         AppointmentEntity appointmentEntity = appointmentsWriteRepository.findByAppointmentId(id).orElseThrow(
                 () -> new ResourceNotFoundException("Lich Kham", "Ma Lich Kham", id)
         );
@@ -169,6 +170,9 @@ public class AppointmentsCommandServiceImpl implements IAppointmentsCommandServi
                 RabbitMQConfig.APPOINTMENT_UPDATED_ROUTING_KEY,
                 event
         );
+        DoctorResponse doctorResponse = doctorClient.getDoctorDetails(entity.getDoctorId());
+        PatientResponse patientResponse = patientClient.getPatientDetailsById(entity.getPatientId());
+
 
         ExaminationFormEntity examinationForm = new ExaminationFormEntity();
         examinationForm.setFormId(IdGenerator.generateCode("EF"));
@@ -185,6 +189,16 @@ public class AppointmentsCommandServiceImpl implements IAppointmentsCommandServi
         examinationForm.setCreatedBy("appointments-service");
 
         examFormsRepository.save(examinationForm);
+
+        return new ExamFormDto(
+                examinationForm.getFormId(),
+                doctorResponse.getHoTen(),
+                patientResponse.getHoTen(),
+                String.valueOf(examinationForm.getAppointmentDate()),
+                String.valueOf(examinationForm.getAppointmentTime()),
+                examinationForm.getRoomNumber(),
+                examinationForm.getNumber()
+        );
 
     }
 
