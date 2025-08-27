@@ -7,6 +7,6 @@ import org.springframework.security.core.Authentication;
 public interface IAppointmentsCommandService {
     void createAppointment(CreateAppointmentCommand command);
     void bookAppointment(CreateAppointmentCommand command, Authentication authentication);
-    boolean checkinAppointment(String id);
-    boolean cancelAppointment(String id);
+    void checkinAppointment(String id);
+    void cancelAppointment(String id);
 }

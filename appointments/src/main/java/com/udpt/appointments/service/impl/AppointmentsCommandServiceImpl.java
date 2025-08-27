@@ -5,6 +5,7 @@ import com.udpt.appointments.dto.CreateAppointmentCommand;
 import com.udpt.appointments.entity.write.AppointmentEntity;
 import com.udpt.appointments.entity.Status;
 import com.udpt.appointments.event.events.AppointmentCreatedEvent;
+import com.udpt.appointments.event.events.AppointmentUpdatedEvent;
 import com.udpt.appointments.exception.ResourceNotFoundException;
 import com.udpt.appointments.repository.write.AppointmentsWriteRepository;
 import com.udpt.appointments.response.DoctorResponse;
@@ -66,6 +67,7 @@ public class AppointmentsCommandServiceImpl implements IAppointmentsCommandServi
                 entity.getPatientId(),
                 patientResponse.getHoTen(),
                 patientResponse.getSoDienThoai(),
+                patientResponse.getEmailBenhNhan(),
                 entity.getDoctorId(),
                 doctorResponse.getHoTen(),
                 doctorResponse.getChuyenKhoa(),
@@ -104,13 +106,34 @@ public class AppointmentsCommandServiceImpl implements IAppointmentsCommandServi
         appointment.setStatus(Status.DA_DAT);
 
         appointment.setCreatedAt(LocalDateTime.now());
-        appointment.setCreatedBy("appointments-service");
+        appointment.setCreatedBy("patients-booking");
 
-        appointmentsWriteRepository.save(appointment);
+        AppointmentEntity entity = appointmentsWriteRepository.save(appointment);
+
+        AppointmentCreatedEvent event = new AppointmentCreatedEvent(
+                entity.getAppointmentId(),
+                entity.getPatientId(),
+                patientResponse.getHoTen(),
+                patientResponse.getSoDienThoai(),
+                patientResponse.getEmailBenhNhan(),
+                entity.getDoctorId(),
+                doctorResponse.getHoTen(),
+                doctorResponse.getChuyenKhoa(),
+                entity.getAppointmentNotes(),
+                String.valueOf(entity.getStatus()),
+                entity.getAppointmentDate(),
+                entity.getAppointmentTime()
+        );
+
+        rabbitTemplate.convertAndSend(
+                RabbitMQConfig.APPOINTMENT_EXCHANGE,
+                RabbitMQConfig.APPOINTMENT_ROUTING_KEY,
+                event
+        );
     }
 
     @Override
-    public boolean checkinAppointment(String id) {
+    public void checkinAppointment(String id) {
         AppointmentEntity appointmentEntity = appointmentsWriteRepository.findByAppointmentId(id).orElseThrow(
                 () -> new ResourceNotFoundException("Lich Kham", "Ma Lich Kham", id)
         );
@@ -119,12 +142,22 @@ public class AppointmentsCommandServiceImpl implements IAppointmentsCommandServi
         appointmentEntity.setUpdatedAt(LocalDateTime.now());
         appointmentEntity.setUpdatedBy("appointments-service");
 
-        appointmentsWriteRepository.save(appointmentEntity);
-        return true;
+        AppointmentEntity entity = appointmentsWriteRepository.save(appointmentEntity);
+
+        AppointmentUpdatedEvent event = new AppointmentUpdatedEvent(
+                entity.getAppointmentId(),
+                String.valueOf(entity.getStatus())
+        );
+
+        rabbitTemplate.convertAndSend(
+                RabbitMQConfig.APPOINTMENT_EXCHANGE,
+                RabbitMQConfig.APPOINTMENT_UPDATED_ROUTING_KEY,
+                event
+        );
     }
 
     @Override
-    public boolean cancelAppointment(String id) {
+    public void cancelAppointment(String id) {
         AppointmentEntity appointmentEntity = appointmentsWriteRepository.findByAppointmentId(id).orElseThrow(
                 () -> new ResourceNotFoundException("Lich Kham", "Ma Lich Kham", id)
         );
@@ -133,8 +166,18 @@ public class AppointmentsCommandServiceImpl implements IAppointmentsCommandServi
         appointmentEntity.setUpdatedAt(LocalDateTime.now());
         appointmentEntity.setUpdatedBy("appointments-service");
 
-        appointmentsWriteRepository.save(appointmentEntity);
-        return true;
+        AppointmentEntity entity = appointmentsWriteRepository.save(appointmentEntity);
+
+        AppointmentUpdatedEvent event = new AppointmentUpdatedEvent(
+                entity.getAppointmentId(),
+                String.valueOf(entity.getStatus())
+        );
+
+        rabbitTemplate.convertAndSend(
+                RabbitMQConfig.APPOINTMENT_EXCHANGE,
+                RabbitMQConfig.APPOINTMENT_UPDATED_ROUTING_KEY,
+                event
+        );
     }
 
 

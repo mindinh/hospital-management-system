@@ -21,6 +21,7 @@ CREATE TABLE lichkham (
     ma_benh_nhan VARCHAR(16),
     ten_benh_nhan VARCHAR(50),
     so_dt_benh_nhan CHAR(10),
+    email_benh_nhan VARCHAR(50),
     ngay_kham DATE,
     gio_kham TIME,
     ghi_chu TEXT,

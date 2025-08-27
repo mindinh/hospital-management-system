@@ -34,20 +34,16 @@ public class AppointmentCommandController {
 
     @PutMapping("/checkin/{id}")
     public ResponseEntity<?> checkinAppointment(@PathVariable String id) {
-        boolean isSuccess = appointmentsCommandService.checkinAppointment(id);
-        if (isSuccess) {
-            return ResponseEntity.ok(new ResponseDto("200", "Thanh toán lịch khám thành công. Đã có thể khám"));
-        }
-        return ResponseEntity.ok(new ResponseDto("500", "Lỗi"));
+        appointmentsCommandService.checkinAppointment(id);
+
+        return ResponseEntity.ok(new ResponseDto("200", "Thanh toán lịch khám thành công. Đã có thể khám"));
     }
 
     @DeleteMapping("/cancel/{id}")
     public ResponseEntity<?> cancelAppointment(@PathVariable String id) {
-        boolean isSuccess = appointmentsCommandService.cancelAppointment(id);
-        if (isSuccess) {
-            return ResponseEntity.ok(new ResponseDto("204", "Hủy lịch khám thành công"));
-        }
-        return ResponseEntity.ok(new ResponseDto("500", "Lỗi"));
+        appointmentsCommandService.cancelAppointment(id);
+
+        return ResponseEntity.ok(new ResponseDto("204", "Hủy lịch khám thành công"));
     }
 
 }

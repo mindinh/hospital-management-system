@@ -6,6 +6,7 @@ import lombok.Data;
 public class PatientResponse {
     private String maBenhNhan;
     private String soDienThoai;
+    private String emailBenhNhan;
     private String hoTen;
     private String ngaySinh;
     private String gioiTinh;
