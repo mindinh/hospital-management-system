@@ -28,7 +28,7 @@ public class FileService {
                 Files.createDirectory(root);
             }
 
-            Path filePath = root.resolve(file.getOriginalFilename());
+            Path filePath = root.resolve(name.replaceAll("\\s", "") + "_" + file.getOriginalFilename());
             imgUrl = "/images/" + name.replaceAll("\\s", "") + "_" + file.getOriginalFilename();
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
         }
