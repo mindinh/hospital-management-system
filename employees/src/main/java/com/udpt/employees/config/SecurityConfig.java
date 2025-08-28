@@ -59,6 +59,7 @@ public class SecurityConfig {
                     requests.requestMatchers(HttpMethod.POST, "/api/v1/employees/doctor/add-schedule").hasRole("ADMIN");
                     requests.requestMatchers(HttpMethod.POST, "/api/v1/employees/doctor/update-schedule/*").hasRole("ADMIN");
                     requests.requestMatchers(HttpMethod.POST, "/api/v1/employees/doctor/remove-schedule/*").hasRole("ADMIN");
+                    requests.requestMatchers(HttpMethod.POST, "/api/v1/employees/doctor/upload-image").hasAnyRole("BACSI");
 
 
                     // authorize schedule endpoints

@@ -39,6 +39,9 @@ public class EmployeeEntity extends BaseEntity {
     @Column(name = "chuc_vu")
     private Role chucVu;
 
+    @Column(name = "avatar")
+    private String avatar;
+
     @Column(name = "kinh_nghiem")
     private String kinhNghiem;
 

@@ -25,6 +25,7 @@ CREATE TABLE nhanvien (
     dia_chi_nv VARCHAR(100),
     chuc_vu ENUM('BACSI', 'TIEPTAN', 'DUOCSI', 'ADMIN'),
     kinh_nghiem TEXT,
+    avatar VARCHAR(100),
     ma_khoa INT DEFAULT NULL,
     created_at DATETIME NOT NULL,
     created_by VARCHAR(20) NOT NULL,

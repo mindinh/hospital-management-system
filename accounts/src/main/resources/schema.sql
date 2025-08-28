@@ -8,6 +8,7 @@ CREATE TABLE taikhoan (
     mat_khau VARCHAR(100),
     role ENUM('BENHNHAN', 'TIEPTAN', 'DUOCSI', 'BACSI', 'ADMIN') NOT NULL,
     status ENUM('ACTIVE', 'INACTIVE') NOT NULL,
+
     created_at DATETIME NOT NULL,
     created_by VARCHAR(20) NOT NULL,
     updated_at DATETIME DEFAULT NULL,

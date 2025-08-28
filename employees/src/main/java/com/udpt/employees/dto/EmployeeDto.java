@@ -13,4 +13,5 @@ public class EmployeeDto {
     private LocalDate ngaySinh;
     private String chuyenKhoa;
     private List<Experience> kinhNghiem;
+    private String avatar;
 }

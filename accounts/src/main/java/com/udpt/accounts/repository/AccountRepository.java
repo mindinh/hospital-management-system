@@ -8,7 +8,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface AccountRepository extends JpaRepository<AccountEntity, UUID> {
+public interface AccountRepository extends JpaRepository<AccountEntity, String> {
+    Optional<AccountEntity> findByUserId(String id);
     Optional<AccountEntity> findByEmailAddress(String email);
     Optional<AccountEntity> findByMobileNo(String mobileNo);
 }

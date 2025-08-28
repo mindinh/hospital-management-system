@@ -9,7 +9,9 @@ import com.udpt.employees.service.IEmployeesService;
 import com.udpt.employees.service.ISchedulesService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping(value = "/api/v1/employees", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -46,6 +48,13 @@ public class EmployeeController {
     public ResponseEntity<?> getDoctorDetails(@PathVariable String id) {
 
         return ResponseEntity.ok(employeesService.getDoctorDetails(id));
+    }
+
+    @PostMapping("/doctor/upload-image")
+    public ResponseEntity<?> uploadImage(Authentication authentication, @RequestParam("file") MultipartFile file) {
+        employeesService.uploadDoctorImage(authentication.getName(), file);
+
+        return ResponseEntity.ok(new ResponseDto("200", "Image uploaded successfully"));
     }
 
     @PutMapping("/doctor/update-department/{empId}/{depId}")

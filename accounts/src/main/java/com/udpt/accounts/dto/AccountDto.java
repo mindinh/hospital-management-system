@@ -19,5 +19,4 @@ public class AccountDto {
     @Pattern(regexp = "^[a-zA-Z0-9@#$%^&+=!._-]{6,15}$", message = "Username invalid or too short")
     private String tenNguoiDung;
 
-
 }
