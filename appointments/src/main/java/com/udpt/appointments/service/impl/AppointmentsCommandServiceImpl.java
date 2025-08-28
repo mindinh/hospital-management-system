@@ -94,6 +94,7 @@ public class AppointmentsCommandServiceImpl implements IAppointmentsCommandServi
                 doctorResponse.getHoTen(),
                 doctorResponse.getChuyenKhoa(),
                 entity.getAppointmentNotes(),
+                entity.getRoomNo(),
                 String.valueOf(entity.getStatus()),
                 entity.getAppointmentDate(),
                 entity.getAppointmentTime()
@@ -155,6 +156,7 @@ public class AppointmentsCommandServiceImpl implements IAppointmentsCommandServi
                 doctorResponse.getHoTen(),
                 doctorResponse.getChuyenKhoa(),
                 entity.getAppointmentNotes(),
+                entity.getRoomNo(),
                 String.valueOf(entity.getStatus()),
                 entity.getAppointmentDate(),
                 entity.getAppointmentTime()
@@ -165,6 +167,16 @@ public class AppointmentsCommandServiceImpl implements IAppointmentsCommandServi
                 RabbitMQConfig.APPOINTMENT_ROUTING_KEY,
                 event
         );
+
+        AppointmentReminderEvent reminderEvent = new AppointmentReminderEvent(
+                entity.getAppointmentId(),
+                doctorResponse.getHoTen(),
+                doctorResponse.getChuyenKhoa(),
+                patientResponse.getHoTen(),
+                patientResponse.getEmailBenhNhan(),
+                LocalDateTime.of(entity.getAppointmentDate(), entity.getAppointmentTime())
+        );
+        appointmentEventPublisher.sendReminderEvent(reminderEvent);
     }
 
     @Override

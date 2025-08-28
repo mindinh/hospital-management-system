@@ -25,6 +25,7 @@ CREATE TABLE lichkham (
     ngay_kham DATE,
     gio_kham TIME,
     ghi_chu TEXT,
+    so_phong CHAR(4),
     tinh_trang ENUM('DA_DAT', 'DA_HUY', 'CHUA_THANH_TOAN', 'DA_THANH_TOAN', 'DA_KHAM', 'CHO_KHAM'),
 
     created_at DATETIME NOT NULL,
