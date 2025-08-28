@@ -13,9 +13,11 @@ import com.udpt.employees.repository.ScheduleRepository;
 import com.udpt.employees.request.DoctorInsertRequest;
 import com.udpt.employees.request.EmployeeInsertRequest;
 import com.udpt.employees.request.ScheduleInsertRequest;
+import com.udpt.employees.service.FileService;
 import com.udpt.employees.service.IEmployeesService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -30,6 +32,7 @@ public class EmployeesServiceImpl implements IEmployeesService {
     private EmployeesRepository employeesRepository;
     private DepartmentRepository departmentRepository;
     private ScheduleRepository scheduleRepository;
+    private FileService fileService;
 
     @Override
     public void createEmployee(EmployeeInsertRequest request) {
@@ -101,6 +104,7 @@ public class EmployeesServiceImpl implements IEmployeesService {
         );
 
         EmployeeDto employeeDto = EmployeeMapper.mapToEmployeeDto(employeeEntity, new EmployeeDto());
+        employeeDto.setAvatar(employeeEntity.getAvatar());
         employeeDto.setChuyenKhoa(employeeEntity.getKhoa().getTenKhoa());
         if (employeeEntity.getKinhNghiem() != null) {
 
@@ -114,6 +118,20 @@ public class EmployeesServiceImpl implements IEmployeesService {
             }
         }
         return employeeDto;
+    }
+
+    @Override
+    public void uploadDoctorImage(String doctorId, MultipartFile file) {
+        EmployeeEntity employeeEntity = employeesRepository.findByMaNV(doctorId).orElseThrow(
+                () -> new ResourceNotFoundException("BacSi", "Ma Bac Si", doctorId)
+        );
+
+        String filePath = fileService.copyFile(employeeEntity.getHoTenNV(), file);
+        employeeEntity.setAvatar(filePath);
+        employeeEntity.setUpdatedAt(LocalDateTime.now());
+        employeeEntity.setUpdatedBy("employees-service");
+        employeesRepository.save(employeeEntity);
+
     }
 
     @Override

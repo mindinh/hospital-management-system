@@ -1,12 +1,9 @@
 package com.udpt.accounts.service.impl;
 
-import com.fasterxml.uuid.Generators;
 import com.udpt.accounts.dto.AccountDto;
 import com.udpt.accounts.entity.AccountEntity;
 import com.udpt.accounts.entity.Role;
 import com.udpt.accounts.entity.Status;
-import com.udpt.accounts.event.events.AccountCreatedEvent;
-import com.udpt.accounts.event.publisher.AccountEventPublisher;
 import com.udpt.accounts.exception.AccountAlreadyExistException;
 import com.udpt.accounts.exception.ResourceNotFoundException;
 import com.udpt.accounts.mapper.AccountMapper;
@@ -14,7 +11,6 @@ import com.udpt.accounts.repository.AccountRepository;
 import com.udpt.accounts.service.IAccountsService;
 import com.udpt.accounts.utils.IdGenerator;
 import lombok.AllArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -24,9 +20,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class AccountsServiceImpl implements IAccountsService {
 
-    private PasswordEncoder passwordEncoder;
     private AccountRepository accountRepository;
-    private AccountEventPublisher eventPublisher;
 
     @Override
     public void createPatientAccount(AccountDto accountDto) {
