@@ -12,7 +12,8 @@ import java.util.Map;
 
 @Configuration
 public class RabbitMQConfig {
-    public static final String APPOINTMENT_QUEUE = "appointment.queue";
+    public static final String APPOINTMENT_CREATED_QUEUE = "appointment.created.queue";
+    public static final String APPOINTMENT_UPDATED_QUEUE = "appointment.updated.queue";
     public static final String APPOINTMENT_EXCHANGE = "appointment.exchange";
     public static final String APPOINTMENT_ROUTING_KEY = "appointment.created";
     public static final String APPOINTMENT_UPDATED_ROUTING_KEY = "appointment.updated";
@@ -46,8 +47,13 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Queue appointmentQueue() {
-        return new Queue(APPOINTMENT_QUEUE, true);
+    public Queue appointmentCreatedQueue() {
+        return new Queue(APPOINTMENT_CREATED_QUEUE, true);
+    }
+
+    @Bean
+    public Queue appointmentUpdatedQueue() {
+        return new Queue(APPOINTMENT_UPDATED_QUEUE, true);
     }
 
     @Bean
@@ -56,17 +62,17 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Binding appointmentBinding(Queue appointmentQueue, TopicExchange appointmentExchange) {
+    public Binding appointmentCreatedBinding(Queue appointmentCreatedQueue, TopicExchange appointmentExchange) {
         return BindingBuilder
-                .bind(appointmentQueue)
+                .bind(appointmentCreatedQueue)
                 .to(appointmentExchange)
                 .with(APPOINTMENT_ROUTING_KEY);
     }
 
     @Bean
-    public Binding appointmentUpdatedBinding(Queue appointmentQueue, TopicExchange appointmentExchange) {
+    public Binding appointmentUpdatedBinding(Queue appointmentUpdatedQueue, TopicExchange appointmentExchange) {
         return BindingBuilder
-                .bind(appointmentQueue)
+                .bind(appointmentUpdatedQueue)
                 .to(appointmentExchange)
                 .with(APPOINTMENT_UPDATED_ROUTING_KEY);
     }

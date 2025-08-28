@@ -22,7 +22,7 @@ public class AppointmentEventListener {
     }
 
     @RabbitListener(
-            queues = RabbitMQConfig.APPOINTMENT_QUEUE,
+            queues = RabbitMQConfig.APPOINTMENT_CREATED_QUEUE,
             containerFactory = "rabbitListenerContainerFactory"
     )
     public void handleAppointmentCreated(AppointmentCreatedEvent event) {
@@ -48,7 +48,7 @@ public class AppointmentEventListener {
     }
 
     @RabbitListener(
-            queues = RabbitMQConfig.APPOINTMENT_QUEUE,
+            queues = RabbitMQConfig.APPOINTMENT_UPDATED_QUEUE,
             containerFactory = "rabbitListenerContainerFactory"
     )
     public void handleAppointmentUpdated(AppointmentUpdatedEvent event) {
