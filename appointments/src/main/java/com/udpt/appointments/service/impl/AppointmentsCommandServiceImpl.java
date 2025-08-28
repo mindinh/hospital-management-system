@@ -1,5 +1,7 @@
 package com.udpt.appointments.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.udpt.appointments.config.RabbitMQConfig;
 import com.udpt.appointments.dto.CreateAppointmentCommand;
 import com.udpt.appointments.dto.ExamFormDto;
@@ -7,7 +9,9 @@ import com.udpt.appointments.entity.write.AppointmentEntity;
 import com.udpt.appointments.entity.Status;
 import com.udpt.appointments.entity.write.ExaminationFormEntity;
 import com.udpt.appointments.event.events.AppointmentCreatedEvent;
+import com.udpt.appointments.event.events.AppointmentReminderEvent;
 import com.udpt.appointments.event.events.AppointmentUpdatedEvent;
+import com.udpt.appointments.event.publisher.AppointmentEventPublisher;
 import com.udpt.appointments.exception.ResourceNotFoundException;
 import com.udpt.appointments.repository.write.AppointmentsWriteRepository;
 import com.udpt.appointments.repository.write.ExamFormsRepository;
@@ -34,6 +38,7 @@ public class AppointmentsCommandServiceImpl implements IAppointmentsCommandServi
     private ExamFormsRepository examFormsRepository;
     private RabbitTemplate rabbitTemplate;
     private CounterService counterService;
+    private AppointmentEventPublisher appointmentEventPublisher;
 
     public AppointmentsCommandServiceImpl(
             DoctorClient doctorClient,
@@ -41,13 +46,15 @@ public class AppointmentsCommandServiceImpl implements IAppointmentsCommandServi
             AppointmentsWriteRepository appointmentsWriteRepository,
             ExamFormsRepository examFormsRepository,
             RabbitTemplate rabbitTemplate,
-            CounterService counterService) {
+            CounterService counterService,
+            AppointmentEventPublisher appointmentEventPublisher) {
         this.doctorClient = doctorClient;
         this.patientClient = patientClient;
         this.appointmentsWriteRepository = appointmentsWriteRepository;
         this.examFormsRepository = examFormsRepository;
         this.rabbitTemplate = rabbitTemplate;
         this.counterService = counterService;
+        this.appointmentEventPublisher = appointmentEventPublisher;
     }
 
     @Override
@@ -97,6 +104,18 @@ public class AppointmentsCommandServiceImpl implements IAppointmentsCommandServi
                 RabbitMQConfig.APPOINTMENT_ROUTING_KEY,
                 event
         );
+
+        AppointmentReminderEvent reminderEvent = new AppointmentReminderEvent(
+                entity.getAppointmentId(),
+                doctorResponse.getHoTen(),
+                doctorResponse.getChuyenKhoa(),
+                patientResponse.getHoTen(),
+                patientResponse.getEmailBenhNhan(),
+                LocalDateTime.of(entity.getAppointmentDate(), entity.getAppointmentTime())
+        );
+        appointmentEventPublisher.sendReminderEvent(reminderEvent);
+
+
     }
 
     @Override

@@ -11,6 +11,8 @@ public class RabbitMQConfig {
     public static final String PRESCRIPTION_QUEUE = "prescription.queue";
     public static final String PRESCRIPTION_EXCHANGE = "prescription.exchange";
     public static final String PRESCRIPTION_ROUTING_KEY = "prescription.ready";
-
+    public static final String REMINDER_EXCHANGE = "reminder.exchange";
+    public static final String REMINDER_QUEUE = "reminder.queue";
+    public static final String APPOINTMENT_REMINDER_ROUTING_KEY = "reminder.key";
 
 }
