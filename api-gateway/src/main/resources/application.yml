@@ -52,6 +52,7 @@ spring:
               filters:
                 - StripPrefix=0
 
+
 logging:
   level:
     org.springframework.cloud.gateway: DEBUG
@@ -87,3 +88,16 @@ info:
     name: "api-gateway"
     description: "Hospital Management System API Gateway"
 
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        # xem ít nhất 10 request trước khi chuyển sang close hoặc open
+        sliding-window-size: 10
+        # cho 2 requests trong half open trước khi sang open hoặc close
+        permitted-number-of-calls-in-half-open-state: 2
+        # 50% fail thì cb từ open sang close
+        failure-rate-threshold: 50
+        # chờ 10s trước khi sang half open
+        wait-duration-in-open-state: 10000
