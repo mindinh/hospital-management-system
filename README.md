@@ -16,7 +16,7 @@ Hệ thống quản lý bệnh viện được xây dựng theo kiến trúc **M
   - Spring Boot, Spring Cloud (Eureka, Gateway, OpenFeig)
   - Eureka Server làm service registry
   - Spring Security + JWT
-  - Resilience4j (Circuit Breaker, Retry, Rate Limiter)
+  - Resilience4j (Circuit Breaker, Fallback, Retry)
 - **Messaging:** RabbitMQ
 - **Databases:**
   - MySQL
