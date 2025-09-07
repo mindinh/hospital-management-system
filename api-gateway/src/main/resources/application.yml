@@ -27,18 +27,40 @@ spring:
                 - Path=/api/v1/patients/**, /api/v1/records/**
               filters:
                 - StripPrefix=0
+                - name: Retry
+                  args:
+                    retries: 3
+                    methods: GET
+                    backoff:
+                      first-back-off: 100ms
+                      max-back-off:  1s
+                      factor: 2
+                      based-on-previous-value: true
             - id: employees
               uri: lb://EMPLOYEES
               predicates:
                 - Path=/api/v1/departments/**, /api/v1/schedules/**, /api/v1/employees/**
               filters:
                 - StripPrefix=0
+                - name: Retry
+                  args:
+                    retries: 3
+                    methods: GET
+                    backoff:
+                      first-back-off: 100ms
+                      max-back-off: 1s
+                      factor: 2
+                      based-on-previous-value: true
             - id: appointments
               uri: lb://APPOINTMENTS
               predicates:
                 - Path=/api/v1/appointments/**, /api/v1/services/**, /api/v1/service-designation/**
               filters:
                 - StripPrefix=0
+                - name: CircuitBreaker
+                  args:
+                    name: appointmentsServiceCB
+                    fallbackUri: forward:/fallback/appointments
             - id: medication
               uri: lb://MEDICATION
               predicates:
@@ -51,6 +73,9 @@ spring:
                 - Path=/api/v1/statistics/**
               filters:
                 - StripPrefix=0
+          httpclient:
+            response-timeout: 2s
+            connect-timeout: 1000
 
 
 logging:
@@ -101,3 +126,8 @@ resilience4j:
         failure-rate-threshold: 50
         # chờ 10s trước khi sang half open
         wait-duration-in-open-state: 10000
+
+    instances:
+      appointmentsServiceCB:
+        base-config: default
+

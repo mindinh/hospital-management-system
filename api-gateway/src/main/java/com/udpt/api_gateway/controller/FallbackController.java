@@ -12,6 +12,6 @@ public class FallbackController {
     public ResponseEntity<?> appointmentsFallback() {
 
         return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
-                .body("Appointments service is temporarily unavailable, please try again later.");
+                .body("Đã xảy ra lỗi. Vui lòng chờ một thời gian trước khi thử lại.");
     }
 }
